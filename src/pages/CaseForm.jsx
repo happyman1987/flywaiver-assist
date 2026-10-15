@@ -128,9 +128,9 @@ export default function CaseForm() {
   };
 
   const handleSaveDraft = async () => {
-    const rec = await save("draft");
+    const rec = await save(form.status || "draft");
     if (rec) {
-      toast({ title: "Draft saved" });
+      toast({ title: id && form.status && form.status !== "draft" ? "Changes saved" : "Draft saved" });
       if (!id) navigate(`/cases/${rec.id}/edit`);
     }
   };
@@ -309,7 +309,7 @@ export default function CaseForm() {
         <div className="flex justify-between gap-2 sticky bottom-0 bg-slate-50 py-3">
           <Button variant="outline" onClick={handleSaveDraft} disabled={saving || generating}>
             {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
-            Save Draft
+            {id && form.status && form.status !== "draft" ? "Save Changes" : "Save Draft"}
           </Button>
           <Button onClick={handleGenerate} disabled={saving || generating}>
             {generating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Sparkles className="w-4 h-4 mr-2" />}
