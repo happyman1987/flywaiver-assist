@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Plus, FileText, Plane, Loader2 } from "lucide-react";
+import DiagnosisImage from "@/components/DiagnosisImage";
 
 const statusVariant = {
   draft: "secondary",
@@ -66,12 +67,15 @@ export default function Dashboard() {
               <Link to={`/cases/${c.id}`} key={c.id}>
                 <Card className="hover:shadow-md transition-shadow">
                   <CardContent className="py-4 flex items-center justify-between">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <p className="font-medium">{c.member_name}</p>
-                        <Badge variant={statusVariant[c.status] || "secondary"} className="capitalize">{c.status}</Badge>
+                    <div className="flex items-center gap-3">
+                      <DiagnosisImage diagnosis={c.diagnosis} />
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <p className="font-medium">{c.member_name}</p>
+                          <Badge variant={statusVariant[c.status] || "secondary"} className="capitalize">{c.status}</Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground mt-0.5">{c.diagnosis}</p>
                       </div>
-                      <p className="text-sm text-muted-foreground mt-0.5">{c.diagnosis}</p>
                     </div>
                     <div className="text-right text-xs text-muted-foreground">
                       <p>{c.flying_class || "—"}</p>
