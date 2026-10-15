@@ -1,0 +1,122 @@
+{
+  "name": "WaiverCase",
+  "type": "object",
+  "properties": {
+    "member_name": {
+      "type": "string",
+      "title": "Member Name"
+    },
+    "rank": {
+      "type": "string",
+      "title": "Rank"
+    },
+    "unit": {
+      "type": "string",
+      "title": "Unit / Squadron"
+    },
+    "flying_class": {
+      "type": "string",
+      "title": "Flying Class / Duty",
+      "enum": [
+        "FC-I",
+        "FC-II",
+        "FC-III",
+        "ATC",
+        "GBO",
+        "OSF",
+        "SWA",
+        "Other"
+      ]
+    },
+    "age": {
+      "type": "number",
+      "title": "Age"
+    },
+    "sex": {
+      "type": "string",
+      "title": "Sex",
+      "enum": [
+        "Male",
+        "Female"
+      ]
+    },
+    "dod_id": {
+      "type": "string",
+      "title": "DoD ID"
+    },
+    "diagnosis": {
+      "type": "string",
+      "title": "Diagnosis / Condition"
+    },
+    "category": {
+      "type": "string",
+      "title": "Waiver Guide Category",
+      "enum": [
+        "Cardiology",
+        "Dermatology",
+        "Gastroenterology",
+        "Hematology",
+        "Internal Medicine",
+        "Malignancies / Cancers",
+        "Neurology",
+        "Obstetrics and Gynecology",
+        "Ophthalmology",
+        "Orthopaedics",
+        "Otolaryngology (ENT)",
+        "Psychiatry / Neuropsychiatry",
+        "Pulmonology",
+        "Urology",
+        "Other"
+      ]
+    },
+    "history": {
+      "type": "string",
+      "title": "History of Present Illness / PMH"
+    },
+    "diagnostics": {
+      "type": "string",
+      "title": "Studies / Testing Performed"
+    },
+    "medications": {
+      "type": "string",
+      "title": "Current Medications"
+    },
+    "treatment_course": {
+      "type": "string",
+      "title": "Treatment Course"
+    },
+    "current_status": {
+      "type": "string",
+      "title": "Current Clinical Status"
+    },
+    "aeromedical_concerns": {
+      "type": "string",
+      "title": "Aeromedical Concerns / Notes"
+    },
+    "uploaded_docs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Uploaded Document URIs"
+    },
+    "narrative": {
+      "type": "string",
+      "title": "Generated Aeromedical Summary"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "enum": [
+        "draft",
+        "generated",
+        "submitted"
+      ],
+      "default": "draft"
+    }
+  },
+  "required": [
+    "member_name",
+    "diagnosis"
+  ]
+}
