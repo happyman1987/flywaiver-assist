@@ -47,6 +47,7 @@ CLINICAL INFORMATION:
 - Treatment course: ${data.treatment_course || "Not provided"}
 - Current clinical status: ${data.current_status || "Not provided"}
 - Aeromedical concerns / notes from provider: ${data.aeromedical_concerns || "Not provided"}
+${(data.missing_justifications && data.missing_justifications.length) ? `\nDOCUMENTED JUSTIFICATIONS FOR MISSING INFORMATION (acknowledge these in the AMS where relevant, noting the item is not yet available and the stated reason):\n${data.missing_justifications.map((j) => `- ${j.item}: ${j.justification || "No justification provided"}`).join("\n")}` : ""}
 
 Now write the complete Aeromedical Summary.`;
 
@@ -64,7 +65,7 @@ export default async function(req) {
     const result = await base44.asServiceRole.integrations.Core.InvokeLLM({
       prompt: AMS_PROMPT(body),
       add_context_from_internet: true,
-      model: 'gemini_3_flash'
+      model: 'gemini_3_8_flash'
     });
 
     const narrative = typeof result === 'string' ? result : (result?.content || JSON.stringify(result));

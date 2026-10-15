@@ -100,6 +100,43 @@
       },
       "title": "Uploaded Document URIs"
     },
+    "missing_info": {
+      "type": "array",
+      "title": "Missing Information Items",
+      "items": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "string"
+          },
+          "requirement": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "required",
+              "recommended"
+            ]
+          }
+        }
+      }
+    },
+    "missing_justifications": {
+      "type": "array",
+      "title": "Missing Info Justifications",
+      "items": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "string"
+          },
+          "justification": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "narrative": {
       "type": "string",
       "title": "Generated Aeromedical Summary"

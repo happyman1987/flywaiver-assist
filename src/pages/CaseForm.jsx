@@ -132,7 +132,15 @@ export default function CaseForm() {
     const caseId = rec.id;
     setGenerating(true);
     try {
-      const res = await base44.functions.invoke("GenerateNarrative", { ...form, age: form.age ? Number(form.age) : null, diagnosis: form.conditions[0]?.diagnosis || "", category: form.conditions[0]?.category || "" });
+      const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: form.conditions[0]?.diagnosis || "", category: form.conditions[0]?.category || "" };
+      const checkRes = await base44.functions.invoke("CheckMissingInfo", payload);
+      const missing = checkRes.data?.items || [];
+      if (missing.length > 0) {
+        await base44.entities.WaiverCase.update(caseId, { missing_info: missing, missing_justifications: [] });
+        navigate(`/cases/${caseId}/missing-info`);
+        return;
+      }
+      const res = await base44.functions.invoke("GenerateNarrative", payload);
       const narrative = res.data?.narrative;
       if (!narrative) throw new Error("No narrative returned");
       await base44.entities.WaiverCase.update(caseId, { narrative, status: "generated" });
