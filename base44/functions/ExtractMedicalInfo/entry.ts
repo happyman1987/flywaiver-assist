@@ -1,10 +1,27 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
 
+const WAIVER_SECTIONS = [
+  "Cardiology", "Dermatology", "Gastroenterology", "Hematology", "Internal Medicine",
+  "Malignancies / Cancers", "Neurology", "Obstetrics and Gynecology", "Ophthalmology",
+  "Orthopaedics", "Otolaryngology (ENT)", "Psychiatry / Neuropsychiatry", "Pulmonology",
+  "Urology", "Other"
+];
+
 const EXTRACTION_SCHEMA = {
   type: 'object',
   properties: {
-    diagnosis: { type: 'string', description: 'Primary diagnosis or condition relevant to the waiver' },
-    category: { type: 'string', description: 'Waiver guide specialty category, e.g. Cardiology, Neurology' },
+    conditions: {
+      type: 'array',
+      description: 'Every diagnosis or condition relevant to an aeromedical waiver found in the document',
+      items: {
+        type: 'object',
+        properties: {
+          diagnosis: { type: 'string', description: 'Diagnosis or condition' },
+          category: { type: 'string', enum: WAIVER_SECTIONS, description: 'USAF waiver guide section this diagnosis maps to' }
+        },
+        required: ['diagnosis', 'category']
+      }
+    },
     history: { type: 'string', description: 'History of present illness and relevant past medical history' },
     diagnostics: { type: 'string', description: 'Studies and testing performed with key results' },
     medications: { type: 'string', description: 'Current and recent medications' },

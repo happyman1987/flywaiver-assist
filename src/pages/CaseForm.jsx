@@ -75,17 +75,26 @@ export default function CaseForm() {
     try {
       const res = await base44.functions.invoke("ExtractMedicalInfo", { file_uri: form.uploaded_docs[form.uploaded_docs.length - 1] });
       const ext = res.data?.extraction?.output || {};
-      setForm((f) => ({
-        ...f,
-        diagnosis: f.diagnosis || ext.diagnosis || "",
-        category: f.category || ext.category || "",
-        history: f.history || ext.history || "",
-        diagnostics: f.diagnostics || ext.diagnostics || "",
-        medications: f.medications || ext.medications || "",
-        treatment_course: f.treatment_course || ext.treatment_course || "",
-        current_status: f.current_status || ext.current_status || ""
-      }));
-      toast({ title: "Medical info extracted from document" });
+      const extConditions = (Array.isArray(ext.conditions) ? ext.conditions : [])
+        .filter((c) => c && c.diagnosis)
+        .map((c) => ({ diagnosis: c.diagnosis, category: c.category || "" }));
+      setForm((f) => {
+        const existing = f.conditions.filter((c) => c.diagnosis || c.category);
+        const merged = extConditions.length ? [...existing, ...extConditions] : existing;
+        const conditions = merged.length ? merged : [{ diagnosis: "", category: "" }];
+        return {
+          ...f,
+          conditions,
+          diagnosis: conditions[0]?.diagnosis || f.diagnosis || "",
+          category: conditions[0]?.category || f.category || "",
+          history: f.history || ext.history || "",
+          diagnostics: f.diagnostics || ext.diagnostics || "",
+          medications: f.medications || ext.medications || "",
+          treatment_course: f.treatment_course || ext.treatment_course || "",
+          current_status: f.current_status || ext.current_status || ""
+        };
+      });
+      toast({ title: extConditions.length ? `${extConditions.length} diagnosis(es) added with waiver guide sections` : "Medical info extracted from document" });
     } catch (err) {
       toast({ title: "Extraction failed", description: err.message, variant: "destructive" });
     } finally {
