@@ -6,7 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import ReactMarkdown from "react-markdown";
-import { ArrowLeft, Loader2, Pencil, Copy, Check, FileDown } from "lucide-react";
+import { ArrowLeft, Loader2, Pencil, Copy, Check, FileDown, FileText } from "lucide-react";
+import { jsPDF } from "jspdf";
 import { useToast } from "@/components/ui/use-toast";
 import { logAuditEvent } from "@/lib/auditLog";
 
@@ -67,6 +68,31 @@ export default function CaseDetail() {
     URL.revokeObjectURL(url);
   };
 
+  const downloadNarrativePDF = () => {
+    const doc = new jsPDF({ unit: "pt", format: "letter" });
+    const margin = 56;
+    const maxWidth = doc.internal.pageSize.getWidth() - margin * 2;
+    const pageHeight = doc.internal.pageSize.getHeight();
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.text("Aeromedical Summary (AMS)", margin, margin);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+    const text = narrative
+      .replace(/^#{1,6}\s+/gm, "")
+      .replace(/\*\*(.+?)\*\*/g, "$1")
+      .replace(/\*(.+?)\*/g, "$1")
+      .replace(/^[-*]\s+/gm, "  • ");
+    const lines = doc.splitTextToSize(text, maxWidth);
+    let y = margin + 28;
+    lines.forEach((line) => {
+      if (y > pageHeight - margin) { doc.addPage(); y = margin; }
+      doc.text(line, margin, y);
+      y += 16;
+    });
+    doc.save(`AMS_${(c.member_name || "case").replace(/\s+/g, "_")}.pdf`);
+  };
+
   if (loading) return <div className="min-h-screen flex items-center justify-center"><Loader2 className="w-6 h-6 animate-spin text-muted-foreground" /></div>;
   if (!c) return null;
 
@@ -114,7 +140,8 @@ export default function CaseDetail() {
                     {copied ? <Check className="w-4 h-4 mr-1" /> : <Copy className="w-4 h-4 mr-1" />}
                     {copied ? "Copied" : "Copy"}
                   </Button>
-                  <Button variant="ghost" size="sm" onClick={downloadNarrative}><FileDown className="w-4 h-4 mr-1" /> Export</Button>
+                  <Button variant="ghost" size="sm" onClick={downloadNarrative}><FileDown className="w-4 h-4 mr-1" /> Markdown</Button>
+                  <Button variant="ghost" size="sm" onClick={downloadNarrativePDF}><FileText className="w-4 h-4 mr-1" /> PDF</Button>
                   <Button variant="outline" size="sm" onClick={() => setEditing(true)}><Pencil className="w-4 h-4 mr-1" /> Edit</Button>
                 </>
               )}
