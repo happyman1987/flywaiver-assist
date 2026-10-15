@@ -73,23 +73,57 @@ export default function CaseDetail() {
     const margin = 56;
     const maxWidth = doc.internal.pageSize.getWidth() - margin * 2;
     const pageHeight = doc.internal.pageSize.getHeight();
+    let y = margin;
+    const ensureSpace = (needed) => {
+      if (y + needed > pageHeight - margin) { doc.addPage(); y = margin; }
+    };
+    const writeLines = (text, size, lineGap) => {
+      doc.setFontSize(size);
+      const lines = doc.splitTextToSize(text, maxWidth);
+      lines.forEach((line) => {
+        ensureSpace(lineGap);
+        doc.text(line, margin, y);
+        y += lineGap;
+      });
+    };
+
     doc.setFont("helvetica", "bold");
     doc.setFontSize(14);
-    doc.text("Aeromedical Summary (AMS)", margin, margin);
-    doc.setFont("helvetica", "normal");
+    doc.text("Aeromedical Summary (AMS)", margin, y);
+    y += 24;
+
+    doc.setFont("helvetica", "bold");
     doc.setFontSize(11);
+    doc.text("Member Information", margin, y);
+    y += 16;
+    const conds = (c.conditions?.length ? c.conditions : [{ diagnosis: c.diagnosis, category: c.category }]);
+    const infoRows = [
+      `Name: ${c.member_name || "—"}`,
+      `Rank: ${c.rank || "—"}    Unit / Squadron: ${c.unit || "—"}`,
+      `Flying Class / Duty: ${c.flying_class || "—"}    Age / Sex: ${c.age ?? "—"} / ${c.sex || "—"}`,
+      `DoD ID: ${c.dod_id || "—"}`,
+      `Condition(s): ${conds.map((cond) => `${cond.diagnosis || "—"}${cond.category ? ` (${cond.category})` : ""}`).join("; ")}`
+    ];
+    doc.setFont("helvetica", "normal");
+    infoRows.forEach((row) => writeLines(row, 11, 16));
+    y += 12;
+
+    doc.setDrawColor(200);
+    doc.line(margin, y, margin + maxWidth, y);
+    y += 20;
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("Narrative Summary", margin, y);
+    y += 18;
     const text = narrative
       .replace(/^#{1,6}\s+/gm, "")
       .replace(/\*\*(.+?)\*\*/g, "$1")
       .replace(/\*(.+?)\*/g, "$1")
       .replace(/^[-*]\s+/gm, "  • ");
-    const lines = doc.splitTextToSize(text, maxWidth);
-    let y = margin + 28;
-    lines.forEach((line) => {
-      if (y > pageHeight - margin) { doc.addPage(); y = margin; }
-      doc.text(line, margin, y);
-      y += 16;
-    });
+    doc.setFont("helvetica", "normal");
+    writeLines(text, 11, 16);
+
     doc.save(`AMS_${(c.member_name || "case").replace(/\s+/g, "_")}.pdf`);
   };
 
