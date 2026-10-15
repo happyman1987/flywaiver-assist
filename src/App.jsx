@@ -15,9 +15,11 @@ import ResetPassword from '@/pages/ResetPassword';
 import Dashboard from '@/pages/Dashboard';
 import CaseForm from '@/pages/CaseForm';
 import CaseDetail from '@/pages/CaseDetail';
+import useInactivityLogout from "@/hooks/useInactivityLogout";
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
+  useInactivityLogout();
 
   // Show loading spinner while checking app public settings or auth
   if (isLoadingPublicSettings || isLoadingAuth) {

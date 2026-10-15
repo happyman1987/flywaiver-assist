@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import ReactMarkdown from "react-markdown";
 import { ArrowLeft, Loader2, Pencil, Copy, Check, FileDown } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { logAuditEvent } from "@/lib/auditLog";
 
 export default function CaseDetail() {
   const { id } = useParams();
@@ -26,6 +27,7 @@ export default function CaseDetail() {
         const rec = await base44.entities.WaiverCase.get(id);
         setC(rec);
         setNarrative(rec.narrative || "");
+        logAuditEvent("case_viewed", id, rec.member_name);
       } catch (e) {
         toast({ title: "Case not found", variant: "destructive" });
       } finally {
@@ -41,6 +43,7 @@ export default function CaseDetail() {
       setC((p) => ({ ...p, narrative }));
       setEditing(false);
       toast({ title: "Narrative saved" });
+      logAuditEvent("narrative_saved", id, c.member_name);
     } catch (e) {
       toast({ title: "Save failed", variant: "destructive" });
     } finally {

@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowLeft, Loader2, Upload, Sparkles, FileUp, Plus, X } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { logAuditEvent } from "@/lib/auditLog";
 
 const FLYING_CLASSES = ["FC-I", "FC-II", "FC-III", "ATC", "GBO", "OSF", "SWA", "Other"];
 const CATEGORIES = ["Cardiology","Dermatology","Gastroenterology","Hematology","Internal Medicine","Malignancies / Cancers","Neurology","Obstetrics and Gynecology","Ophthalmology","Orthopaedics","Otolaryngology (ENT)","Psychiatry / Neuropsychiatry","Pulmonology","Urology","Other"];
@@ -103,8 +104,10 @@ export default function CaseForm() {
       let record;
       if (id) {
         record = await base44.entities.WaiverCase.update(id, payload);
+        logAuditEvent("case_updated", id, record.member_name);
       } else {
         record = await base44.entities.WaiverCase.create(payload);
+        logAuditEvent("case_created", record.id, record.member_name);
       }
       return record;
     } catch (err) {
@@ -133,6 +136,7 @@ export default function CaseForm() {
       const narrative = res.data?.narrative;
       if (!narrative) throw new Error("No narrative returned");
       await base44.entities.WaiverCase.update(caseId, { narrative, status: "generated" });
+      logAuditEvent("narrative_generated", caseId, rec.member_name);
       toast({ title: "Aeromedical Summary generated" });
       navigate(`/cases/${caseId}`);
     } catch (err) {
