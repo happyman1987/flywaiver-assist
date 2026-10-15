@@ -64,7 +64,7 @@ export default async function(req) {
     const result = await base44.asServiceRole.integrations.Core.InvokeLLM({
       prompt: AMS_PROMPT(body),
       add_context_from_internet: true,
-      model: 'gemini_3_8_flash'
+      model: 'gemini_3_flash'
     });
 
     const narrative = typeof result === 'string' ? result : (result?.content || JSON.stringify(result));
