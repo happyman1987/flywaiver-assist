@@ -7,7 +7,7 @@ Reference the current USAF Aerospace Medicine Waiver Guide Compendium (published
 Write the AMS in a formal clinical-aeromedical voice using the following section structure:
 
 1. AEROMEDICAL SUMMARY
-   - One opening paragraph: identifying statement with member name, rank, unit, flying class/duty, age/sex, and the diagnosis for which the waiver is requested.
+   - One opening paragraph: identifying statement with member name, rank, unit, flying class/duty, age/sex, and the diagnosis/diagnoses for which the waiver is requested. If multiple conditions are listed, address each in the sections below.
 
 2. HISTORY OF PRESENT ILLNESS
    - Succinct narrative of the condition onset, course, and current status.
@@ -25,7 +25,7 @@ Write the AMS in a formal clinical-aeromedical voice using the following section
    - Member's current clinical status and functional capacity.
 
 7. AEROMEDICAL CONSIDERATIONS
-   - The aeromedical risk analysis: how this condition and its treatment could affect aviation safety and mission performance. Explicitly reference the applicable USAF waiver guide criteria for this diagnosis (waiver consideration, information required, recommendations). Note any disqualifying aspects and mitigating factors. If the waiver guide specifies required follow-up intervals or restrictions, state them.
+   - The aeromedical risk analysis: how each condition and its treatment could affect aviation safety and mission performance. Explicitly reference the applicable USAF waiver guide criteria for each listed diagnosis (waiver consideration, information required, recommendations). Note any disqualifying aspects and mitigating factors. If the waiver guide specifies required follow-up intervals or restrictions, state them.
 
 8. RECOMMENDATION / WAIVER DISPOSITION
    - Professional aeromedical opinion and recommendation: favorable for waiver / waiver with restrictions / further evaluation required, with rationale and suggested follow-up.
@@ -37,8 +37,8 @@ CASE DATA:
 - Flying class / duty: ${data.flying_class || "not specified"}
 - Age / Sex: ${data.age ?? "not specified"} / ${data.sex || "not specified"}
 - DoD ID: ${data.dod_id || "not specified"}
-- Diagnosis / Condition: ${data.diagnosis}
-- Waiver guide category: ${data.category || "not specified"}
+- Condition(s):
+${(data.conditions && data.conditions.length ? data.conditions : [{ diagnosis: data.diagnosis, category: data.category }]).map((c, i) => `  ${i + 1}. ${c.diagnosis}${c.category ? ` (waiver guide section: ${c.category})` : ""}`).join("\n")}
 
 CLINICAL INFORMATION:
 - History of present illness / PMH: ${data.history || "Not provided"}
@@ -57,10 +57,9 @@ export default async function(req) {
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await req.json().catch(() => ({}));
-    const required = ['member_name', 'diagnosis'];
-    for (const field of required) {
-      if (!body[field]) return Response.json({ error: `Missing required field: ${field}` }, { status: 400 });
-    }
+    if (!body.member_name) return Response.json({ error: 'Missing required field: member_name' }, { status: 400 });
+    const hasCondition = body.diagnosis || (Array.isArray(body.conditions) && body.conditions.some((c) => c.diagnosis));
+    if (!hasCondition) return Response.json({ error: 'At least one diagnosis/condition is required' }, { status: 400 });
 
     const result = await base44.asServiceRole.integrations.Core.InvokeLLM({
       prompt: AMS_PROMPT(body),

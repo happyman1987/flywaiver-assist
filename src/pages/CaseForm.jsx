@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, Loader2, Upload, Sparkles, FileUp } from "lucide-react";
+import { ArrowLeft, Loader2, Upload, Sparkles, FileUp, Plus, X } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 const FLYING_CLASSES = ["FC-I", "FC-II", "FC-III", "ATC", "GBO", "OSF", "SWA", "Other"];
@@ -15,7 +15,7 @@ const CATEGORIES = ["Cardiology","Dermatology","Gastroenterology","Hematology","
 
 const EMPTY = {
   member_name: "", rank: "", unit: "", flying_class: "", age: "", sex: "", dod_id: "",
-  diagnosis: "", category: "", history: "", diagnostics: "", medications: "",
+  diagnosis: "", category: "", conditions: [{ diagnosis: "", category: "" }], history: "", diagnostics: "", medications: "",
   treatment_course: "", current_status: "", aeromedical_concerns: "", uploaded_docs: []
 };
 
@@ -35,7 +35,7 @@ export default function CaseForm() {
     (async () => {
       try {
         const c = await base44.entities.WaiverCase.get(id);
-        setForm({ ...EMPTY, ...c });
+        setForm({ ...EMPTY, ...c, conditions: c.conditions?.length ? c.conditions : [{ diagnosis: c.diagnosis || "", category: c.category || "" }] });
       } catch (e) {
         toast({ title: "Could not load case", variant: "destructive" });
       } finally {
@@ -45,6 +45,9 @@ export default function CaseForm() {
   }, [id]);
 
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
+  const updateCondition = (i, k, v) => setForm((f) => ({ ...f, conditions: f.conditions.map((c, idx) => idx === i ? { ...c, [k]: v } : c) }));
+  const addCondition = () => setForm((f) => ({ ...f, conditions: [...f.conditions, { diagnosis: "", category: "" }] }));
+  const removeCondition = (i) => setForm((f) => ({ ...f, conditions: f.conditions.filter((_, idx) => idx !== i) }));
 
   const handleUpload = async (e) => {
     const file = e.target.files?.[0];
@@ -90,13 +93,13 @@ export default function CaseForm() {
   };
 
   const save = async (status) => {
-    if (!form.member_name || !form.diagnosis) {
-      toast({ title: "Member name and diagnosis are required", variant: "destructive" });
+    if (!form.member_name || !form.conditions[0]?.diagnosis) {
+      toast({ title: "Member name and at least one diagnosis are required", variant: "destructive" });
       return null;
     }
     setSaving(true);
     try {
-      const payload = { ...form, age: form.age ? Number(form.age) : null, status: status || form.status || "draft" };
+      const payload = { ...form, age: form.age ? Number(form.age) : null, status: status || form.status || "draft", diagnosis: form.conditions[0]?.diagnosis || "", category: form.conditions[0]?.category || "" };
       let record;
       if (id) {
         record = await base44.entities.WaiverCase.update(id, payload);
@@ -126,7 +129,7 @@ export default function CaseForm() {
     const caseId = rec.id;
     setGenerating(true);
     try {
-      const res = await base44.functions.invoke("GenerateNarrative", { ...form, age: form.age ? Number(form.age) : null });
+      const res = await base44.functions.invoke("GenerateNarrative", { ...form, age: form.age ? Number(form.age) : null, diagnosis: form.conditions[0]?.diagnosis || "", category: form.conditions[0]?.category || "" });
       const narrative = res.data?.narrative;
       if (!narrative) throw new Error("No narrative returned");
       await base44.entities.WaiverCase.update(caseId, { narrative, status: "generated" });
@@ -226,16 +229,34 @@ export default function CaseForm() {
         <Card>
           <CardHeader><CardTitle className="text-base">Clinical Information</CardTitle></CardHeader>
           <CardContent className="space-y-4">
-            <div className="space-y-1.5">
-              <Label>Diagnosis / Condition *</Label>
-              <Input value={form.diagnosis} onChange={(e) => set("diagnosis", e.target.value)} placeholder="e.g. Hypertension" />
-            </div>
-            <div className="space-y-1.5">
-              <Label>Waiver Guide Category</Label>
-              <Select value={form.category} onValueChange={(v) => set("category", v)}>
-                <SelectTrigger><SelectValue placeholder="Select specialty" /></SelectTrigger>
-                <SelectContent>{CATEGORIES.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent>
-              </Select>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <Label>Diagnoses / Conditions *</Label>
+                <Button type="button" variant="outline" size="sm" onClick={addCondition}>
+                  <Plus className="w-4 h-4 mr-1" /> Add Condition
+                </Button>
+              </div>
+              {form.conditions.map((cond, i) => (
+                <div key={i} className="grid grid-cols-12 gap-2 items-center">
+                  <div className="col-span-6">
+                    <Input value={cond.diagnosis} onChange={(e) => updateCondition(i, "diagnosis", e.target.value)} placeholder="e.g. Hypertension" />
+                  </div>
+                  <div className="col-span-5">
+                    <Select value={cond.category} onValueChange={(v) => updateCondition(i, "category", v)}>
+                      <SelectTrigger><SelectValue placeholder="Waiver guide section" /></SelectTrigger>
+                      <SelectContent>{CATEGORIES.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent>
+                    </Select>
+                  </div>
+                  <div className="col-span-1 flex justify-end">
+                    {form.conditions.length > 1 && (
+                      <Button type="button" variant="ghost" size="sm" onClick={() => removeCondition(i)}>
+                        <X className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              ))}
+              <p className="text-xs text-muted-foreground">Each condition maps to a section of the USAF waiver guide. The narrative will address every listed condition.</p>
             </div>
             <div className="space-y-1.5">
               <Label>History of Present Illness / PMH</Label>

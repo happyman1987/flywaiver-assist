@@ -87,8 +87,17 @@ export default function CaseDetail() {
             <Field label="Flying Class" value={c.flying_class} />
             <Field label="Age / Sex" value={`${c.age ?? "—"} / ${c.sex || "—"}`} />
             <Field label="DoD ID" value={c.dod_id} />
-            <Field label="Diagnosis" value={c.diagnosis} />
-            <Field label="Category" value={c.category} />
+            <div className="col-span-2">
+              <p className="text-xs text-muted-foreground mb-1">Conditions</p>
+              <div className="space-y-1.5">
+                {(c.conditions?.length ? c.conditions : [{ diagnosis: c.diagnosis, category: c.category }]).map((cond, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <span className="font-medium">{cond.diagnosis || "—"}</span>
+                    {cond.category && <Badge variant="outline" className="text-xs font-normal">{cond.category}</Badge>}
+                  </div>
+                ))}
+              </div>
+            </div>
           </CardContent>
         </Card>
 

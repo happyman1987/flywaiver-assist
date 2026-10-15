@@ -44,30 +44,30 @@
       "type": "string",
       "title": "DoD ID"
     },
+    "conditions": {
+      "type": "array",
+      "title": "Conditions",
+      "items": {
+        "type": "object",
+        "properties": {
+          "diagnosis": {
+            "type": "string",
+            "title": "Diagnosis / Condition"
+          },
+          "category": {
+            "type": "string",
+            "title": "Waiver Guide Section"
+          }
+        }
+      }
+    },
     "diagnosis": {
       "type": "string",
-      "title": "Diagnosis / Condition"
+      "title": "Primary Diagnosis (synced)"
     },
     "category": {
       "type": "string",
-      "title": "Waiver Guide Category",
-      "enum": [
-        "Cardiology",
-        "Dermatology",
-        "Gastroenterology",
-        "Hematology",
-        "Internal Medicine",
-        "Malignancies / Cancers",
-        "Neurology",
-        "Obstetrics and Gynecology",
-        "Ophthalmology",
-        "Orthopaedics",
-        "Otolaryngology (ENT)",
-        "Psychiatry / Neuropsychiatry",
-        "Pulmonology",
-        "Urology",
-        "Other"
-      ]
+      "title": "Primary Waiver Guide Section (synced)"
     },
     "history": {
       "type": "string",
