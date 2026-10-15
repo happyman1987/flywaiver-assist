@@ -30,6 +30,7 @@ export default function CaseForm() {
   const [generating, setGenerating] = useState(false);
   const [extracting, setExtracting] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [originalDiagnoses, setOriginalDiagnoses] = useState([]);
 
   useEffect(() => {
     if (!id) return;
@@ -37,6 +38,7 @@ export default function CaseForm() {
       try {
         const c = await base44.entities.WaiverCase.get(id);
         setForm({ ...EMPTY, ...c, conditions: c.conditions?.length ? c.conditions : [{ diagnosis: c.diagnosis || "", category: c.category || "" }] });
+        setOriginalDiagnoses((c.conditions?.length ? c.conditions : [{ diagnosis: c.diagnosis || "", category: c.category || "" }]).map((cond) => cond.diagnosis).filter(Boolean));
       } catch (e) {
         toast({ title: "Could not load case", variant: "destructive" });
       } finally {
@@ -129,10 +131,29 @@ export default function CaseForm() {
 
   const handleSaveDraft = async () => {
     const rec = await save(form.status || "draft");
-    if (rec) {
+    if (!rec) return;
+    const currentDiagnoses = form.conditions.map((c) => c.diagnosis).filter(Boolean);
+    const removed = originalDiagnoses.filter((d) => d && !currentDiagnoses.includes(d));
+    if (removed.length && form.narrative) {
+      setGenerating(true);
+      try {
+        const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: currentDiagnoses[0] || "", category: form.conditions[0]?.category || "" };
+        const res = await base44.functions.invoke("GenerateNarrative", payload);
+        const narrative = res.data?.narrative;
+        if (!narrative) throw new Error("No narrative returned");
+        await base44.entities.WaiverCase.update(rec.id, { narrative });
+        logAuditEvent("narrative_generated", rec.id, rec.member_name);
+        setOriginalDiagnoses(currentDiagnoses);
+        toast({ title: "Changes saved", description: "Narrative updated to remove deleted diagnosis(es)" });
+      } catch (err) {
+        toast({ title: "Changes saved", description: "Narrative could not be auto-updated — regenerate to refresh", variant: "destructive" });
+      } finally {
+        setGenerating(false);
+      }
+    } else {
       toast({ title: id && form.status && form.status !== "draft" ? "Changes saved" : "Draft saved" });
-      if (!id) navigate(`/cases/${rec.id}/edit`);
     }
+    if (!id) navigate(`/cases/${rec.id}/edit`);
   };
 
   const handleGenerate = async () => {
