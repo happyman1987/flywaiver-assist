@@ -9,10 +9,12 @@ export default function useInactivityLogout() {
     let timer;
     const reset = () => {
       clearTimeout(timer);
-      timer = setTimeout(() => {
-        base44.auth.logout("/login").catch(() => {
+      timer = setTimeout(async () => {
+        try {
+          await base44.auth.logout("/login");
+        } catch (e) {
           window.location.href = "/login";
-        });
+        }
       }, IDLE_MS);
     };
     const events = ["mousedown", "keydown", "touchstart", "scroll", "mousemove"];
