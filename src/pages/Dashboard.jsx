@@ -11,7 +11,7 @@ import CaseListCard from "@/components/CaseListCard";
 export default function Dashboard() {
   const [cases, setCases] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [confirm, setConfirm] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -26,15 +26,15 @@ export default function Dashboard() {
     })();
   }, []);
 
-  const handleArchive = async (item) => {
-    await base44.entities.WaiverCase.update(item.id, { archived: true });
+  const handleConfirm = async () => {
+    const { type, item } = confirm;
+    if (type === "archive") {
+      await base44.entities.WaiverCase.update(item.id, { archived: true });
+    } else {
+      await base44.entities.WaiverCase.delete(item.id);
+    }
     setCases((prev) => prev.filter((c) => c.id !== item.id));
-  };
-
-  const handleDelete = async () => {
-    await base44.entities.WaiverCase.delete(deleteTarget.id);
-    setCases((prev) => prev.filter((c) => c.id !== deleteTarget.id));
-    setDeleteTarget(null);
+    setConfirm(null);
   };
 
   return (
@@ -68,10 +68,10 @@ export default function Dashboard() {
                 item={c}
                 actions={
                   <>
-                    <Button variant="outline" size="sm" onClick={() => handleArchive(c)}>
+                    <Button variant="outline" size="sm" onClick={() => setConfirm({ type: "archive", item: c })}>
                       <Archive className="w-4 h-4" /><span className="hidden sm:inline ml-1">Archive</span>
                     </Button>
-                    <Button variant="outline" size="sm" className="text-destructive hover:text-destructive" onClick={() => setDeleteTarget(c)}>
+                    <Button variant="outline" size="sm" className="text-destructive hover:text-destructive" onClick={() => setConfirm({ type: "delete", item: c })}>
                       <Trash2 className="w-4 h-4" /><span className="hidden sm:inline ml-1">Delete</span>
                     </Button>
                   </>
@@ -82,17 +82,21 @@ export default function Dashboard() {
         )}
       </main>
 
-      <AlertDialog open={!!deleteTarget} onOpenChange={(o) => !o && setDeleteTarget(null)}>
+      <AlertDialog open={!!confirm} onOpenChange={(o) => !o && setConfirm(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete this waiver?</AlertDialogTitle>
+            <AlertDialogTitle>{confirm?.type === "archive" ? "Archive this waiver?" : "Delete this waiver?"}</AlertDialogTitle>
             <AlertDialogDescription>
-              This permanently deletes the waiver case for {deleteTarget?.member_name}. This action cannot be undone.
+              {confirm?.type === "archive"
+                ? `This moves the waiver case for ${confirm?.item?.member_name} to the archive. You can restore it later.`
+                : `This permanently deletes the waiver case for ${confirm?.item?.member_name}. This action cannot be undone.`}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">Delete</AlertDialogAction>
+            <AlertDialogAction onClick={handleConfirm} className={confirm?.type === "delete" ? "bg-destructive text-destructive-foreground hover:bg-destructive/90" : ""}>
+              {confirm?.type === "archive" ? "Archive" : "Delete"}
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
