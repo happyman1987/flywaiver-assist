@@ -150,6 +150,11 @@
         "submitted"
       ],
       "default": "draft"
+    },
+    "archived": {
+      "type": "boolean",
+      "title": "Archived",
+      "default": false
     }
   },
   "required": [

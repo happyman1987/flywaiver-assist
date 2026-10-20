@@ -2,25 +2,21 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Plus, FileText, Plane, Loader2 } from "lucide-react";
-import DiagnosisImage from "@/components/DiagnosisImage";
-
-const statusVariant = {
-  draft: "secondary",
-  generated: "default",
-  submitted: "default"
-};
+import { Card, CardContent } from "@/components/ui/card";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { Plus, FileText, Archive, Trash2, Loader2 } from "lucide-react";
+import AppHeader from "@/components/AppHeader";
+import CaseListCard from "@/components/CaseListCard";
 
 export default function Dashboard() {
   const [cases, setCases] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   useEffect(() => {
     (async () => {
       try {
-        const { items } = await base44.entities.WaiverCase.filter({}, { sort: "-created_date", limit: 50 });
+        const { items } = await base44.entities.WaiverCase.filter({ archived: { $ne: true } }, { sort: "-created_date", limit: 50 });
         setCases(items);
       } catch (e) {
         console.error(e);
@@ -30,25 +26,27 @@ export default function Dashboard() {
     })();
   }, []);
 
+  const handleArchive = async (item) => {
+    await base44.entities.WaiverCase.update(item.id, { archived: true });
+    setCases((prev) => prev.filter((c) => c.id !== item.id));
+  };
+
+  const handleDelete = async () => {
+    await base44.entities.WaiverCase.delete(deleteTarget.id);
+    setCases((prev) => prev.filter((c) => c.id !== deleteTarget.id));
+    setDeleteTarget(null);
+  };
+
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b bg-card">
-        <div className="h-1 bg-[hsl(var(--usaf-gold))]" />
-        <div className="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-              <Plane className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <div>
-              <h1 className="text-lg font-semibold tracking-tight">FlyWaiver Assist</h1>
-              <p className="text-xs text-muted-foreground">USAF Flight Medicine — Aeromedical Summary Generation</p>
-            </div>
-          </div>
-          <Button asChild>
-            <Link to="/cases/new"><Plus className="w-4 h-4 mr-2" /> New Case</Link>
-          </Button>
-        </div>
-      </header>
+      <AppHeader>
+        <Button variant="ghost" asChild>
+          <Link to="/archived"><Archive className="w-4 h-4 mr-2" /> Archived</Link>
+        </Button>
+        <Button asChild>
+          <Link to="/cases/new"><Plus className="w-4 h-4 mr-2" /> New Case</Link>
+        </Button>
+      </AppHeader>
 
       <main className="max-w-5xl mx-auto px-6 py-8">
         <h2 className="text-sm font-medium text-muted-foreground mb-4">Waiver Cases</h2>
@@ -65,30 +63,39 @@ export default function Dashboard() {
         ) : (
           <div className="grid gap-3">
             {cases.map((c) => (
-              <Link to={`/cases/${c.id}`} key={c.id}>
-                <Card className="hover:shadow-md transition-shadow">
-                  <CardContent className="py-4 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <DiagnosisImage diagnosis={c.diagnosis} />
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <p className="font-medium">{c.member_name}</p>
-                          <Badge variant={statusVariant[c.status] || "secondary"} className="capitalize">{c.status}</Badge>
-                        </div>
-                        <p className="text-sm text-muted-foreground mt-0.5">{c.diagnosis}</p>
-                      </div>
-                    </div>
-                    <div className="text-right text-xs text-muted-foreground">
-                      <p>{c.flying_class || "—"}</p>
-                      <p>{c.unit || "—"}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
+              <CaseListCard
+                key={c.id}
+                item={c}
+                actions={
+                  <>
+                    <Button variant="outline" size="sm" onClick={() => handleArchive(c)}>
+                      <Archive className="w-4 h-4" /><span className="hidden sm:inline ml-1">Archive</span>
+                    </Button>
+                    <Button variant="outline" size="sm" className="text-destructive hover:text-destructive" onClick={() => setDeleteTarget(c)}>
+                      <Trash2 className="w-4 h-4" /><span className="hidden sm:inline ml-1">Delete</span>
+                    </Button>
+                  </>
+                }
+              />
             ))}
           </div>
         )}
       </main>
+
+      <AlertDialog open={!!deleteTarget} onOpenChange={(o) => !o && setDeleteTarget(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete this waiver?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This permanently deletes the waiver case for {deleteTarget?.member_name}. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">Delete</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

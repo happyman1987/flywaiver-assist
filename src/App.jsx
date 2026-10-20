@@ -17,6 +17,7 @@ import CaseForm from '@/pages/CaseForm';
 import CaseDetail from '@/pages/CaseDetail';
 import useInactivityLogout from "@/hooks/useInactivityLogout";
 import MissingInfo from '@/pages/MissingInfo';
+import ArchivedCases from '@/pages/ArchivedCases';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -55,6 +56,7 @@ const AuthenticatedApp = () => {
         <Route path="/cases/:id" element={<CaseDetail />} />
         <Route path="/cases/:id/missing-info" element={<MissingInfo />} />
         <Route path="/cases/:id/edit" element={<CaseForm />} />
+        <Route path="/archived" element={<ArchivedCases />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
