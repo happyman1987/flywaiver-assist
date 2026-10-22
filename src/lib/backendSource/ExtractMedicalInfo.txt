@@ -7,6 +7,14 @@ const WAIVER_SECTIONS = [
   "Urology", "Other"
 ];
 
+// A previously granted waiver (or the AMS written for it) also carries the granting authority and its expiration.
+const PRIOR_WAIVER = 'prior_waiver';
+
+const priorWaiverFields = {
+  prior_waiver_authority: { type: 'string', description: 'The medical authority that granted the previous waiver (for example AFMC/A3OM, or the waiver-issuing authority named in the document)' },
+  prior_waiver_expiration: { type: 'string', description: 'Expiration date of the previous waiver, in YYYY-MM-DD format' }
+};
+
 // The waiver package only needs what the waiver guide requires for the listed condition(s):
 // incidental findings in the same document (e.g. an HIV test run alongside a required CBC) are left out.
 const conditionScope = (data) => {
@@ -26,9 +34,10 @@ const scopeRule = (conditions) => {
   return `Include ONLY information that is required or directly relevant to ${target}. Omit incidental or unrelated results, even when they appear in the same document or the same lab panel — for example, if a CBC is required and an HIV test was also performed, omit the HIV result.`;
 };
 
-const extractionSchema = (conditions) => ({
+const extractionSchema = (conditions, kind) => ({
   type: 'object',
   properties: {
+    ...(kind === PRIOR_WAIVER ? priorWaiverFields : {}),
     conditions: {
       type: 'array',
       description: `Diagnoses or conditions in the document that are relevant to ${conditions.length ? `the listed waiver condition(s): ${conditions.join('; ')}` : 'an aeromedical waiver'}`,
@@ -52,6 +61,7 @@ const extractionSchema = (conditions) => ({
 const CURATION_SCHEMA = {
   type: 'object',
   properties: {
+    ...priorWaiverFields,
     conditions: {
       type: 'array',
       items: {
@@ -75,8 +85,10 @@ const CURATION_SCHEMA = {
 // Text-based records (csv/json/txt/html) are read straight from the document, so nothing is guessed.
 const TEXT_FILE = /\.(csv|tsv|json|txt|html?|md)$/i;
 
-const EXTRACT_PROMPT = (conditions, documentText) => `The full text of an uploaded medical document (a chart note, consult, lab or imaging report, or a table of results) appears below. Extract the information needed for a USAF aeromedical waiver package${conditions.length ? ` for ${conditions.join('; ')}` : ''}.
+const PRIOR_WAIVER_NOTE = `This document is the member's PREVIOUSLY GRANTED aeromedical waiver, or the aeromedical summary written for it. Extract the previously waived condition(s), the granting authority, the waiver expiration date, and the clinical information the document records.`;
 
+const EXTRACT_PROMPT = (conditions, documentText, kind) => `The full text of an uploaded medical document (a chart note, consult, lab or imaging report, or a table of results) appears below. Extract the information needed for a USAF aeromedical waiver package${conditions.length ? ` for ${conditions.join('; ')}` : ''}.
+${kind === PRIOR_WAIVER ? `\n${PRIOR_WAIVER_NOTE}\n` : ''}
 DOCUMENT TEXT:
 ${documentText}
 
@@ -84,8 +96,11 @@ Return JSON matching the schema: every documented diagnosis (each with the USAF 
 
 Copy only what the document states — never invent, infer, or extrapolate a finding. If this text is not a medical record, use an empty conditions array and empty strings.`;
 
-const CURATION_PROMPT = (data, conditions, raw) => {
+const CURATION_PROMPT = (data, conditions, raw, kind) => {
   const scoped = conditions.length > 0;
+  const priorRule = kind === PRIOR_WAIVER
+    ? `- prior_waiver_authority and prior_waiver_expiration: keep the granting authority and the expiration date exactly as the document states them.`
+    : '';
   const conditionsRule = scoped
     ? `- conditions: only diagnoses from the document that are themselves relevant to this waiver AND are not already listed above as the member's waiver conditions. Omit every incidental or unrelated diagnosis, including specialty findings discovered incidentally.`
     : `- conditions: every diagnosis or condition documented in the record that bears on an aeromedical waiver, each mapped to the exact USAF waiver guide section name. No condition has been listed for this member yet, so the diagnoses come from the document.`;
@@ -111,6 +126,7 @@ TASK
 Return the same structure, keeping what this waiver package requires:
 ${conditionsRule}
 ${detailRule}
+${priorRule}
 ${closingRule}
 
 Return the result as JSON matching the provided schema.`;
@@ -132,10 +148,11 @@ export default async function(req) {
     });
 
     const conditions = conditionScope(body);
+    const kind = body.document_kind === PRIOR_WAIVER ? PRIOR_WAIVER : 'medical_record';
 
     let extraction = await base44.asServiceRole.integrations.Core.ExtractDataFromUploadedFile({
       file_url: signed_url,
-      json_schema: extractionSchema(conditions)
+      json_schema: extractionSchema(conditions, kind)
     });
 
     let output = extraction?.output;
@@ -148,8 +165,8 @@ export default async function(req) {
         const documentText = docResponse.ok ? (await docResponse.text()).slice(0, 20000) : '';
         if (documentText.trim()) {
           output = await base44.asServiceRole.integrations.Core.InvokeLLM({
-            prompt: EXTRACT_PROMPT(conditions, documentText),
-            response_json_schema: extractionSchema(conditions)
+            prompt: EXTRACT_PROMPT(conditions, documentText, kind),
+            response_json_schema: extractionSchema(conditions, kind)
           });
           extraction = { status: 'success', details: null, output };
         }
@@ -161,12 +178,20 @@ export default async function(req) {
     if (extraction?.status === 'success' && output) {
       try {
         const curated = await base44.asServiceRole.integrations.Core.InvokeLLM({
-          prompt: CURATION_PROMPT(body, conditions, output),
+          prompt: CURATION_PROMPT(body, conditions, output, kind),
           add_context_from_internet: true,
           model: 'gemini_3_8_flash',
           response_json_schema: CURATION_SCHEMA
         });
-        if (curated && typeof curated === 'object') output = curated;
+        if (curated && typeof curated === 'object') {
+          output = kind === PRIOR_WAIVER
+            ? {
+                ...curated,
+                prior_waiver_authority: curated.prior_waiver_authority || output.prior_waiver_authority || '',
+                prior_waiver_expiration: curated.prior_waiver_expiration || output.prior_waiver_expiration || ''
+              }
+            : curated;
+        }
       } catch (e) {
         // keep the unscreened extraction rather than losing the document data
       }

@@ -44,6 +44,31 @@
       "type": "string",
       "title": "DoD ID"
     },
+    "waiver_type": {
+      "type": "string",
+      "title": "Waiver Type",
+      "enum": [
+        "initial",
+        "renewal"
+      ],
+      "default": "initial"
+    },
+    "prior_waiver_authority": {
+      "type": "string",
+      "title": "Prior Waiver Authority"
+    },
+    "prior_waiver_expiration": {
+      "type": "string",
+      "title": "Prior Waiver Expiration",
+      "format": "date"
+    },
+    "prior_waiver_docs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Prior Waiver Document URIs"
+    },
     "conditions": {
       "type": "array",
       "title": "Conditions",

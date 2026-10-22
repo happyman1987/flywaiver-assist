@@ -1,5 +1,18 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
 
+// A renewal case states the prior grant in the AMS and recommends continuation.
+const waiverContext = (data) => {
+  if (data.waiver_type !== 'renewal') return '- Waiver type: Initial waiver request';
+  const lines = ['- Waiver type: RENEWAL of a previously granted waiver'];
+  if (data.prior_waiver_authority) lines.push(`- Prior waiver authority: ${data.prior_waiver_authority}`);
+  if (data.prior_waiver_expiration) lines.push(`- Prior waiver expiration: ${data.prior_waiver_expiration}`);
+  return lines.join('\n');
+};
+
+const renewalInstruction = (data) => data.waiver_type === 'renewal'
+  ? `\nThis case is a RENEWAL of a previously granted aeromedical waiver. In the opening paragraph, state that the member's existing waiver is submitted for renewal${data.prior_waiver_authority ? ` (granted by ${data.prior_waiver_authority})` : ''}${data.prior_waiver_expiration ? `, expiring ${data.prior_waiver_expiration}` : ''}. Note the stability of each condition since that waiver was granted and recommend continuation, or modification where the facts support it. Do not state that a waiver has previously been granted unless the case data documents it.\n`
+  : '';
+
 const AMS_PROMPT = (data) => `You are an experienced United States Air Force flight surgeon preparing an Aeromedical Summary (AMS) for a military medical waiver submission. The AMS is a concise (one to two page) summary and recommendation encompassing all factors significant to the service member from the aeromedical risk perspective. It must address not only the clinical issues but also the impact on aviation safety if the member continues flying/special duty.
 
 Reference the current USAF Aerospace Medicine Waiver Guide Compendium (published by AFRL/USAFSAM) for the waiver criteria, dispositions, and follow-up requirements specific to this diagnosis. Apply the relevant waiver guide section (e.g., waiver consideration, information required for waiver, waiver recommendations, follow-up) to the facts of this case.
@@ -31,9 +44,10 @@ Write the AMS in a formal clinical-aeromedical voice using the following section
    - Professional aeromedical opinion and recommendation: favorable for waiver / waiver with restrictions / further evaluation required, with rationale and suggested follow-up.
 
 Do not invent clinical facts not provided. If a field is empty, state "Not provided" rather than fabricating. Keep the tone objective and concise. Use plain section headings in uppercase as shown above.
-
+${renewalInstruction(data)}
 CASE DATA:
-- Member: ${data.member_name}, ${data.rank || "rank not specified"}, ${data.unit || "unit not specified"}
+- Member: ${data.member_name}, ${data.rank || "rank not specified"}, ${data.unit || "not specified"}
+${waiverContext(data)}
 - Flying class / duty: ${data.flying_class || "not specified"}
 - Age / Sex: ${data.age ?? "not specified"} / ${data.sex || "not specified"}
 - DoD ID: ${data.dod_id || "not specified"}

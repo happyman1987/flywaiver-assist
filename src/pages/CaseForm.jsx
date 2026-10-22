@@ -11,12 +11,15 @@ import { ArrowLeft, Loader2, Upload, Sparkles, FileUp, Plus, X } from "lucide-re
 import { useToast } from "@/components/ui/use-toast";
 import { logAuditEvent } from "@/lib/auditLog";
 import LogoutButton from "@/components/LogoutButton";
+import PriorWaiverSection from "@/components/cases/PriorWaiverSection";
+import { extractedConditions, mergeExtraction } from "@/lib/extraction";
 
 const FLYING_CLASSES = ["FC-I", "FC-II", "FC-III", "ATC", "GBO", "OSF", "SWA", "Other"];
 const CATEGORIES = ["Cardiology","Dermatology","Gastroenterology","Hematology","Internal Medicine","Malignancies / Cancers","Neurology","Obstetrics and Gynecology","Ophthalmology","Orthopaedics","Otolaryngology (ENT)","Psychiatry / Neuropsychiatry","Pulmonology","Urology","Other"];
 
 const EMPTY = {
   member_name: "", rank: "", unit: "", flying_class: "", age: "", sex: "", dod_id: "",
+  waiver_type: "initial", prior_waiver_authority: "", prior_waiver_expiration: "", prior_waiver_docs: [],
   diagnosis: "", category: "", conditions: [{ diagnosis: "", category: "" }], history: "", diagnostics: "", medications: "",
   treatment_course: "", current_status: "", aeromedical_concerns: "", uploaded_docs: []
 };
@@ -84,25 +87,8 @@ export default function CaseForm() {
       });
       const extraction = res.data?.extraction || {};
       const ext = extraction.output || {};
-      const extConditions = (Array.isArray(ext.conditions) ? ext.conditions : [])
-        .filter((c) => c && c.diagnosis)
-        .map((c) => ({ diagnosis: c.diagnosis, category: c.category || "" }));
-      setForm((f) => {
-        const existing = f.conditions.filter((c) => c.diagnosis || c.category);
-        const merged = extConditions.length ? [...existing, ...extConditions] : existing;
-        const conditions = merged.length ? merged : [{ diagnosis: "", category: "" }];
-        return {
-          ...f,
-          conditions,
-          diagnosis: conditions[0]?.diagnosis || f.diagnosis || "",
-          category: conditions[0]?.category || f.category || "",
-          history: f.history || ext.history || "",
-          diagnostics: f.diagnostics || ext.diagnostics || "",
-          medications: f.medications || ext.medications || "",
-          treatment_course: f.treatment_course || ext.treatment_course || "",
-          current_status: f.current_status || ext.current_status || ""
-        };
-      });
+      const extConditions = extractedConditions(ext);
+      setForm((f) => ({ ...f, ...mergeExtraction(f, ext) }));
       if (extraction.status === "error") {
         toast({ title: "Could not read this document", description: extraction.details || "Try a PDF or photo of the record.", variant: "destructive" });
       } else if (extConditions.length) {
@@ -220,6 +206,16 @@ export default function CaseForm() {
           <CardHeader><CardTitle className="text-base">Member Information</CardTitle></CardHeader>
           <CardContent className="grid grid-cols-2 gap-4">
             <div className="col-span-2 space-y-1.5">
+              <Label>Waiver Type *</Label>
+              <Select value={form.waiver_type || "initial"} onValueChange={(v) => set("waiver_type", v)}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="initial">Initial waiver</SelectItem>
+                  <SelectItem value="renewal">Renewal</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="col-span-2 space-y-1.5">
               <Label>Member Name *</Label>
               <Input value={form.member_name} onChange={(e) => set("member_name", e.target.value)} placeholder="Last, First MI" />
             </div>
@@ -282,6 +278,8 @@ export default function CaseForm() {
             )}
           </CardContent>
         </Card>
+
+        {form.waiver_type === "renewal" && <PriorWaiverSection form={form} setForm={setForm} />}
 
         {/* Clinical info */}
         <Card>

@@ -100,6 +100,8 @@ export default function CaseDetail() {
     const conds = (c.conditions?.length ? c.conditions : [{ diagnosis: c.diagnosis, category: c.category }]);
     const infoRows = [
       `Name: ${c.member_name || "—"}`,
+      `Waiver Type: ${c.waiver_type === "renewal" ? "Renewal of previously granted waiver" : "Initial waiver request"}`,
+      ...(c.waiver_type === "renewal" ? [`Prior Waiver: ${c.prior_waiver_authority || "authority not provided"}    Expiration: ${c.prior_waiver_expiration || "not provided"}`] : []),
       `Rank: ${c.rank || "—"}    Unit / Squadron: ${c.unit || "—"}`,
       `Flying Class / Duty: ${c.flying_class || "—"}    Age / Sex: ${c.age ?? "—"} / ${c.sex || "—"}`,
       `DoD ID: ${c.dod_id || "—"}`,
@@ -148,12 +150,19 @@ export default function CaseDetail() {
         <Card>
           <CardHeader><CardTitle className="text-base">Member Information</CardTitle></CardHeader>
           <CardContent className="grid grid-cols-2 gap-y-2 text-sm">
+            <Field label="Waiver Type" value={c.waiver_type === "renewal" ? "Renewal" : "Initial"} />
             <Field label="Name" value={c.member_name} />
             <Field label="Rank" value={c.rank} />
             <Field label="Unit" value={c.unit} />
             <Field label="Flying Class" value={c.flying_class} />
             <Field label="Age / Sex" value={`${c.age ?? "—"} / ${c.sex || "—"}`} />
             <Field label="DoD ID" value={c.dod_id} />
+            {c.waiver_type === "renewal" && (
+              <>
+                <Field label="Prior Waiver Authority" value={c.prior_waiver_authority} />
+                <Field label="Prior Waiver Expiration" value={c.prior_waiver_expiration} />
+              </>
+            )}
             <div className="col-span-2">
               <p className="text-xs text-muted-foreground mb-1">Conditions</p>
               <div className="space-y-1.5">
