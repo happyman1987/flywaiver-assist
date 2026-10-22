@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import DiagnosisImage from "@/components/DiagnosisImage";
+import moment from "moment";
 
 const statusVariant = {
   draft: "secondary",
@@ -22,6 +23,9 @@ export default function CaseListCard({ item, actions }) {
               <Badge variant={statusVariant[item.status] || "secondary"} className="capitalize">{item.status}</Badge>
             </div>
             <p className="text-sm text-muted-foreground mt-0.5 truncate">{item.diagnosis}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Created {moment(item.created_date).format("MMM D, YYYY")}
+            </p>
           </div>
         </Link>
         <div className="flex items-center gap-2 shrink-0">
