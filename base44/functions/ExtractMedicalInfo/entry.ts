@@ -34,6 +34,31 @@ const scopeRule = (conditions) => {
   return `Include ONLY information that is required or directly relevant to ${target}. Omit incidental or unrelated results, even when they appear in the same document or the same lab panel — for example, if a CBC is required and an HIV test was also performed, omit the HIV result.`;
 };
 
+// Optometry and ophthalmology records are dense with abbreviations. Every one is expanded to the
+// finding it stands for, so a measurement is never mistaken for another and nothing is dropped.
+const EYE_ABBREVIATIONS = `- HVF, HVF 24-2 / 30-2, VF, perimetry = Humphrey visual field (automated perimetry). Keep the test pattern (24-2, 30-2, 60-4), the strategy (SITA-Standard, SITA-Fast), and its indices: MD (mean deviation), PSD (pattern standard deviation), VFI (visual field index), plus fixation losses, false positives and false negatives when reported.
+- OCT = optical coherence tomography. Its measurements are RNFL (retinal nerve fibre layer) thickness, GCL (ganglion cell layer), and CMT / CSMT / CRT (central macular / central subfield / central retinal thickness); EDI-OCT is enhanced-depth imaging.
+- VA = visual acuity; DVA / NVA = distance / near visual acuity; BSCVA = best spectacle-corrected visual acuity; BCVA = best-corrected visual acuity; UCVA / SCVA = uncorrected / spectacle-corrected visual acuity; CF = counts fingers; HM = hand motion; LP = light perception; NLP = no light perception; EYES / OU with correction.
+- OD = right eye (oculus dexter), OS = left eye (oculus sinister), OU = both eyes (oculus uterque). Never drop the eye a measurement belongs to.
+- IOP = intraocular pressure in mmHg, with its method (GAT = Goldmann applanation tonometry, NCT / Tonopen = non-contact or handheld tonometry); CCT = central corneal thickness.
+- Refraction and cornea: D = dioptres; SE = spherical equivalent; MRSE = manifest refraction spherical equivalent; cyclo / CRx = cycloplegic refraction; K / K-readings = keratometry; topography, Pentacam, Orbscan = corneal topography; pachymetry = corneal thickness; AL = axial length.
+- Refractive and corneal surgery: LASIK, PRK, LASEK, epi-LASIK, SMILE, RK = radial keratotomy, AK = astigmatic keratotomy, ALK = automated lamellar keratoplasty, CXL = corneal cross-linking, KCN = keratoconus. Give the eye and the date.
+- Glaucoma: POAG = primary open-angle glaucoma; PACG = primary angle-closure glaucoma; NTG = normal-tension glaucoma; GS = glaucoma suspect; OHT / OH = ocular hypertension; CDR = cup-to-disc ratio; ONH = optic nerve head; LPI = laser peripheral iridotomy; SLT / ALT = selective or argon laser trabeculoplasty; trabeculectomy, GATT.
+- Retina and vitreous: DFE = dilated fundus examination; PVD = posterior vitreous detachment; RD = retinal detachment; AMD / ARMD = age-related macular degeneration (dry, or wet / neovascular); DR = diabetic retinopathy (NPDR / PDR = non-proliferative / proliferative); CSR / CSCR / CSD = central serous chorioretinopathy; RVO = retinal vein occlusion (BRVO / CRVO = branch / central); BRAO / CRAO = branch / central retinal artery occlusion; CNVM = choroidal neovascular membrane; ERM = epiretinal membrane; RP = retinitis pigmentosa; PPV = pars plana vitrectomy.
+- Anterior segment: NS = nuclear sclerosis; PSC = posterior subcapsular cataract; ASC = anterior subcapsular cataract; IOL / PCIOL = (posterior chamber) intraocular lens; CE / phaco = cataract extraction / phacoemulsification; SLE = slit-lamp examination.
+- Ocular surface, lids and motility: DED = dry eye disease; MGD = meibomian gland dysfunction; OSD = ocular surface disease; CL = contact lens (SCL / RGP = soft / rigid gas permeable); NPC = near point of convergence; EOM = extraocular motility; RAPD / APD = relative afferent pupillary defect; PERRLA = pupils equal, round, reactive to light and accommodation; XT / ET = exotropia / esotropia; stereo / Titmus = stereoacuity; OKN = optokinetic nystagmus.
+- Colour vision: Ishihara; HRR = Hardy-Rand-Rittler; D-15 = Farnsworth D-15.`;
+
+// What an eye waiver needs from the record: every documented element, for the eye it belongs to.
+const EYE_ELEMENTS = `Eye and vision records: capture every documented element with the eye it belongs to (OD right, OS left, OU both) — corrected and uncorrected visual acuity, refractive error and spherical equivalent, intraocular pressure with its method, visual field findings with their indices, OCT / RNFL / macular thickness values, corneal topography, pachymetry, keratometry, slit-lamp and dilated fundus findings, optic nerve cup-to-disc ratio, retinal and vitreous findings, prior ocular surgery or laser with dates, and ocular medications or drops. Map every eye or vision diagnosis to the Ophthalmology waiver guide section.`;
+
+// Abbreviations are expanded to the finding and the measurement they stand for, and an abbreviation
+// that is not on the list is left exactly as written rather than guessed at.
+const abbreviationRule = `Abbreviations: optometry and ophthalmology records are written in shorthand, so expand each abbreviation to the full finding while keeping the measurement it carries (for example HVF 24-2 with MD/PSD/VFI, or OCT with its RNFL and macular thickness values). If an abbreviation is not on the list below, keep it exactly as written and keep any explanation the document gives for it — never invent a meaning.
+
+COMMON OPTOMETRY / OPHTHALMOLOGY ABBREVIATIONS:
+${EYE_ABBREVIATIONS}`;
+
 const extractionSchema = (conditions, kind) => ({
   type: 'object',
   properties: {
@@ -51,7 +76,7 @@ const extractionSchema = (conditions, kind) => ({
       }
     },
     history: { type: 'string', description: `History of present illness and relevant past medical history. ${scopeRule(conditions)}` },
-    diagnostics: { type: 'string', description: `Studies and testing performed with key results. ${scopeRule(conditions)}` },
+    diagnostics: { type: 'string', description: `Studies and testing performed with key results, including every value an eye or vision record reports. ${EYE_ELEMENTS} ${scopeRule(conditions)}` },
     medications: { type: 'string', description: `Current and recent medications. ${scopeRule(conditions)}` },
     treatment_course: { type: 'string', description: `Treatment course undertaken. ${scopeRule(conditions)}` },
     current_status: { type: 'string', description: `Current clinical status and functional capacity. ${scopeRule(conditions)}` }
@@ -94,6 +119,10 @@ ${documentText}
 
 Return JSON matching the schema: every documented diagnosis (each with the USAF waiver guide section it maps to), plus the documented history, studies and testing with key results, medications, treatment course, and current clinical status.
 
+${abbreviationRule}
+
+${EYE_ELEMENTS}
+
 Copy only what the document states — never invent, infer, or extrapolate a finding. If this text is not a medical record, use an empty conditions array and empty strings.`;
 
 const CURATION_PROMPT = (data, conditions, raw, kind) => {
@@ -112,6 +141,7 @@ const CURATION_PROMPT = (data, conditions, raw, kind) => {
   const closingRule = scoped
     ? `Rules: never invent, infer, or extrapolate a finding — copy what is documented. Do not drop information the waiver requires for the listed condition(s). If nothing in the raw extraction is required or relevant, return empty strings and an empty conditions array.`
     : `Rules: never invent, infer, or extrapolate a finding — copy what is documented. If the document contains no diagnosis at all, return empty strings and an empty conditions array.`;
+  const writingRule = `Write the first use of each abbreviation in full, with the abbreviation in parentheses after it (for example, "Humphrey visual field (HVF) 24-2" or "optical coherence tomography (OCT)"), so the summary reads plainly and stays accurate.`;
 
   return `You are a USAF aerospace medicine waiver reviewer assembling an aeromedical waiver package. A medical document was extracted, but that document may contain information the waiver package does not need.
 
@@ -127,6 +157,10 @@ Return the same structure, keeping what this waiver package requires:
 ${conditionsRule}
 ${detailRule}
 ${priorRule}
+${abbreviationRule}
+
+${EYE_ELEMENTS}
+${writingRule}
 ${closingRule}
 
 Return the result as JSON matching the provided schema.`;
