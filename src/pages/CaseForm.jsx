@@ -81,7 +81,8 @@ export default function CaseForm() {
         member_name: form.member_name,
         flying_class: form.flying_class
       });
-      const ext = res.data?.extraction?.output || {};
+      const extraction = res.data?.extraction || {};
+      const ext = extraction.output || {};
       const extConditions = (Array.isArray(ext.conditions) ? ext.conditions : [])
         .filter((c) => c && c.diagnosis)
         .map((c) => ({ diagnosis: c.diagnosis, category: c.category || "" }));
@@ -101,10 +102,16 @@ export default function CaseForm() {
           current_status: f.current_status || ext.current_status || ""
         };
       });
-      toast({
-        title: extConditions.length ? `${extConditions.length} diagnosis(es) added with waiver guide sections` : "Medical info extracted from document",
-        description: "Only information required for the listed waiver condition(s) was added."
-      });
+      if (extraction.status === "error") {
+        toast({ title: "Could not read this document", description: extraction.details || "Try a PDF or photo of the record.", variant: "destructive" });
+      } else if (extConditions.length) {
+        toast({
+          title: `${extConditions.length} diagnosis(es) added with waiver guide sections`,
+          description: "Only information required for the listed waiver condition(s) was added."
+        });
+      } else {
+        toast({ title: "No new waiver-relevant information found", description: "This document contained nothing to add to the case." });
+      }
     } catch (err) {
       toast({ title: "Extraction failed", description: err.message, variant: "destructive" });
     } finally {

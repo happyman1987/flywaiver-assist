@@ -72,23 +72,49 @@ const CURATION_SCHEMA = {
   required: ['conditions', 'history', 'diagnostics', 'medications', 'treatment_course', 'current_status']
 };
 
-const CURATION_PROMPT = (data, conditions, raw) => `You are a USAF aerospace medicine waiver reviewer assembling an aeromedical waiver package. A medical document was extracted, but that document may contain information the waiver package does not need.
+// Text-based records (csv/json/txt/html) are read straight from the document, so nothing is guessed.
+const TEXT_FILE = /\.(csv|tsv|json|txt|html?|md)$/i;
+
+const EXTRACT_PROMPT = (conditions, documentText) => `The full text of an uploaded medical document (a chart note, consult, lab or imaging report, or a table of results) appears below. Extract the information needed for a USAF aeromedical waiver package${conditions.length ? ` for ${conditions.join('; ')}` : ''}.
+
+DOCUMENT TEXT:
+${documentText}
+
+Return JSON matching the schema: every documented diagnosis (each with the USAF waiver guide section it maps to), plus the documented history, studies and testing with key results, medications, treatment course, and current clinical status.
+
+Copy only what the document states — never invent, infer, or extrapolate a finding. If this text is not a medical record, use an empty conditions array and empty strings.`;
+
+const CURATION_PROMPT = (data, conditions, raw) => {
+  const scoped = conditions.length > 0;
+  const conditionsRule = scoped
+    ? `- conditions: only diagnoses from the document that are themselves relevant to this waiver AND are not already listed above as the member's waiver conditions. Omit every incidental or unrelated diagnosis, including specialty findings discovered incidentally.`
+    : `- conditions: every diagnosis or condition documented in the record that bears on an aeromedical waiver, each mapped to the exact USAF waiver guide section name. No condition has been listed for this member yet, so the diagnoses come from the document.`;
+  const detailRule = scoped
+    ? `- diagnostics: only the labs, imaging, and specialty evaluations the USAF waiver guide requires or recommends for the listed condition(s), with their results. Omit any test, panel, or consult the waiver does not require, even when it appears in the same document or the same lab panel — for example, if a CBC is required and the same panel also included an HIV test, keep the CBC and omit the HIV result.
+- history, medications, treatment_course, current_status: keep only content that documents the listed condition(s); drop detail about unrelated conditions.`
+    : `- diagnostics: the labs, imaging, and specialty evaluations documented for the conditions you listed, with their results.
+- history, medications, treatment_course, current_status: the documented detail for the conditions you listed.`;
+  const closingRule = scoped
+    ? `Rules: never invent, infer, or extrapolate a finding — copy what is documented. Do not drop information the waiver requires for the listed condition(s). If nothing in the raw extraction is required or relevant, return empty strings and an empty conditions array.`
+    : `Rules: never invent, infer, or extrapolate a finding — copy what is documented. If the document contains no diagnosis at all, return empty strings and an empty conditions array.`;
+
+  return `You are a USAF aerospace medicine waiver reviewer assembling an aeromedical waiver package. A medical document was extracted, but that document may contain information the waiver package does not need.
 
 MEMBER'S WAIVER CONDITION(S):
-${conditions.length ? conditions.map((c, i) => `  ${i + 1}. ${c}`).join('\n') : '  (none listed yet)'}
+${scoped ? conditions.map((c, i) => `  ${i + 1}. ${c}`).join('\n') : '  (none listed yet — the document is the starting point, so take the diagnoses from it)'}
 ${data.flying_class ? `- Flying class / duty: ${data.flying_class}` : ''}
 
 RAW EXTRACTION FROM THE UPLOADED DOCUMENT:
 ${JSON.stringify(raw || {}, null, 2)}
 
 TASK
-Return the same structure, keeping ONLY what this waiver package requires for the condition(s) above:
-- conditions: only diagnoses from the document that are themselves relevant to this waiver AND are not already listed above as the member's waiver conditions. Omit every incidental or unrelated diagnosis, including specialty findings discovered incidentally.
-- diagnostics: only the labs, imaging, and specialty evaluations the USAF waiver guide requires or recommends for the listed condition(s), with their results. Omit any test, panel, or consult the waiver does not require, even when it appears in the same document or the same lab panel — for example, if a CBC is required and the same panel also included an HIV test, keep the CBC and omit the HIV result.
-- history, medications, treatment_course, current_status: keep only content that documents the listed condition(s); drop detail about unrelated conditions.
-Rules: never invent, infer, or extrapolate a finding — copy what is documented. Do not drop information the waiver requires for the listed condition(s). If nothing in the raw extraction is required or relevant, return empty strings and an empty conditions array.
+Return the same structure, keeping what this waiver package requires:
+${conditionsRule}
+${detailRule}
+${closingRule}
 
 Return the result as JSON matching the provided schema.`;
+};
 
 export default async function(req) {
   try {
@@ -107,12 +133,31 @@ export default async function(req) {
 
     const conditions = conditionScope(body);
 
-    const extraction = await base44.asServiceRole.integrations.Core.ExtractDataFromUploadedFile({
+    let extraction = await base44.asServiceRole.integrations.Core.ExtractDataFromUploadedFile({
       file_url: signed_url,
       json_schema: extractionSchema(conditions)
     });
 
     let output = extraction?.output;
+
+    // Text records (csv/json/txt/html) cannot be validated row-by-row against this schema,
+    // so read the text itself rather than losing the document — and never guess at it.
+    if ((extraction?.status !== 'success' || !output) && TEXT_FILE.test(file_uri)) {
+      try {
+        const docResponse = await fetch(signed_url);
+        const documentText = docResponse.ok ? (await docResponse.text()).slice(0, 20000) : '';
+        if (documentText.trim()) {
+          output = await base44.asServiceRole.integrations.Core.InvokeLLM({
+            prompt: EXTRACT_PROMPT(conditions, documentText),
+            response_json_schema: extractionSchema(conditions)
+          });
+          extraction = { status: 'success', details: null, output };
+        }
+      } catch (e) {
+        output = null;
+      }
+    }
+
     if (extraction?.status === 'success' && output) {
       try {
         const curated = await base44.asServiceRole.integrations.Core.InvokeLLM({
