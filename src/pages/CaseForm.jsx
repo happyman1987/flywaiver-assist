@@ -75,7 +75,12 @@ export default function CaseForm() {
     }
     setExtracting(true);
     try {
-      const res = await base44.functions.invoke("ExtractMedicalInfo", { file_uri: form.uploaded_docs[form.uploaded_docs.length - 1] });
+      const res = await base44.functions.invoke("ExtractMedicalInfo", {
+        file_uri: form.uploaded_docs[form.uploaded_docs.length - 1],
+        conditions: form.conditions.filter((c) => c.diagnosis),
+        member_name: form.member_name,
+        flying_class: form.flying_class
+      });
       const ext = res.data?.extraction?.output || {};
       const extConditions = (Array.isArray(ext.conditions) ? ext.conditions : [])
         .filter((c) => c && c.diagnosis)
@@ -96,7 +101,10 @@ export default function CaseForm() {
           current_status: f.current_status || ext.current_status || ""
         };
       });
-      toast({ title: extConditions.length ? `${extConditions.length} diagnosis(es) added with waiver guide sections` : "Medical info extracted from document" });
+      toast({
+        title: extConditions.length ? `${extConditions.length} diagnosis(es) added with waiver guide sections` : "Medical info extracted from document",
+        description: "Only information required for the listed waiver condition(s) was added."
+      });
     } catch (err) {
       toast({ title: "Extraction failed", description: err.message, variant: "destructive" });
     } finally {
@@ -247,7 +255,7 @@ export default function CaseForm() {
         <Card>
           <CardHeader><CardTitle className="text-base">Medical Documents</CardTitle></CardHeader>
           <CardContent className="space-y-3">
-            <p className="text-sm text-muted-foreground">Upload a medical record, consult note, or lab report to auto-extract details. Files are stored privately.</p>
+            <p className="text-sm text-muted-foreground">Upload a medical record, consult note, or lab report to auto-extract details. Only information required for the listed waiver condition(s) is added — unrelated results in the same document are left out. Files are stored privately.</p>
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" asChild>
                 <label className="cursor-pointer">
