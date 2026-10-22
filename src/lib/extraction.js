@@ -1,5 +1,17 @@
 // Shared handling of an extraction result from a medical record or a previous waiver.
 
+const normalize = (value) => (value || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+
+// Adds extracted history text to a field without duplicating what is already recorded there.
+export function appendHistory(existing, addition) {
+  const current = (existing || "").trim();
+  const extra = (addition || "").trim();
+  if (!extra) return current;
+  if (!current) return extra;
+  if (normalize(current).includes(normalize(extra))) return current;
+  return `${current}\n\n${extra}`;
+}
+
 export function extractedConditions(ext) {
   return (Array.isArray(ext?.conditions) ? ext.conditions : [])
     .filter((c) => c && c.diagnosis)

@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FileUp, Loader2, Upload } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import { extractedConditions, mergeExtraction } from "@/lib/extraction";
+import { appendHistory, extractedConditions, mergeExtraction } from "@/lib/extraction";
 
 export default function PriorWaiverSection({ form, setForm }) {
   const { toast } = useToast();
@@ -34,30 +34,43 @@ export default function PriorWaiverSection({ form, setForm }) {
     if (!docs.length) return;
     setExtracting(true);
     try {
+      // A renewal is read from both documents: the medical record uploaded for this package and the
+      // waiver being renewed.
+      const uploaded = form.uploaded_docs || [];
+      const currentUri = uploaded[uploaded.length - 1];
+      const documents = [
+        ...(currentUri ? [{ file_uri: currentUri, document_kind: "medical_record" }] : []),
+        { file_uri: docs[docs.length - 1], document_kind: "prior_waiver" }
+      ];
       const res = await base44.functions.invoke("ExtractMedicalInfo", {
-        file_uri: docs[docs.length - 1],
+        documents,
         conditions: form.conditions.filter((c) => c.diagnosis),
         member_name: form.member_name,
-        flying_class: form.flying_class,
-        document_kind: "prior_waiver"
+        flying_class: form.flying_class
       });
       const extraction = res.data?.extraction || {};
       const ext = extraction.output || {};
       const found = extractedConditions(ext);
-      setForm((f) => ({
-        ...f,
-        ...mergeExtraction(f, ext),
-        prior_waiver_authority: ext.prior_waiver_authority || f.prior_waiver_authority,
-        prior_waiver_expiration: ext.prior_waiver_expiration || f.prior_waiver_expiration
-      }));
+      setForm((f) => {
+        const merged = mergeExtraction(f, ext);
+        return {
+          ...f,
+          ...merged,
+          // The previous waiver documents the member's past history, so it joins the PMH rather than
+          // waiting for an empty field.
+          history: appendHistory(merged.history, ext.prior_waiver_history),
+          prior_waiver_authority: ext.prior_waiver_authority || f.prior_waiver_authority,
+          prior_waiver_expiration: ext.prior_waiver_expiration || f.prior_waiver_expiration
+        };
+      });
       if (extraction.status === "error") {
-        toast({ title: "Could not read the previous waiver", description: extraction.details || "Try a PDF or photo of the waiver document.", variant: "destructive" });
+        toast({ title: "Could not read the documents", description: extraction.details || "Try a PDF or photo of the waiver document.", variant: "destructive" });
       } else {
         toast({
-          title: "Previous waiver details extracted",
+          title: "Waiver and prior waiver details extracted",
           description: found.length
-            ? `${found.length} condition(s) plus the prior waiver details were added.`
-            : "The prior waiver details were added to the case."
+            ? `${found.length} condition(s) plus the previous waiver details were added.`
+            : "The previous waiver details were added, and its history was placed in the PMH."
         });
       }
     } catch (err) {
@@ -72,8 +85,9 @@ export default function PriorWaiverSection({ form, setForm }) {
       <CardHeader><CardTitle className="text-base">Previous Waiver</CardTitle></CardHeader>
       <CardContent className="space-y-4">
         <p className="text-sm text-muted-foreground">
-          Details of the waiver being renewed. Upload the previous waiver or its aeromedical summary to pull them in
-          automatically (stored privately).
+          Details of the waiver being renewed. Upload the previous waiver or its aeromedical summary (stored
+          privately), then extract: the medical document uploaded above and the previous waiver are read
+          together, and the previous waiver's history is added to the History of Present Illness / PMH field.
         </p>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1.5">
@@ -109,7 +123,7 @@ export default function PriorWaiverSection({ form, setForm }) {
           </Button>
           <Button variant="outline" onClick={handleExtract} disabled={extracting || !docs.length}>
             {extracting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileUp className="w-4 h-4 mr-2" />}
-            Extract Prior Waiver Details
+            Extract from Both Documents
           </Button>
         </div>
         {docs.length > 0 && (

@@ -132,6 +132,111 @@ ${closingRule}
 Return the result as JSON matching the provided schema.`;
 };
 
+const text = (value) => (typeof value === 'string' ? value.trim() : '');
+const normalized = (value) => text(value).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+const documentKind = (kind) => (kind === PRIOR_WAIVER ? PRIOR_WAIVER : 'medical_record');
+
+// Reads one document — text records are read directly instead of being guessed at — then screens the
+// result down to what this waiver requires.
+const extractDocument = async (base44, doc, body) => {
+  const conditions = conditionScope(body);
+  const kind = documentKind(doc.document_kind);
+
+  const { signed_url } = await base44.asServiceRole.integrations.Core.CreateFileSignedUrl({
+    file_uri: doc.file_uri,
+    expires_in: 600
+  });
+
+  let extraction = await base44.asServiceRole.integrations.Core.ExtractDataFromUploadedFile({
+    file_url: signed_url,
+    json_schema: extractionSchema(conditions, kind)
+  });
+
+  let output = extraction?.output;
+
+  // Text records (csv/json/txt/html) cannot be validated row-by-row against this schema,
+  // so read the text itself rather than losing the document — and never guess at it.
+  if ((extraction?.status !== 'success' || !output) && TEXT_FILE.test(doc.file_uri)) {
+    try {
+      const docResponse = await fetch(signed_url);
+      const documentText = docResponse.ok ? (await docResponse.text()).slice(0, 20000) : '';
+      if (documentText.trim()) {
+        output = await base44.asServiceRole.integrations.Core.InvokeLLM({
+          prompt: EXTRACT_PROMPT(conditions, documentText, kind),
+          response_json_schema: extractionSchema(conditions, kind)
+        });
+        extraction = { status: 'success', details: null, output };
+      }
+    } catch (e) {
+      output = null;
+    }
+  }
+
+  if (extraction?.status === 'success' && output) {
+    try {
+      const curated = await base44.asServiceRole.integrations.Core.InvokeLLM({
+        prompt: CURATION_PROMPT(body, conditions, output, kind),
+        add_context_from_internet: true,
+        model: 'gemini_3_8_flash',
+        response_json_schema: CURATION_SCHEMA
+      });
+      if (curated && typeof curated === 'object') {
+        output = kind === PRIOR_WAIVER
+          ? {
+              ...curated,
+              prior_waiver_authority: curated.prior_waiver_authority || output.prior_waiver_authority || '',
+              prior_waiver_expiration: curated.prior_waiver_expiration || output.prior_waiver_expiration || ''
+            }
+          : curated;
+      }
+    } catch (e) {
+      // keep the unscreened extraction rather than losing the document data
+    }
+  }
+
+  return { kind, status: extraction?.status, details: extraction?.details ?? null, output };
+};
+
+// A renewal package is built from the member's current records and the previously granted waiver: the
+// current records carry the present picture, the previous waiver carries the past. The previous
+// waiver's history is also returned on its own, so the caller can place it in the past medical history.
+const combine = (parts) => {
+  const current = parts.filter((p) => p.kind !== PRIOR_WAIVER).map((p) => p.output);
+  const prior = parts.filter((p) => p.kind === PRIOR_WAIVER).map((p) => p.output);
+  const pick = (field, lists) => {
+    for (const list of lists) for (const o of list) if (text(o[field])) return o[field];
+    return '';
+  };
+
+  const seen = new Set();
+  const conditions = [];
+  for (const o of [...current, ...prior]) {
+    for (const c of Array.isArray(o.conditions) ? o.conditions : []) {
+      const key = normalized(c?.diagnosis);
+      if (!key || seen.has(key)) continue;
+      seen.add(key);
+      conditions.push({ diagnosis: c.diagnosis, category: c.category || '' });
+    }
+  }
+
+  const currentHistory = text(pick('history', [current]));
+  const priorHistory = text(pick('history', [prior]));
+
+  return {
+    prior_waiver_authority: pick('prior_waiver_authority', [prior]),
+    prior_waiver_expiration: pick('prior_waiver_expiration', [prior]),
+    conditions,
+    history: currentHistory && normalized(currentHistory) === normalized(priorHistory)
+      ? currentHistory
+      : [currentHistory, priorHistory].filter(Boolean).join('\n\n'),
+    prior_waiver_history: priorHistory,
+    diagnostics: pick('diagnostics', [current, prior]),
+    medications: pick('medications', [current, prior]),
+    treatment_course: pick('treatment_course', [current, prior]),
+    current_status: pick('current_status', [current, prior])
+  };
+};
+
 export default async function(req) {
   try {
     const base44 = createClientFromRequest(req);
@@ -139,65 +244,33 @@ export default async function(req) {
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await req.json().catch(() => ({}));
-    const { file_uri } = body || {};
-    if (!file_uri) return Response.json({ error: 'file_uri is required' }, { status: 400 });
 
-    const { signed_url } = await base44.asServiceRole.integrations.Core.CreateFileSignedUrl({
-      file_uri,
-      expires_in: 600
-    });
+    // One document (file_uri) or several (documents). A renewal reads the member's current records
+    // together with the previously granted waiver.
+    const requested = Array.isArray(body.documents) && body.documents.length
+      ? body.documents.filter((d) => d?.file_uri)
+      : (body.file_uri ? [{ file_uri: body.file_uri, document_kind: body.document_kind }] : []);
+    if (!requested.length) return Response.json({ error: 'file_uri or documents is required' }, { status: 400 });
 
-    const conditions = conditionScope(body);
-    const kind = body.document_kind === PRIOR_WAIVER ? PRIOR_WAIVER : 'medical_record';
-
-    let extraction = await base44.asServiceRole.integrations.Core.ExtractDataFromUploadedFile({
-      file_url: signed_url,
-      json_schema: extractionSchema(conditions, kind)
-    });
-
-    let output = extraction?.output;
-
-    // Text records (csv/json/txt/html) cannot be validated row-by-row against this schema,
-    // so read the text itself rather than losing the document — and never guess at it.
-    if ((extraction?.status !== 'success' || !output) && TEXT_FILE.test(file_uri)) {
+    const parts = [];
+    const failures = [];
+    for (const doc of requested) {
       try {
-        const docResponse = await fetch(signed_url);
-        const documentText = docResponse.ok ? (await docResponse.text()).slice(0, 20000) : '';
-        if (documentText.trim()) {
-          output = await base44.asServiceRole.integrations.Core.InvokeLLM({
-            prompt: EXTRACT_PROMPT(conditions, documentText, kind),
-            response_json_schema: extractionSchema(conditions, kind)
-          });
-          extraction = { status: 'success', details: null, output };
-        }
-      } catch (e) {
-        output = null;
+        parts.push(await extractDocument(base44, doc, body));
+      } catch (error) {
+        failures.push(error.message);
       }
     }
 
-    if (extraction?.status === 'success' && output) {
-      try {
-        const curated = await base44.asServiceRole.integrations.Core.InvokeLLM({
-          prompt: CURATION_PROMPT(body, conditions, output, kind),
-          add_context_from_internet: true,
-          model: 'gemini_3_8_flash',
-          response_json_schema: CURATION_SCHEMA
-        });
-        if (curated && typeof curated === 'object') {
-          output = kind === PRIOR_WAIVER
-            ? {
-                ...curated,
-                prior_waiver_authority: curated.prior_waiver_authority || output.prior_waiver_authority || '',
-                prior_waiver_expiration: curated.prior_waiver_expiration || output.prior_waiver_expiration || ''
-              }
-            : curated;
-        }
-      } catch (e) {
-        // keep the unscreened extraction rather than losing the document data
-      }
+    const read = parts.filter((p) => p.status === 'success' && p.output);
+    if (!read.length) {
+      const details = failures[0] || parts.find((p) => p.details)?.details || null;
+      return Response.json({ extraction: { status: 'error', details, output: null } });
     }
 
-    return Response.json({ extraction: { ...extraction, output } });
+    return Response.json({
+      extraction: { status: 'success', details: failures[0] || null, output: combine(read) }
+    });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
   }
