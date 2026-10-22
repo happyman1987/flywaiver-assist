@@ -1,5 +1,6 @@
 import React from "react";
 import { Plane } from "lucide-react";
+import LogoutButton from "@/components/LogoutButton";
 
 export default function AppHeader({ children }) {
   return (
@@ -15,7 +16,10 @@ export default function AppHeader({ children }) {
             <p className="text-xs text-muted-foreground">USAF Flight Medicine — Aeromedical Summary Generation</p>
           </div>
         </div>
-        <div className="flex items-center gap-2">{children}</div>
+        <div className="flex items-center gap-2">
+          {children}
+          <LogoutButton />
+        </div>
       </div>
     </header>
   );

@@ -10,6 +10,7 @@ import { ArrowLeft, Loader2, Pencil, Copy, Check, FileDown, FileText } from "luc
 import { jsPDF } from "jspdf";
 import { useToast } from "@/components/ui/use-toast";
 import { logAuditEvent } from "@/lib/auditLog";
+import LogoutButton from "@/components/LogoutButton";
 
 export default function CaseDetail() {
   const { id } = useParams();
@@ -136,7 +137,10 @@ export default function CaseDetail() {
         <div className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
           <Button variant="ghost" size="sm" onClick={() => navigate("/")}><ArrowLeft className="w-4 h-4 mr-2" /> Cases</Button>
           <Badge className="capitalize">{c.status}</Badge>
-          <Button variant="outline" size="sm" onClick={() => navigate(`/cases/${id}/edit`)}><Pencil className="w-4 h-4 mr-2" /> Edit Case</Button>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={() => navigate(`/cases/${id}/edit`)}><Pencil className="w-4 h-4 mr-2" /> Edit Case</Button>
+            <LogoutButton />
+          </div>
         </div>
       </header>
 

@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ArrowLeft, Loader2, Upload, Sparkles, FileUp, Plus, X } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { logAuditEvent } from "@/lib/auditLog";
+import LogoutButton from "@/components/LogoutButton";
 
 const FLYING_CLASSES = ["FC-I", "FC-II", "FC-III", "ATC", "GBO", "OSF", "SWA", "Other"];
 const CATEGORIES = ["Cardiology","Dermatology","Gastroenterology","Hematology","Internal Medicine","Malignancies / Cancers","Neurology","Obstetrics and Gynecology","Ophthalmology","Orthopaedics","Otolaryngology (ENT)","Psychiatry / Neuropsychiatry","Pulmonology","Urology","Other"];
@@ -209,7 +210,7 @@ export default function CaseForm() {
             <ArrowLeft className="w-4 h-4 mr-2" /> Cases
           </Button>
           <p className="text-sm font-medium">{id ? "Edit Case" : "New Waiver Case"}</p>
-          <div className="w-16" />
+          <LogoutButton />
         </div>
       </header>
 

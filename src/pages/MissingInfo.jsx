@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, Loader2, AlertTriangle, Sparkles } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { logAuditEvent } from "@/lib/auditLog";
+import LogoutButton from "@/components/LogoutButton";
 
 export default function MissingInfo() {
   const { id } = useParams();
@@ -76,7 +77,7 @@ export default function MissingInfo() {
         <div className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
           <Button variant="ghost" size="sm" onClick={() => navigate(`/cases/${id}/edit`)}><ArrowLeft className="w-4 h-4 mr-2" /> Back to Edit</Button>
           <p className="text-sm font-medium">Missing Information Review</p>
-          <div className="w-16" />
+          <LogoutButton />
         </div>
       </header>
 
