@@ -65,7 +65,9 @@ const extractionSchema = (conditions, kind) => ({
     ...(kind === PRIOR_WAIVER ? priorWaiverFields : {}),
     conditions: {
       type: 'array',
-      description: `Diagnoses or conditions in the document that are relevant to ${conditions.length ? `the listed waiver condition(s): ${conditions.join('; ')}` : 'an aeromedical waiver'}`,
+      description: kind === PRIOR_WAIVER
+        ? 'The condition(s) the previous waiver was granted for: the waived diagnosis or diagnoses this document states, each mapped to its USAF waiver guide section. Always include the previously waived diagnosis.'
+        : `Diagnoses or conditions in the document that are relevant to ${conditions.length ? `the listed waiver condition(s): ${conditions.join('; ')}` : 'an aeromedical waiver'}`,
       items: {
         type: 'object',
         properties: {
@@ -80,7 +82,9 @@ const extractionSchema = (conditions, kind) => ({
     medications: { type: 'string', description: `Current and recent medications. ${scopeRule(conditions)}` },
     treatment_course: { type: 'string', description: `Treatment course undertaken. ${scopeRule(conditions)}` },
     current_status: { type: 'string', description: `Current clinical status and functional capacity. ${scopeRule(conditions)}` }
-  }
+  },
+  // A previous waiver waives something, so the condition(s) it granted must come back with the result.
+  ...(kind === PRIOR_WAIVER ? { required: ['conditions'] } : {})
 });
 
 const CURATION_SCHEMA = {
@@ -110,14 +114,14 @@ const CURATION_SCHEMA = {
 // Text-based records (csv/json/txt/html) are read straight from the document, so nothing is guessed.
 const TEXT_FILE = /\.(csv|tsv|json|txt|html?|md)$/i;
 
-const PRIOR_WAIVER_NOTE = `This document is the member's PREVIOUSLY GRANTED aeromedical waiver, or the aeromedical summary written for it. Extract the previously waived condition(s), the granting authority, the waiver expiration date, and the clinical information the document records.`;
+const PRIOR_WAIVER_NOTE = `This document is the member's PREVIOUSLY GRANTED aeromedical waiver, or the aeromedical summary written for it. Extract the previously waived condition(s), the granting authority, the waiver expiration date, and the clinical information the document records. The previously waived diagnosis(ies) belong in the conditions array: they are the condition(s) being renewed, so the renewal has to carry the exact diagnosis the previous waiver granted.`;
 
 const EXTRACT_PROMPT = (conditions, documentText, kind) => `The full text of an uploaded medical document (a chart note, consult, lab or imaging report, or a table of results) appears below. Extract the information needed for a USAF aeromedical waiver package${conditions.length ? ` for ${conditions.join('; ')}` : ''}.
 ${kind === PRIOR_WAIVER ? `\n${PRIOR_WAIVER_NOTE}\n` : ''}
 DOCUMENT TEXT:
 ${documentText}
 
-Return JSON matching the schema: every documented diagnosis (each with the USAF waiver guide section it maps to), plus the documented history, studies and testing with key results, medications, treatment course, and current clinical status.
+Return JSON matching the schema: every documented diagnosis (each with the USAF waiver guide section it maps to), plus the documented history, studies and testing with key results, medications, treatment course, and current clinical status.${kind === PRIOR_WAIVER ? ' The previously waived diagnosis(ies) are the condition(s) being renewed: always list them in conditions.' : ''}
 
 ${abbreviationRule}
 
@@ -130,9 +134,13 @@ const CURATION_PROMPT = (data, conditions, raw, kind) => {
   const priorRule = kind === PRIOR_WAIVER
     ? `- prior_waiver_authority and prior_waiver_expiration: keep the granting authority and the expiration date exactly as the document states them.`
     : '';
-  const conditionsRule = scoped
-    ? `- conditions: only diagnoses from the document that are themselves relevant to this waiver AND are not already listed above as the member's waiver conditions. Omit every incidental or unrelated diagnosis, including specialty findings discovered incidentally.`
-    : `- conditions: every diagnosis or condition documented in the record that bears on an aeromedical waiver, each mapped to the exact USAF waiver guide section name. No condition has been listed for this member yet, so the diagnoses come from the document.`;
+  // A previous waiver's own condition(s) are what the renewal is for, so they are always kept: the
+  // renewal form has to carry the diagnosis the previous waiver actually granted.
+  const conditionsRule = kind === PRIOR_WAIVER
+    ? `- conditions: the condition(s) the previous waiver was granted for. Always include the previously waived diagnosis(ies), worded exactly as this document words them, each mapped to the exact USAF waiver guide section name — even when a similar condition is already listed above. Omit only other incidental diagnoses the document happens to mention.`
+    : scoped
+      ? `- conditions: only diagnoses from the document that are themselves relevant to this waiver AND are not already listed above as the member's waiver conditions. Omit every incidental or unrelated diagnosis, including specialty findings discovered incidentally.`
+      : `- conditions: every diagnosis or condition documented in the record that bears on an aeromedical waiver, each mapped to the exact USAF waiver guide section name. No condition has been listed for this member yet, so the diagnoses come from the document.`;
   const detailRule = scoped
     ? `- diagnostics: only the labs, imaging, and specialty evaluations the USAF waiver guide requires or recommends for the listed condition(s), with their results. Omit any test, panel, or consult the waiver does not require, even when it appears in the same document or the same lab panel — for example, if a CBC is required and the same panel also included an HIV test, keep the CBC and omit the HIV result.
 - history, medications, treatment_course, current_status: keep only content that documents the listed condition(s); drop detail about unrelated conditions.`
@@ -215,9 +223,16 @@ const extractDocument = async (base44, doc, body) => {
         response_json_schema: CURATION_SCHEMA
       });
       if (curated && typeof curated === 'object') {
+        // The screening pass may trim conditions away, but a previous waiver's condition(s) are the
+        // reason the renewal exists, so they are restored from the document if they were dropped.
+        const curatedConditions = Array.isArray(curated.conditions) ? curated.conditions : [];
+        const waivedConditions = kind === PRIOR_WAIVER && !curatedConditions.length && Array.isArray(output.conditions)
+          ? output.conditions
+          : curatedConditions;
         output = kind === PRIOR_WAIVER
           ? {
               ...curated,
+              conditions: waivedConditions,
               prior_waiver_authority: curated.prior_waiver_authority || output.prior_waiver_authority || '',
               prior_waiver_expiration: curated.prior_waiver_expiration || output.prior_waiver_expiration || ''
             }

@@ -20,9 +20,17 @@ export function extractedConditions(ext) {
 
 // Extracted diagnoses are appended; clinical fields already on the case are kept.
 export function mergeExtraction(form, ext = {}) {
-  const newConditions = extractedConditions(ext);
+  // A condition the case already carries is not added twice; a differently worded extraction of the
+  // same diagnosis (for instance the previous waiver's fuller wording) is kept as its own entry.
   const existing = (form.conditions || []).filter((c) => c.diagnosis || c.category);
-  const merged = newConditions.length ? [...existing, ...newConditions] : existing;
+  const seen = new Set(existing.map((c) => normalize(c.diagnosis)));
+  const additions = extractedConditions(ext).filter((c) => {
+    const key = normalize(c.diagnosis);
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+  const merged = additions.length ? [...existing, ...additions] : existing;
   const conditions = merged.length ? merged : [{ diagnosis: "", category: "" }];
   return {
     conditions,
