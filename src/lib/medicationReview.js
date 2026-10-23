@@ -152,9 +152,11 @@ export function reviewMedications(text, flyingClass) {
 }
 
 // Compact review the narrative is asked to cite. Medications that are not on any list carry the
-// flight surgeon's own annotation, when one has been written for them. A medication reconciled out of
-// the member's current regimen is dropped from the package — the summary never lists or cites it.
-export function medicationReviewSummary(items, annotations = {}, flyingClass, removed = []) {
+// flight surgeon's own annotation, when one has been written for them, and a medication the lists
+// place under a waiver requirement carries the flight surgeon's documentation of whether that waiver
+// should be granted for its use. A medication reconciled out of the member's current regimen is
+// dropped from the package — the summary never lists or cites it.
+export function medicationReviewSummary(items, annotations = {}, flyingClass, removed = [], waiverJustifications = {}) {
   const removedNames = new Set((removed || []).map((r) => r.medication));
   const current = items.filter((it) => !removedNames.has(it.medication));
   if (!current.length) return "";
@@ -165,7 +167,11 @@ export function medicationReviewSummary(items, annotations = {}, flyingClass, re
       if (!it.matches.length) {
         return `- ${it.medication}: not found on the approved medication lists that apply to this flying class (${appliedLists}).${annotation ? ` Flight surgeon's review of this medication: ${annotation}` : " Reviewed by the flight surgeon with no annotation recorded."}`;
       }
-      return `- ${it.medication}: ${it.matches.map((m) => `${m.list_label} — ${m.status_text}`).join("; ")}`;
+      const line = `- ${it.medication}: ${it.matches.map((m) => `${m.list_label} — ${m.status_text}`).join("; ")}`;
+      const justification = String(waiverJustifications[it.medication] || "").trim();
+      return it.flag === "waiver_required" && justification
+        ? `${line}. Flight surgeon's documentation of whether the waiver should be granted for this medication's use: ${justification}`
+        : line;
     })
     .join("\n");
   return lines;

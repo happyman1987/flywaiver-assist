@@ -12,7 +12,7 @@ const FLAGS = {
   on_list: { label: "On approved list", className: "bg-emerald-600 text-white hover:bg-emerald-600/90" },
 };
 
-export default function MedicationRow({ item, removed, annotation = "", onAnnotate, onRemove, onRestore, onReason, onSave }) {
+export default function MedicationRow({ item, removed, annotation = "", justification = "", onAnnotate, onJustify, onRemove, onRestore, onReason, onSave }) {
   const isRemoved = !!removed;
 
   return (
@@ -67,8 +67,8 @@ export default function MedicationRow({ item, removed, annotation = "", onAnnota
       ) : (
         <div className="mt-1.5 space-y-1.5">
           <p className="text-xs text-muted-foreground">
-            Not found on the approved medication lists that apply to this flying class — review this medication and annotate
-            your determination.
+            Not found on the approved medication lists that apply to this flying class — review this medication and document
+            your determination, including whether a waiver should be granted for its use.
           </p>
           {onAnnotate ? (
             <Textarea
@@ -76,12 +76,34 @@ export default function MedicationRow({ item, removed, annotation = "", onAnnota
               value={annotation}
               onChange={(e) => onAnnotate(item.medication, e.target.value)}
               onBlur={onSave}
-              placeholder="Your determination for this medication (cited in the Aeromedical Summary)"
+              placeholder="e.g. Not listed for this duty — no aeromedically significant side effects; recommend a waiver be granted (cited in the Aeromedical Summary)"
               className="text-xs"
             />
           ) : annotation ? (
             <p className="text-xs"><span className="text-muted-foreground">Determination: </span>{annotation}</p>
           ) : null}
+        </div>
+      )}
+
+      {!isRemoved && item.flag === "waiver_required" && (onJustify || justification) && (
+        <div className="mt-1.5 space-y-1.5">
+          {onJustify ? (
+            <>
+              <p className="text-xs text-muted-foreground">
+                This medication requires a waiver for this duty. Document whether the waiver should be granted for its use.
+              </p>
+              <Textarea
+                rows={2}
+                value={justification}
+                onChange={(e) => onJustify(item.medication, e.target.value)}
+                onBlur={onSave}
+                placeholder="e.g. Stable on this medication for six months with no aeromedically significant side effects — recommend the waiver be granted"
+                className="text-xs"
+              />
+            </>
+          ) : (
+            <p className="text-xs"><span className="text-muted-foreground">Waiver documentation: </span>{justification}</p>
+          )}
         </div>
       )}
     </div>

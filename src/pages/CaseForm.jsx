@@ -110,6 +110,17 @@ export default function CaseForm() {
     }
   };
 
+  // The review the summary is written from: the documented waiver determination for each medication
+  // and the flight surgeon's annotations travel with it.
+  const caseMedicationReview = (data) =>
+    medicationReviewSummary(
+      reviewMedications(data.medications, data.flying_class),
+      medicationAnnotations,
+      data.flying_class,
+      data.removed_medications || [],
+      Object.fromEntries((data.medication_waiver_justifications || []).map((j) => [j.medication, j.justification || ""]))
+    );
+
   const save = async (status) => {
     if (!form.member_name || !form.conditions[0]?.diagnosis) {
       toast({ title: "Member name and at least one diagnosis are required", variant: "destructive" });
@@ -143,7 +154,7 @@ export default function CaseForm() {
     if (removed.length && form.narrative) {
       setGenerating(true);
       try {
-        const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: currentDiagnoses[0] || "", category: form.conditions[0]?.category || "", medication_review: medicationReviewSummary(reviewMedications(form.medications, form.flying_class), medicationAnnotations, form.flying_class, form.removed_medications || []) };
+        const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: currentDiagnoses[0] || "", category: form.conditions[0]?.category || "", medication_review: caseMedicationReview(form) };
         const res = await base44.functions.invoke("GenerateNarrative", payload);
         const narrative = res.data?.narrative;
         if (!narrative) throw new Error("No narrative returned");
@@ -168,7 +179,7 @@ export default function CaseForm() {
     const caseId = rec.id;
     setGenerating(true);
     try {
-      const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: form.conditions[0]?.diagnosis || "", category: form.conditions[0]?.category || "", medication_review: medicationReviewSummary(reviewMedications(form.medications, form.flying_class), medicationAnnotations, form.flying_class, form.removed_medications || []) };
+      const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: form.conditions[0]?.diagnosis || "", category: form.conditions[0]?.category || "", medication_review: caseMedicationReview(form) };
       const checkRes = await base44.functions.invoke("CheckMissingInfo", payload);
       const missing = checkRes.data?.items || [];
       await base44.entities.WaiverCase.update(caseId, { missing_info: missing, missing_justifications: [] });

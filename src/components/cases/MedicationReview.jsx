@@ -6,7 +6,7 @@ import { reviewMedications, flaggedMedications, listKeysForClass, LIST_LABELS, L
 
 // The approved-medication-list review for the member's flying class. When removal handlers are given,
 // a medication can be reconciled out of the package (single dose, completed course, emergency use).
-export default function MedicationReview({ text, flyingClass, removed = [], annotations = {}, onAnnotate, onRemove, onRestore, onReason, onSave, hideRemoved = false }) {
+export default function MedicationReview({ text, flyingClass, removed = [], annotations = {}, waiverJustifications = {}, onAnnotate, onJustify, onRemove, onRestore, onReason, onSave, hideRemoved = false }) {
   const items = useMemo(() => reviewMedications(text || "", flyingClass), [text, flyingClass]);
   const removedByName = useMemo(() => Object.fromEntries((removed || []).map((r) => [r.medication, r])), [removed]);
   const current = items.filter((it) => !removedByName[it.medication]);
@@ -33,7 +33,9 @@ export default function MedicationReview({ text, flyingClass, removed = [], anno
             item={it}
             removed={removedByName[it.medication]}
             annotation={annotations[it.medication] || ""}
+            justification={waiverJustifications[it.medication] || ""}
             onAnnotate={onAnnotate}
+            onJustify={onJustify}
             onRemove={onRemove}
             onRestore={onRestore}
             onReason={onReason}

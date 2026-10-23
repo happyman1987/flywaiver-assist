@@ -21,9 +21,11 @@ export default function MissingInfo() {
   const [justifications, setJustifications] = useState({});
   const [removed, setRemoved] = useState([]);
   const [annotations, setAnnotations] = useState({});
+  const [waiverJustifications, setWaiverJustifications] = useState({});
   // Mirrors of the reconciliation state, so a save triggered from a blur always writes what is on screen.
   const removedRef = useRef([]);
   const annotationsRef = useRef({});
+  const waiverJustificationsRef = useRef({});
   const saveTimerRef = useRef(null);
   const [generating, setGenerating] = useState(false);
 
@@ -40,6 +42,8 @@ export default function MissingInfo() {
         setRemoval(rec.removed_medications || []);
         annotationsRef.current = Object.fromEntries((rec.medication_annotations || []).map((a) => [a.medication, a.annotation || ""]));
         setAnnotations(annotationsRef.current);
+        waiverJustificationsRef.current = Object.fromEntries((rec.medication_waiver_justifications || []).map((j) => [j.medication, j.justification || ""]));
+        setWaiverJustifications(waiverJustificationsRef.current);
       } catch (e) {
         toast({ title: "Case not found", variant: "destructive" });
       } finally {
@@ -48,15 +52,26 @@ export default function MissingInfo() {
     })();
   }, [id]);
 
-  // Reconciled medications and annotations are stored on the case as they are made, so the package
-  // keeps the flight surgeon's decisions even if the summary is generated later.
+  const annotationEntries = () =>
+    Object.entries(annotationsRef.current)
+      .filter(([, v]) => String(v || "").trim())
+      .map(([medication, annotation]) => ({ medication, annotation }));
+
+  // The documentation a medication under a waiver requirement carries, keyed by the medication as the
+  // record writes it.
+  const waiverJustificationEntries = () =>
+    Object.entries(waiverJustificationsRef.current)
+      .filter(([, v]) => String(v || "").trim())
+      .map(([medication, justification]) => ({ medication, justification }));
+
+  // Reconciled medications, annotations, and waiver documentation are stored on the case as they are
+  // made, so the package keeps the flight surgeon's decisions even if the summary is generated later.
   const persistReconciliation = async () => {
     try {
       await base44.entities.WaiverCase.update(id, {
         removed_medications: removedRef.current,
-        medication_annotations: Object.entries(annotationsRef.current)
-          .filter(([, v]) => String(v || "").trim())
-          .map(([medication, annotation]) => ({ medication, annotation }))
+        medication_annotations: annotationEntries(),
+        medication_waiver_justifications: waiverJustificationEntries()
       });
     } catch (e) {
       toast({ title: "Could not save the medication reconciliation", variant: "destructive" });
@@ -96,6 +111,12 @@ export default function MissingInfo() {
     queueReconciliationSave();
   };
 
+  const updateWaiverJustification = (medication, justification) => {
+    waiverJustificationsRef.current = { ...waiverJustificationsRef.current, [medication]: justification };
+    setWaiverJustifications(waiverJustificationsRef.current);
+    queueReconciliationSave();
+  };
+
   const generate = async () => {
     setGenerating(true);
     try {
@@ -104,10 +125,14 @@ export default function MissingInfo() {
         item: m.item,
         justification: justifications[items.findIndex((x) => x.item === m.item)] || ""
       }));
-      const medication_annotations = Object.entries(annotationsRef.current)
-        .filter(([, v]) => String(v || "").trim())
-        .map(([medication, annotation]) => ({ medication, annotation }));
-      await base44.entities.WaiverCase.update(id, { missing_justifications, removed_medications: removedRef.current, medication_annotations });
+      const medication_annotations = annotationEntries();
+      const medication_waiver_justifications = waiverJustificationEntries();
+      await base44.entities.WaiverCase.update(id, {
+        missing_justifications,
+        removed_medications: removedRef.current,
+        medication_annotations,
+        medication_waiver_justifications
+      });
       const payload = {
         ...c,
         age: c.age ?? null,
@@ -119,7 +144,8 @@ export default function MissingInfo() {
           reviewMedications(c.medications, c.flying_class),
           annotationsRef.current,
           c.flying_class,
-          removedRef.current
+          removedRef.current,
+          waiverJustificationsRef.current
         )
       };
       const res = await base44.functions.invoke("GenerateNarrative", payload);
@@ -177,7 +203,9 @@ export default function MissingInfo() {
                 flyingClass={c.flying_class}
                 removed={removed}
                 annotations={annotations}
+                waiverJustifications={waiverJustifications}
                 onAnnotate={updateAnnotation}
+                onJustify={updateWaiverJustification}
                 onRemove={removeMedication}
                 onRestore={restoreMedication}
                 onReason={setRemovalReason}

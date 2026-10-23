@@ -121,6 +121,21 @@
         }
       }
     },
+    "medication_waiver_justifications": {
+      "type": "array",
+      "title": "Medication Waiver Documentation",
+      "items": {
+        "type": "object",
+        "properties": {
+          "medication": {
+            "type": "string"
+          },
+          "justification": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "removed_medications": {
       "type": "array",
       "title": "Medications Reconciled Out",
