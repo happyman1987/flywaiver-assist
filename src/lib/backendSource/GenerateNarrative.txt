@@ -21,8 +21,19 @@ const medicationReview = (data) => {
   return `\nAPPROVED MEDICATION LIST REVIEW (supplied with the case — treat as authoritative for which approved medication list each medication appears on and for its disposition):\n${review}\n`;
 };
 
+// Medications reconciled out of the member's current regimen are left out of the package: they are
+// dropped from the case data the summary is written from, and never cited in the AMS.
+const splitMedicationLines = (text) => String(text || '').split(/[\n\r;,]+/).map((s) => s.trim()).filter(Boolean);
+
+const medicationsLine = (data) => {
+  const removed = new Set((Array.isArray(data.removed_medications) ? data.removed_medications : []).map((r) => String((r && r.medication) || '').trim().toLowerCase()));
+  const current = splitMedicationLines(data.medications).filter((m) => !removed.has(m.toLowerCase()));
+  if (current.length) return current.join('; ');
+  return splitMedicationLines(data.medications).length ? 'None — no medications remain on the current regimen' : 'Not provided';
+};
+
 const medicationInstruction = (data) => (typeof data.medication_review === 'string' && data.medication_review.trim())
-  ? `\nIn TREATMENT COURSE & CURRENT MEDICATIONS, state each current medication together with the approved medication list it appears on and its disposition (no DOWN status required, ground trial, waiver required, or not waiverable) exactly as the APPROVED MEDICATION LIST REVIEW gives it. In AEROMEDICAL CONSIDERATIONS, analyze the aeromedical impact of each medication that carries a waiver requirement or that is not on an approved list. For a medication the review reports as not found on the approved lists, state only that it is not on the approved medication lists and cite the flight surgeon's review of it when the review includes one. Never describe a medication as approved when the review does not list it, never state that a medication requires AF/SG3P or MAJCOM/SG review unless the case data itself says so, and do not reclassify a medication the review places on a list.\n`
+  ? `\nIn TREATMENT COURSE & CURRENT MEDICATIONS, state each current medication together with the approved medication list it appears on and its disposition (no DOWN status required, ground trial, waiver required, or not waiverable) exactly as the APPROVED MEDICATION LIST REVIEW gives it. In AEROMEDICAL CONSIDERATIONS, analyze the aeromedical impact of each medication that carries a waiver requirement or that is not on an approved list. Medications reconciled out of the member's current regimen are not part of this package: if a medication appears neither in the case data nor in the review, omit it entirely — do not list it in TREATMENT COURSE & CURRENT MEDICATIONS, do not cite an approved-list disposition or a waiver requirement for it, and do not refer to the reconciliation itself anywhere in the AMS. For a medication the review reports as not found on the approved lists, state only that it is not on the approved medication lists and cite the flight surgeon's review of it when the review includes one. Never describe a medication as approved when the review does not list it, never state that a medication requires AF/SG3P or MAJCOM/SG review unless the case data itself says so, and do not reclassify a medication the review places on a list.\n`
   : '';
 
 const AMS_PROMPT = (data) => `You are an experienced United States Air Force flight surgeon preparing an Aeromedical Summary (AMS) for a military medical waiver submission. The AMS is a concise (one to two page) summary and recommendation encompassing all factors significant to the service member from the aeromedical risk perspective. It must address not only the clinical issues but also the impact on aviation safety if the member continues flying/special duty.
@@ -69,7 +80,7 @@ ${(data.conditions && data.conditions.length ? data.conditions : [{ diagnosis: d
 CLINICAL INFORMATION:
 - History of present illness / PMH: ${data.history || "Not provided"}
 - Studies / testing performed: ${data.diagnostics || "Not provided"}
-- Current medications: ${data.medications || "Not provided"}
+- Current medications: ${medicationsLine(data)}
 - Treatment course: ${data.treatment_course || "Not provided"}
 - Current clinical status: ${data.current_status || "Not provided"}
 - Aeromedical concerns / notes from provider: ${data.aeromedical_concerns || "Not provided"}
