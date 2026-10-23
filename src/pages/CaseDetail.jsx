@@ -181,6 +181,7 @@ export default function CaseDetail() {
         <MedicationReview
           text={c.medications}
           flyingClass={c.flying_class}
+          hideRemoved
           removed={c.removed_medications || []}
           annotations={Object.fromEntries((c.medication_annotations || []).map((a) => [a.medication, a.annotation || ""]))}
         />

@@ -6,22 +6,28 @@ import { reviewMedications, flaggedMedications, listKeysForClass, LIST_LABELS, L
 
 // The approved-medication-list review for the member's flying class. When removal handlers are given,
 // a medication can be reconciled out of the package (single dose, completed course, emergency use).
-export default function MedicationReview({ text, flyingClass, removed = [], annotations = {}, onAnnotate, onRemove, onRestore, onReason, onSave }) {
+export default function MedicationReview({ text, flyingClass, removed = [], annotations = {}, onAnnotate, onRemove, onRestore, onReason, onSave, hideRemoved = false }) {
   const items = useMemo(() => reviewMedications(text || "", flyingClass), [text, flyingClass]);
   const removedByName = useMemo(() => Object.fromEntries((removed || []).map((r) => [r.medication, r])), [removed]);
   const current = items.filter((it) => !removedByName[it.medication]);
   const flagged = flaggedMedications(current);
   if (!items.length) return null;
+  // The package itself carries only the medications still on the member's regimen: reconciled-out
+  // medications are not shown at all.
+  const shown = hideRemoved ? current : items;
+  if (!shown.length) return null;
 
   return (
     <div className="rounded-md border bg-muted/30 p-3 space-y-3">
       <div className="flex items-center justify-between gap-2">
         <p className="text-sm font-medium">Approved medication list review</p>
-        <Badge variant="outline" className="text-xs font-normal">{current.length} of {items.length} current</Badge>
+        <Badge variant="outline" className="text-xs font-normal">
+          {hideRemoved ? `${current.length} current medication${current.length === 1 ? "" : "s"}` : `${current.length} of ${items.length} current`}
+        </Badge>
       </div>
 
       <div className="space-y-3">
-        {items.map((it, i) => (
+        {shown.map((it, i) => (
           <MedicationRow
             key={i}
             item={it}
