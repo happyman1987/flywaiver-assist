@@ -143,7 +143,7 @@ export default function CaseForm() {
     if (removed.length && form.narrative) {
       setGenerating(true);
       try {
-        const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: currentDiagnoses[0] || "", category: form.conditions[0]?.category || "", medication_review: medicationReviewSummary(reviewMedications(form.medications), medicationAnnotations) };
+        const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: currentDiagnoses[0] || "", category: form.conditions[0]?.category || "", medication_review: medicationReviewSummary(reviewMedications(form.medications, form.flying_class), medicationAnnotations, form.flying_class) };
         const res = await base44.functions.invoke("GenerateNarrative", payload);
         const narrative = res.data?.narrative;
         if (!narrative) throw new Error("No narrative returned");
@@ -168,7 +168,7 @@ export default function CaseForm() {
     const caseId = rec.id;
     setGenerating(true);
     try {
-      const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: form.conditions[0]?.diagnosis || "", category: form.conditions[0]?.category || "", medication_review: medicationReviewSummary(reviewMedications(form.medications), medicationAnnotations) };
+      const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: form.conditions[0]?.diagnosis || "", category: form.conditions[0]?.category || "", medication_review: medicationReviewSummary(reviewMedications(form.medications, form.flying_class), medicationAnnotations, form.flying_class) };
       const checkRes = await base44.functions.invoke("CheckMissingInfo", payload);
       const missing = checkRes.data?.items || [];
       if (missing.length > 0) {
@@ -331,6 +331,7 @@ export default function CaseForm() {
               <Textarea rows={2} value={form.medications} onChange={(e) => set("medications", e.target.value)} />
               <MedicationReview
                 text={form.medications}
+                flyingClass={form.flying_class}
                 annotations={medicationAnnotations}
                 onAnnotate={(medication, annotation) => setMedicationAnnotations((p) => ({ ...p, [medication]: annotation }))}
               />

@@ -10,6 +10,19 @@ export const LIST_LABELS = {
 
 export const LIST_EFFECTIVE = Object.fromEntries(LIST_KEYS.map((k) => [k, MEDICATION_LISTS[k].effective]));
 
+// The approved-medication lists are duty specific: the aircrew list governs flying duties and ATC,
+// the GBO list governs ground based operators, and the OTC list applies to everyone. Only the lists
+// that govern the member's flying class are consulted, so a requirement belonging to another duty is
+// never shown for a member it does not apply to.
+const AIRCREW_CLASSES = ["FC-I", "FC-II", "FC-III", "ATC"];
+
+export function listKeysForClass(flyingClass) {
+  const duty = String(flyingClass || "").trim().toUpperCase();
+  if (duty === "GBO") return ["gbo", "otc"];
+  if (AIRCREW_CLASSES.includes(duty)) return ["aircrew", "otc"];
+  return LIST_KEYS;
+}
+
 export const STATUS_LABELS = {
   no_down_status_required: "No DOWN status required",
   ground_trial: "DOWN status not required after ground trial",
@@ -104,12 +117,14 @@ const flagFor = (matches) => {
   return "on_list";
 };
 
-// Every medication the case documents is checked against all three approved-medication lists.
-export function reviewMedications(text) {
+// Every medication the case documents is checked against the approved-medication lists that govern
+// the member's flying class.
+export function reviewMedications(text, flyingClass) {
+  const lists = INDEX.filter((l) => listKeysForClass(flyingClass).includes(l.key));
   return splitMedications(text).map((medication) => {
     const norm = normalizeMedication(medication);
     const matches = [];
-    for (const list of INDEX) {
+    for (const list of lists) {
       for (const { entry, aliases } of list.entries) {
         if (!aliases.some((a) => matchesName(norm, a))) continue;
         if (matches.some((m) => m.list === list.key && m.generic === entry.generic)) continue;
@@ -138,13 +153,14 @@ export function reviewMedications(text) {
 
 // Compact review the narrative is asked to cite. Medications that are not on any list carry the
 // flight surgeon's own annotation, when one has been written for them.
-export function medicationReviewSummary(items, annotations = {}) {
+export function medicationReviewSummary(items, annotations = {}, flyingClass) {
   if (!items.length) return "";
+  const appliedLists = listKeysForClass(flyingClass).map((k) => LIST_LABELS[k]).join(" / ");
   return items
     .map((it) => {
       const annotation = String(annotations[it.medication] || "").trim();
       if (!it.matches.length) {
-        return `- ${it.medication}: not found on the Aircrew, GBO, or OTC approved medication lists.${annotation ? ` Flight surgeon's review of this medication: ${annotation}` : " Reviewed by the flight surgeon with no annotation recorded."}`;
+        return `- ${it.medication}: not found on the approved medication lists that apply to this flying class (${appliedLists}).${annotation ? ` Flight surgeon's review of this medication: ${annotation}` : " Reviewed by the flight surgeon with no annotation recorded."}`;
       }
       return `- ${it.medication}: ${it.matches.map((m) => `${m.list_label} — ${m.status_text}`).join("; ")}`;
     })

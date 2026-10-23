@@ -180,6 +180,7 @@ export default function CaseDetail() {
 
         <MedicationReview
           text={c.medications}
+          flyingClass={c.flying_class}
           annotations={Object.fromEntries((c.medication_annotations || []).map((a) => [a.medication, a.annotation || ""]))}
         />
 

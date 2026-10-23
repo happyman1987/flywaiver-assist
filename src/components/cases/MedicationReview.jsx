@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { AlertTriangle } from "lucide-react";
-import { reviewMedications, flaggedMedications, LIST_EFFECTIVE } from "@/lib/medicationReview";
+import { reviewMedications, flaggedMedications, listKeysForClass, LIST_LABELS, LIST_EFFECTIVE } from "@/lib/medicationReview";
 
 const FLAGS = {
   not_waiverable: { label: "Not waiverable", className: "bg-destructive text-destructive-foreground hover:bg-destructive/90" },
@@ -11,8 +11,8 @@ const FLAGS = {
   on_list: { label: "On approved list", className: "bg-emerald-600 text-white hover:bg-emerald-600/90" },
 };
 
-export default function MedicationReview({ text, annotations = {}, onAnnotate }) {
-  const items = useMemo(() => reviewMedications(text || ""), [text]);
+export default function MedicationReview({ text, flyingClass, annotations = {}, onAnnotate }) {
+  const items = useMemo(() => reviewMedications(text || "", flyingClass), [text, flyingClass]);
   const flagged = flaggedMedications(items);
   if (!items.length) return null;
 
@@ -44,8 +44,8 @@ export default function MedicationReview({ text, annotations = {}, onAnnotate })
               ) : (
                 <div className="mt-1.5 space-y-1.5">
                   <p className="text-xs text-muted-foreground">
-                    Not found on the aircrew, GBO, or OTC approved medication lists — review this medication and annotate
-                    your determination.
+                    Not found on the approved medication lists that apply to this flying class — review this medication
+                    and annotate your determination.
                   </p>
                   {onAnnotate ? (
                     <Textarea
@@ -76,8 +76,9 @@ export default function MedicationReview({ text, annotations = {}, onAnnotate })
       )}
 
       <p className="text-xs text-muted-foreground">
-        Checked against the AF approved medication lists: aircrew — {LIST_EFFECTIVE.aircrew}; GBO — {LIST_EFFECTIVE.gbo};
-        OTC — {LIST_EFFECTIVE.otc}. Verify against the current list before the final disposition.
+        Checked against the AF approved medication lists for this duty:{" "}
+        {listKeysForClass(flyingClass).map((k) => `${LIST_LABELS[k]} — ${LIST_EFFECTIVE[k]}`).join("; ")}. Verify against
+        the current list before the final disposition.
       </p>
     </div>
   );

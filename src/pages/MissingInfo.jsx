@@ -54,8 +54,9 @@ export default function MissingInfo() {
         category: c.conditions?.[0]?.category || c.category,
         missing_justifications,
         medication_review: medicationReviewSummary(
-          reviewMedications(c.medications),
-          Object.fromEntries((c.medication_annotations || []).map((a) => [a.medication, a.annotation || ""]))
+          reviewMedications(c.medications, c.flying_class),
+          Object.fromEntries((c.medication_annotations || []).map((a) => [a.medication, a.annotation || ""])),
+          c.flying_class
         )
       };
       const res = await base44.functions.invoke("GenerateNarrative", payload);
