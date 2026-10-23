@@ -9,6 +9,7 @@ import { ArrowLeft, Loader2, AlertTriangle, Sparkles } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { logAuditEvent } from "@/lib/auditLog";
 import LogoutButton from "@/components/LogoutButton";
+import { medicationReviewSummary, reviewMedications } from "@/lib/medicationReview";
 
 export default function MissingInfo() {
   const { id } = useParams();
@@ -51,7 +52,11 @@ export default function MissingInfo() {
         age: c.age ?? null,
         diagnosis: c.conditions?.[0]?.diagnosis || c.diagnosis,
         category: c.conditions?.[0]?.category || c.category,
-        missing_justifications
+        missing_justifications,
+        medication_review: medicationReviewSummary(
+          reviewMedications(c.medications),
+          Object.fromEntries((c.medication_annotations || []).map((a) => [a.medication, a.annotation || ""]))
+        )
       };
       const res = await base44.functions.invoke("GenerateNarrative", payload);
       const narrative = res.data?.narrative;
