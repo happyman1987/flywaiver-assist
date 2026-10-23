@@ -106,6 +106,21 @@
       "type": "string",
       "title": "Current Medications"
     },
+    "medication_annotations": {
+      "type": "array",
+      "title": "Medication Review Annotations",
+      "items": {
+        "type": "object",
+        "properties": {
+          "medication": {
+            "type": "string"
+          },
+          "annotation": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "treatment_course": {
       "type": "string",
       "title": "Treatment Course"

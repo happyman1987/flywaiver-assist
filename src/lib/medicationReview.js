@@ -77,7 +77,6 @@ const aliasesFor = (entry) => {
       if (w.length >= 6 && !NOISE_ALIASES.has(w)) out.add(w);
     });
   }
-  out.delete(normalizeMedication(entry.generic));
   return [...out].sort((a, b) => b.length - a.length);
 };
 
@@ -137,13 +136,15 @@ export function reviewMedications(text) {
   });
 }
 
-// Compact review the narrative is asked to cite.
-export function medicationReviewSummary(items) {
+// Compact review the narrative is asked to cite. Medications that are not on any list carry the
+// flight surgeon's own annotation, when one has been written for them.
+export function medicationReviewSummary(items, annotations = {}) {
   if (!items.length) return "";
   return items
     .map((it) => {
+      const annotation = String(annotations[it.medication] || "").trim();
       if (!it.matches.length) {
-        return `- ${it.medication}: NOT FOUND on the Aircrew, GBO, or OTC approved medication lists — medications not on the list, singly or in combination, require review by AF/SG3P (rated officers) and MAJCOM/SG (non-rated personnel).`;
+        return `- ${it.medication}: not found on the Aircrew, GBO, or OTC approved medication lists.${annotation ? ` Flight surgeon's review of this medication: ${annotation}` : " Reviewed by the flight surgeon with no annotation recorded."}`;
       }
       return `- ${it.medication}: ${it.matches.map((m) => `${m.list_label} — ${m.status_text}`).join("; ")}`;
     })

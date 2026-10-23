@@ -37,6 +37,7 @@ export default function CaseForm() {
   const [extracting, setExtracting] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [originalDiagnoses, setOriginalDiagnoses] = useState([]);
+  const [medicationAnnotations, setMedicationAnnotations] = useState({});
 
   useEffect(() => {
     if (!id) return;
@@ -45,6 +46,7 @@ export default function CaseForm() {
         const c = await base44.entities.WaiverCase.get(id);
         setForm({ ...EMPTY, ...c, conditions: c.conditions?.length ? c.conditions : [{ diagnosis: c.diagnosis || "", category: c.category || "" }] });
         setOriginalDiagnoses((c.conditions?.length ? c.conditions : [{ diagnosis: c.diagnosis || "", category: c.category || "" }]).map((cond) => cond.diagnosis).filter(Boolean));
+        setMedicationAnnotations(Object.fromEntries((c.medication_annotations || []).map((a) => [a.medication, a.annotation || ""])));
       } catch (e) {
         toast({ title: "Could not load case", variant: "destructive" });
       } finally {
@@ -115,7 +117,7 @@ export default function CaseForm() {
     }
     setSaving(true);
     try {
-      const payload = { ...form, age: form.age ? Number(form.age) : null, status: status || form.status || "draft", diagnosis: form.conditions[0]?.diagnosis || "", category: form.conditions[0]?.category || "" };
+      const payload = { ...form, age: form.age ? Number(form.age) : null, status: status || form.status || "draft", diagnosis: form.conditions[0]?.diagnosis || "", category: form.conditions[0]?.category || "", medication_annotations: Object.entries(medicationAnnotations).filter(([, v]) => String(v || "").trim()).map(([medication, annotation]) => ({ medication, annotation })) };
       let record;
       if (id) {
         record = await base44.entities.WaiverCase.update(id, payload);
@@ -141,7 +143,7 @@ export default function CaseForm() {
     if (removed.length && form.narrative) {
       setGenerating(true);
       try {
-        const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: currentDiagnoses[0] || "", category: form.conditions[0]?.category || "", medication_review: medicationReviewSummary(reviewMedications(form.medications)) };
+        const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: currentDiagnoses[0] || "", category: form.conditions[0]?.category || "", medication_review: medicationReviewSummary(reviewMedications(form.medications), medicationAnnotations) };
         const res = await base44.functions.invoke("GenerateNarrative", payload);
         const narrative = res.data?.narrative;
         if (!narrative) throw new Error("No narrative returned");
@@ -166,7 +168,7 @@ export default function CaseForm() {
     const caseId = rec.id;
     setGenerating(true);
     try {
-      const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: form.conditions[0]?.diagnosis || "", category: form.conditions[0]?.category || "", medication_review: medicationReviewSummary(reviewMedications(form.medications)) };
+      const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: form.conditions[0]?.diagnosis || "", category: form.conditions[0]?.category || "", medication_review: medicationReviewSummary(reviewMedications(form.medications), medicationAnnotations) };
       const checkRes = await base44.functions.invoke("CheckMissingInfo", payload);
       const missing = checkRes.data?.items || [];
       if (missing.length > 0) {
@@ -327,7 +329,11 @@ export default function CaseForm() {
             <div className="space-y-1.5">
               <Label>Current Medications</Label>
               <Textarea rows={2} value={form.medications} onChange={(e) => set("medications", e.target.value)} />
-              <MedicationReview text={form.medications} />
+              <MedicationReview
+                text={form.medications}
+                annotations={medicationAnnotations}
+                onAnnotate={(medication, annotation) => setMedicationAnnotations((p) => ({ ...p, [medication]: annotation }))}
+              />
             </div>
             <div className="space-y-1.5">
               <Label>Treatment Course</Label>

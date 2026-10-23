@@ -22,7 +22,7 @@ const medicationReview = (data) => {
 };
 
 const medicationInstruction = (data) => (typeof data.medication_review === 'string' && data.medication_review.trim())
-  ? `\nIn TREATMENT COURSE & CURRENT MEDICATIONS, state each current medication together with the approved medication list it appears on and its disposition (no DOWN status required, ground trial, waiver required, or not waiverable) exactly as the APPROVED MEDICATION LIST REVIEW gives it. In AEROMEDICAL CONSIDERATIONS, analyze the aeromedical impact of each medication that carries a waiver requirement, and for every medication the review reports as NOT FOUND on the approved lists, or as not waiverable, state that it requires review by AF/SG3P (rated officers) and MAJCOM/SG (non-rated personnel) before use. Never describe a medication as approved when the review does not list it, and do not reclassify a medication the review places on a list.\n`
+  ? `\nIn TREATMENT COURSE & CURRENT MEDICATIONS, state each current medication together with the approved medication list it appears on and its disposition (no DOWN status required, ground trial, waiver required, or not waiverable) exactly as the APPROVED MEDICATION LIST REVIEW gives it. In AEROMEDICAL CONSIDERATIONS, analyze the aeromedical impact of each medication that carries a waiver requirement or that is not on an approved list. For a medication the review reports as not found on the approved lists, state only that it is not on the approved medication lists and cite the flight surgeon's review of it when the review includes one. Never describe a medication as approved when the review does not list it, never state that a medication requires AF/SG3P or MAJCOM/SG review unless the case data itself says so, and do not reclassify a medication the review places on a list.\n`
   : '';
 
 const AMS_PROMPT = (data) => `You are an experienced United States Air Force flight surgeon preparing an Aeromedical Summary (AMS) for a military medical waiver submission. The AMS is a concise (one to two page) summary and recommendation encompassing all factors significant to the service member from the aeromedical risk perspective. It must address not only the clinical issues but also the impact on aviation safety if the member continues flying/special duty.
@@ -58,7 +58,7 @@ Write the AMS in a formal clinical-aeromedical voice using the following section
 Do not invent clinical facts not provided. If a field is empty, state "Not provided" rather than fabricating. Keep the tone objective and concise. Use plain section headings in uppercase as shown above.
 ${renewalInstruction(data)}${medicationInstruction(data)}
 CASE DATA:
-- Member: ${data.member_name}, ${data.rank || "rank not specified"}, ${data.unit || "not specified"}
+- Member: ${data.member_name}, ${data.rank || "rank not specified"}, ${data.unit || "unit not specified"}
 ${waiverContext(data)}
 - Flying class / duty: ${data.flying_class || "not specified"}
 - Age / Sex: ${data.age ?? "not specified"} / ${data.sex || "not specified"}

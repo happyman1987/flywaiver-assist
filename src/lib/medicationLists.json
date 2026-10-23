@@ -7,11 +7,13 @@
     "category": "Gen",
     "generic": "Acetaminophen",
     "trade": "Tylenol",
-    "indication": "Pain (acute condition use)",
+    "indication": "Pain (acute condition use); Pain (chronic use)",
     "statuses": [
-     "symptoms_controlled_no_side_effects"
+     "symptoms_controlled_no_side_effects",
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
     ],
-    "notes": "DOWNuntil the underlying condition will not interfere with flying duties and there are no adverse side effects. Usage is for acute conditions, less than 4 weeks, and condition does not require waiver.",
+    "notes": "DOWNuntil the underlying condition will not interfere with flying duties and there are no adverse side effects. Usage is for acute conditions, less than 4 weeks, and condition does not require waiver. | Submit for waiver after potential idiosyncratic reactionhas beenruled out and control is maintained.",
     "delegation": ""
    },
    {
@@ -27,11 +29,11 @@
     "category": "Gen",
     "generic": "Acupuncture",
     "trade": "Seirin needle, ASP needle",
-    "indication": "Pain (acute condition use)",
+    "indication": "Pain (acute condition use); Pain (chronic use); Chronic medical condition (i.e. PTSD, OA)",
     "statuses": [
      "no_down_status_required"
     ],
-    "notes": "Minimum of 2 hours ground trial at initiation of therapy to ensure idiosyncratic reaction is ruled out. After initial ground trial, no required unless DOWN underlying condition interferes with flying duties.",
+    "notes": "Minimum of 2 hours ground trial at initiation of therapy to ensure idiosyncratic reaction is ruled out. After initial ground trial, no required unless DOWN underlying condition interferes with flying duties. | Auricular ASP needles may be retained during duty performance for ATC duties only. No retained needles for aircrew for in-flight operations.",
     "delegation": ""
    },
    {
@@ -153,11 +155,13 @@
     "category": "Antibiotic",
     "generic": "Ampicillin",
     "trade": "Polycillin",
-    "indication": "Acute infection",
+    "indication": "Acute infection; Suppressive therapy for chronic or recurrent prostatitis / cystitis",
     "statuses": [
-     "symptoms_controlled_no_side_effects"
+     "symptoms_controlled_no_side_effects",
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
     ],
-    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out and acute infectious process is asymptomatic.",
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out and acute infectious process is asymptomatic. | Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
     "delegation": ""
    },
    {
@@ -207,12 +211,15 @@
    {
     "category": "Gen",
     "generic": "Aspirin",
-    "trade": "Bayer Aspirin",
-    "indication": "Cardiovascular prophylaxis",
+    "trade": "Bayer Aspirin; Bayer Aspirin, Ecotrin; Bayer Aspirin Ecotrin",
+    "indication": "Cardiovascular prophylaxis; Pain, anti- inflammatory (acute use); Pain (chronic use)",
     "statuses": [
-     "ground_trial"
+     "ground_trial",
+     "symptoms_controlled_no_side_effects",
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
     ],
-    "notes": "Single ground trial is required for members who have never previously taken aspirin - 81 mg or 325 mg once daily for prophylactic therapy as clinically indicated. Underlying disqualifying condition (when present) continue to require waiver.",
+    "notes": "Single ground trial is required for members who have never previously taken aspirin - 81 mg or 325 mg once daily for prophylactic therapy as clinically indicated. Underlying disqualifying condition (when present) continue to require waiver. | DOWN status is not required for occasional OTC use to provide relief from minor self-limiting conditions. | Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
     "delegation": ""
    },
    {
@@ -304,12 +311,13 @@
    {
     "category": "Psych",
     "generic": "Bupropion",
-    "trade": "Wellbutrin SRor XL",
-    "indication": "Waiverable Mental Health Diagnoses",
+    "trade": "Wellbutrin SR or XL; Zyban",
+    "indication": "Waiverable Mental Health Diagnoses; Tobacco Cessation",
     "statuses": [
-     "waiver_required_flying_3_atc"
+     "waiver_required_flying_3_atc",
+     "ground_trial"
     ],
-    "notes": "Max dose 450 mg/day. *Not waiverable for FCI. Waiver will not be considered until member is asymptomatic and shows clinical stability. All FCII (except flight surgeons) require ACS evaluation andcategorical consideration. All otherflying classes, ACS review is encouraged and MAJCOM dispositions waiver",
+    "notes": "Max dose 450 mg/day. *Not waiverable for FCI. Waiver will not be considered until member is asymptomatic and shows clinical stability. All FCII (except flight surgeons) require ACS evaluation andcategorical consideration. All otherflying classes, ACS review is encouraged and MAJCOM dispositions waiver | Two week ground trial to evaluate forirritability/aggression, attention deficit, SI/HI, seizure, sleep, and any cardiac side effects. Encourage alcohol abstinence to prevent seizures and completion of 90 minute tobacco cessation (online or in person) program to maximize efficacy. *Must screen for depression when used for this indication. Follow Wellbutrin waiver requirements if Zyban is used >12 weeks.",
     "delegation": ""
    },
    {
@@ -328,12 +336,12 @@
     "category": "Gen",
     "generic": "Celecoxib",
     "trade": "Celebrex",
-    "indication": "Pain (chronic use)",
+    "indication": "Pain (chronic use); Pain (acute condition use)",
     "statuses": [
      "ground_trial",
      "symptoms_controlled_no_side_effects"
     ],
-    "notes": "Approved for pain and inflammation with no waiver required as long as underlying condition does not require waiver. Member will be DOWN until pain/inflammation control is achieved AND for seven days following the final dosage adjustment. Celebrex Background Paper",
+    "notes": "Approved for pain and inflammation with no waiver required as long as underlying condition does not require waiver. Member will be DOWN until pain/inflammation control is achieved AND for seven days following the final dosage adjustment. Celebrex Background Paper | DOWNuntil the underlying condition will not interfere with flying duties and there are no adverse side effects. Usage is for acute conditions, less than 4 weeks, and condition does not require waiver. Celebrex Background Paper",
     "delegation": ""
    },
    {
@@ -373,11 +381,13 @@
     "category": "Gen",
     "generic": "Chlorothiazide",
     "trade": "Diuril",
-    "indication": "Hypertension",
+    "indication": "Hypertension; Urolithiasis",
     "statuses": [
-     "symptoms_controlled_no_side_effects"
+     "symptoms_controlled_no_side_effects",
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
     ],
-    "notes": "For hypertension: either alone or in combination with triamterene does not require",
+    "notes": "For hypertension: either alone or in combination with triamterene does not require | For urolithiasis: eitheralone or in combination with allopurinol or oral potassium supplements. Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
     "delegation": ""
    },
    {
@@ -538,12 +548,12 @@
    {
     "category": "Ops",
     "generic": "Dextroamphetamine",
-    "trade": "Dexedrine",
-    "indication": "Fatigue management (go pill)",
+    "trade": "Dexedrine; Geldex, Procentra",
+    "indication": "Fatigue management (go pill); Fatigue management U-2S pilots only",
     "statuses": [
      "ground_trial"
     ],
-    "notes": "OPERATIONAL USE ONLY: NOTE: Only Immediate Release is approved for operational use. (See AFMAN48-149 Section, AF6MAN 11-202V3, and MAJCOM Guidance.) Check with MAJCOM/SGP prior to prescribing. Ground trial (10 mg every 4 hours for 2 doses, documented in the medical record) with mandatory DOWN required prior to operational use. The normal dose for operational use is 10 mg PO q 4 hours PRN, not to exceed 20 mg in 24 hours. Exception: Total dose not to exceed 40mg in 24 hours for sorties exceeding 24 hours of flight time. Women who are pregnant, or might become pregnant, are at increased risk of having adverse side effects from the medication so non-pharmacologic options should be considered first prior to its use. Dextroamphetamine is not authorized forroutine clinical use in flyers/special duty personnel.",
+    "notes": "OPERATIONAL USE ONLY: NOTE: Only Immediate Release is approved for operational use. (See AFMAN48-149 Section, AF6MAN 11-202V3, and MAJCOM Guidance.) Check with MAJCOM/SGP prior to prescribing. Ground trial (10 mg every 4 hours for 2 doses, documented in the medical record) with mandatory DOWN required prior to operational use. The normal dose for operational use is 10 mg PO q 4 hours PRN, not to exceed 20 mg in 24 hours. Exception: Total dose not to exceed 40mg in 24 hours for sorties exceeding 24 hours of flight time. Women who are pregnant, or might become pregnant, are at increased risk of having adverse side effects from the medication so non-pharmacologic options should be considered first prior to its use. Dextroamphetamine is not authorized forroutine clinical use in flyers/special duty personnel. | OPERATIONAL USE ONLY: Onlyapproved for U-2S pilots when conducting U- 2S operational sorties IAW applicable guidance. (See AF48-149 Section MAN, 6 AFMAN11-202V3, and MAJCOM Guidance.) Check with MAJCOM/SGP prior to prescribing. Ground trial (10 mg every 4 hours for 2 doses, documented in the medical record) with mandatory DOWN required prior to operational use. Dextroamphetamine is not authorized for routine clinical use in flyers/special duty personnel.",
     "delegation": ""
    },
    {
@@ -594,11 +604,14 @@
     "category": "Derm",
     "generic": "Doxycycline",
     "trade": "Vibramycin",
-    "indication": "Acne",
+    "indication": "Acne; Acute infection; Acute mild diarrhea; BW prophylaxis nd (2line); Malaria prophylaxis; Prophylaxis against diarrhea; Suppressive yherapy for chronic or recurrent prostatitis/ cystitis",
     "statuses": [
-     "symptoms_controlled_no_side_effects"
+     "symptoms_controlled_no_side_effects",
+     "no_down_status_required",
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
     ],
-    "notes": "",
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out and underlying condition does not interfere with duties. If previous ground trial has been | accomplished and documented, no DOWN is required. | Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
     "delegation": ""
    },
    {
@@ -650,12 +663,13 @@
     "category": "Derm",
     "generic": "Erythromycin",
     "trade": "E-mycin",
-    "indication": "Acne",
+    "indication": "Acne; Acute infection",
     "statuses": [
      "waiver_required_flying_1_2",
-     "waiver_required_flying_3_atc"
+     "waiver_required_flying_3_atc",
+     "symptoms_controlled_no_side_effects"
     ],
-    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained. | DOWNuntil potential for idiosyncratic reaction has been ruled out and acute infectious process is asymptomatic.",
     "delegation": ""
    },
    {
@@ -906,11 +920,13 @@
     "category": "Gen",
     "generic": "Hydrochlorothiazide",
     "trade": "Hydrodiuril",
-    "indication": "Hypertension",
+    "indication": "Hypertension; Urolithiasis",
     "statuses": [
-     "symptoms_controlled_no_side_effects"
+     "symptoms_controlled_no_side_effects",
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
     ],
-    "notes": "For hypertension: either alone or in combination with triamterene does not require",
+    "notes": "For hypertension: either alone or in combination with triamterene does not require | For urolithiasis: either alone or in combination with allopurinol or oral potassium supplements. Submit for waiverafter potential for idiosyncratic reaction has been ruled out and control is maintained.",
     "delegation": ""
    },
    {
@@ -929,12 +945,13 @@
     "category": "Gen",
     "generic": "Ibuprofen",
     "trade": "Motrin",
-    "indication": "Pain (chronic use)",
+    "indication": "Pain (chronic use); Pain (acute condition use)",
     "statuses": [
      "waiver_required_flying_1_2",
-     "waiver_required_flying_3_atc"
+     "waiver_required_flying_3_atc",
+     "symptoms_controlled_no_side_effects"
     ],
-    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained. | DOWNuntil the underlying condition will not interfere with flying duties and there are no adverse side effectsUsage is for acute conditions, less than 4 weeks, and . condition does not require waiver.",
     "delegation": ""
    },
    {
@@ -1212,12 +1229,12 @@
     "category": "Gen",
     "generic": "Metformin",
     "trade": "Glucophage",
-    "indication": "Diabetes mellitus, pre- diabetes (includes",
+    "indication": "Diabetes mellitus, pre- diabetes (includes; Polycystic Ovarian",
     "statuses": [
      "waiver_required_flying_1_2",
      "waiver_required_flying_3_atc"
     ],
-    "notes": "Submit for waiver after patient has been on medication for at least 30 days and the requirements for waiver submission (as defined by theDiabetes Waiver Guide) have",
+    "notes": "Submit for waiver after patient has been on medication for at least 30 days and the requirements for waiver submission (as defined by theDiabetes Waiver Guide) have | Submit for waiver after patient has been on medication for at least 30 days and the requirements for waiver submission (as defined by thePCOS Waiver Guide) have",
     "delegation": ""
    },
    {
@@ -1233,11 +1250,12 @@
     "category": "Derm",
     "generic": "Metronidazole (topical)",
     "trade": "Flagyl",
-    "indication": "Rosacea",
+    "indication": "Rosacea; Vaginitis",
     "statuses": [
-     "no_down_status_required"
+     "no_down_status_required",
+     "symptoms_controlled_no_side_effects"
     ],
-    "notes": "DOWNnot required unless condition or medication interferes with life support gear or flying duties.",
+    "notes": "DOWNnot required unless condition or medication interferes with life support gear or flying duties. | DOWNis not required unless condition is symptomatic.",
     "delegation": ""
    },
    {
@@ -1297,11 +1315,13 @@
     "category": "Gen",
     "generic": "Naproxen",
     "trade": "Naprosyn",
-    "indication": "Pain (acute use)",
+    "indication": "Pain (acute use); Pain (chronic use)",
     "statuses": [
-     "symptoms_controlled_no_side_effects"
+     "symptoms_controlled_no_side_effects",
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
     ],
-    "notes": "DOWNuntil underlying condition will not interfere with flying duties and there are no adverse side effects. Usage is for acute conditions, less than 4 weeks, and condition does not require waiver.",
+    "notes": "DOWNuntil underlying condition will not interfere with flying duties and there are no adverse side effects. Usage is for acute conditions, less than 4 weeks, and condition does not require waiver. | Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
     "delegation": ""
    },
    {
@@ -1359,11 +1379,12 @@
     "category": "Gen",
     "generic": "Oseltamivir",
     "trade": "Tamiflu",
-    "indication": "Influenza prophylaxis",
+    "indication": "Influenza prophylaxis; Influenza treatment",
     "statuses": [
-     "ground_trial"
+     "ground_trial",
+     "symptoms_controlled_no_side_effects"
     ],
-    "notes": "For unvaccinated personnel during community outbreaks or mission essential operations IAW MAJCOM policy. Requires 1-day ground trial. Oseltamivir",
+    "notes": "For unvaccinated personnel during community outbreaks or mission essential operations IAW MAJCOM policy. Requires 1-day ground trial. Oseltamivir | DOWNuntil potential for idiosyncratic reaction has been ruled out and acute infectious process is asymptomatic. Oseltamivir Background Paper.",
     "delegation": ""
    },
    {
@@ -1713,11 +1734,13 @@
     "category": "Derm",
     "generic": "Steroids (topical)",
     "trade": "",
-    "indication": "Rash or skin disease (acute usage)",
+    "indication": "Rash or skin disease (acute usage); Rash or skin diseases (chronic usage)",
     "statuses": [
-     "symptoms_controlled_no_side_effects"
+     "symptoms_controlled_no_side_effects",
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
     ],
-    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out and condition does not interfere with flying duties. Usage is for acute conditions, less than 4 weeks, and condition does not require waiver.",
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out and condition does not interfere with flying duties. Usage is for acute conditions, less than 4 weeks, and condition does not require waiver. | Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
     "delegation": ""
    },
    {
@@ -1784,11 +1807,13 @@
     "category": "Derm",
     "generic": "Tacrolimus 0.1% (topical)",
     "trade": "Protopic",
-    "indication": "Rash or skin disease (acute usage)",
+    "indication": "Rash or skin disease (acute usage); Rash or skin disease",
     "statuses": [
-     "symptoms_controlled_no_side_effects"
+     "symptoms_controlled_no_side_effects",
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
     ],
-    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out and condition does not interfere with flying duties. Usage is for acute conditions, less than 4 weeks, and condition does not require waiver.",
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out and condition does not interfere with flying duties. Usage is for acute conditions, less than 4 weeks, and condition does not require waiver. | Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.SeeWaiver Guide for additional details.",
     "delegation": ""
    },
    {
@@ -1910,12 +1935,13 @@
     "category": "Derm",
     "generic": "Tetracycline",
     "trade": "Sumycin",
-    "indication": "Acne",
+    "indication": "Acne; Acute infection; Suppressive therapy for chronic or recurrent prostatitis/ cystitis",
     "statuses": [
      "waiver_required_flying_1_2",
-     "waiver_required_flying_3_atc"
+     "waiver_required_flying_3_atc",
+     "symptoms_controlled_no_side_effects"
     ],
-    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained. | DOWNuntil potential for idiosyncratic reaction has been ruled out and acute infectious process is asymptomatic.",
     "delegation": ""
    },
    {
@@ -1955,11 +1981,13 @@
     "category": "Antibiotic",
     "generic": "Trimethoprim- Sulfamethoxazole",
     "trade": "Bactrim",
-    "indication": "Acute infection",
+    "indication": "Acute infection; Acne; Suppressive therapy for chronic or recurrent prostatitis / cystitis",
     "statuses": [
-     "symptoms_controlled_no_side_effects"
+     "symptoms_controlled_no_side_effects",
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
     ],
-    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out and acute infectious process is asymptomatic.",
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out and acute infectious process is asymptomatic. | Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
     "delegation": ""
    },
    {
@@ -2204,7 +2232,7 @@
    {
     "category": "Infections",
     "generic": "Antibiotics (All oral, topical, oticand ophthalmic except Minocycline)",
-    "trade": "X Acuteor chronic infection",
+    "trade": "X Acute or chronic infection",
     "indication": "",
     "statuses": [],
     "notes": "DOWN until the potential for idiosyncratic reaction has been ruled out and underlying condition does not interfere with duties. Chronic underlying condition my require waiver.",
@@ -2287,7 +2315,7 @@
    {
     "category": "GU",
     "generic": "Contraceptives (Transdermal/ subdermal)",
-    "trade": "DOWN until potentialfor idiosyncratic reactionhas been Contraception X ruled out.",
+    "trade": "DOWN until potential for idiosyncratic reaction has been Contraception X ruled out.",
     "indication": "",
     "statuses": [],
     "notes": "",
@@ -2691,7 +2719,7 @@
   ]
  },
  "otc": {
-  "label": "Over-the-counter (aircrew, without flight surgeon approval)",
+  "label": "Over-the-counter (no flight surgeon approval)",
   "effective": "18 Dec 2025 (supersedes 21 Sep 2022)",
   "medications": [
    {
@@ -2981,7 +3009,7 @@
    {
     "category": "The following is a list of medications that may be used by aircrew for minor conditions that do not interfere with flight duties medication list, is defined as a maximum of 72 hours of continuous useunless specifically stated otherwise on the package. No other medications may be taken without consultation with a flight surgeon. duty personnel must be FDA approved.",
     "generic": "Overthe ounter (OTC) CMedications Aircrew Are Allowedtoake TWithout Flight Surgeon Approval. .Occasional OTC use, as referencedin this . All medication mustbe takenin accordance withthe directions All medicationsand immunizations usedby flyingand special operational",
-    "trade": "Official Air Force Aerospace Medicine Approved Medications Note: This list supersedesthe medication list dated 21 Sep 2022. 1. Loperamide removed",
+    "trade": "Official Air Force Aerospace Medicine Approved Medications Note: This list supersedes the medication list dated 21 Sep 2022. 1. Loperamide removed",
     "indication": "",
     "statuses": [],
     "notes": "",

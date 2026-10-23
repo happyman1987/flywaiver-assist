@@ -178,7 +178,10 @@ export default function CaseDetail() {
           </CardContent>
         </Card>
 
-        <MedicationReview text={c.medications} />
+        <MedicationReview
+          text={c.medications}
+          annotations={Object.fromEntries((c.medication_annotations || []).map((a) => [a.medication, a.annotation || ""]))}
+        />
 
         <Card>
           <CardHeader className="flex-row justify-between items-center">
