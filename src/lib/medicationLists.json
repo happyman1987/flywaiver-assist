@@ -1,0 +1,3047 @@
+{
+ "aircrew": {
+  "label": "Aircrew — manned platforms and ATC",
+  "effective": "29 Sep 2026 (supersedes 18 Dec 2025)",
+  "medications": [
+   {
+    "category": "Gen",
+    "generic": "Acetaminophen",
+    "trade": "Tylenol",
+    "indication": "Pain (acute condition use)",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNuntil the underlying condition will not interfere with flying duties and there are no adverse side effects. Usage is for acute conditions, less than 4 weeks, and condition does not require waiver.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Acetazolamide",
+    "trade": "Diamox",
+    "indication": "Prevention of acute altitude sickness",
+    "statuses": [],
+    "notes": "*Only ifapproved by MAJCOM protocol,for only those career fields noted by AFPD 10-35 to be Battlefield AirmenDose approved 125. 250 mg by mouth two - to three times a day (see Acetazolamide Paper). Must ground test for three days",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Acupuncture",
+    "trade": "Seirin needle, ASP needle",
+    "indication": "Pain (acute condition use)",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "Minimum of 2 hours ground trial at initiation of therapy to ensure idiosyncratic reaction is ruled out. After initial ground trial, no required unless DOWN underlying condition interferes with flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Acyclovir",
+    "trade": "Zovirax",
+    "indication": "HSV (treatment or suppression)",
+    "statuses": [
+     "ground_trial",
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNuntil the underlying condition will not interfere with flying duties and there are no adverse side effects (minimum 72 hours). 0029005200550003009500140013000300550048004600580055005500480051005700030048Note: pisodes per year, treat with acyclovir 400 mg Q12.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Acyclovir (topical)",
+    "trade": "Zovirax (topical)",
+    "indication": "HSV",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN not required unless condition or medication interferes with life support gear or flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Adalimumab",
+    "trade": "Humira",
+    "indication": "Reactive Arthritis/ Rheumatoid Arthritis/",
+    "statuses": [],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained. Consider categorical waiver.Restricted Deployability, see Waiver Guide. Adalimumab Background Paper",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Adapalene 0.1% Gel (topical)",
+    "trade": "Differin",
+    "indication": "Acne vulgaris",
+    "statuses": [],
+    "notes": "DOWNnot required unless condition or medication interferes with life support gear or flying duties. Adapalene Background Paper",
+    "delegation": ""
+   },
+   {
+    "category": "MS",
+    "generic": "Alendronate",
+    "trade": "Fosamax",
+    "indication": "Osteoporosis (prophylaxis and",
+    "statuses": [],
+    "notes": "Submit for waiverafter potential for idiosyncratic reaction has been ruled out and control is maintained. Take on non-flying days, if possible. See Alendronate",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Alfuzosin",
+    "trade": "Uroxatral",
+    "indication": "BPH",
+    "statuses": [
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Max dose 10 mg daily. *Not waiverable for FCI. Limited to FCIIA (restriction from high performance aircraft and fly with another qualified pilot during critical phases of flight), FC III and ATC. Alfuzosin may be used with finasteride with appropriate waiver authority noted for alfuzosin. See Alfuzosin Paper.",
+    "delegation": ""
+   },
+   {
+    "category": "MS",
+    "generic": "Allopurinol",
+    "trade": "Zyloprim",
+    "indication": "Gout and urolithiasis",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "For urolithiasis either alone or in combination with thiazide (hydrochlorothiazide or chlorothiazide). Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Aluminum Chloride Hexahydrate",
+    "trade": "Drysol",
+    "indication": "Hyperhidrosis",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "For hyperhidrosis.DOWNuntil the underlying symptoms will not interfere with flying duties and there are no adverse side effects.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Amlodipine",
+    "trade": "Norvasc",
+    "indication": "",
+    "statuses": [],
+    "notes": "Minimum 7-day DOWN observationperiod at initial treatment and subsequent dose adjustments. See HTN waiver guide.",
+    "delegation": ""
+   },
+   {
+    "category": "Antibiotic",
+    "generic": "Amoxicillin",
+    "trade": "Amoxil",
+    "indication": "Acute infection",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out and acute infectious process is asymptomatic.",
+    "delegation": ""
+   },
+   {
+    "category": "Antibiotic",
+    "generic": "Amoxicillin/clavulanate",
+    "trade": "Augmentin",
+    "indication": "Acute infection",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out and acute infectious process is asymptomatic.",
+    "delegation": ""
+   },
+   {
+    "category": "Antibiotic",
+    "generic": "Ampicillin",
+    "trade": "Polycillin",
+    "indication": "Acute infection",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out and acute infectious process is asymptomatic.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Anesthetic Agents (localor regional)",
+    "trade": "",
+    "indication": "Surgical procedures",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Aircrew/SWAmembers cannot fly for at least 8 hours after receiving a local or regional anesthetic agent.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Antibiotics (topical)",
+    "trade": "",
+    "indication": "Acne",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWNnotrequired unless condition or medication interferes with life support gear or flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Antifungals (topical)",
+    "trade": "Tinactin Lamisil Lotrimin",
+    "indication": "Tinea pedis Tinea cruris Tinea corporis",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNnot required unless condition or medication interferes with life support gear or flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Anti-infectives/ Antiseptics",
+    "trade": "Silvadene Neosporin",
+    "indication": "Acute injury (burns, abrasions)",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNnot required unless condition or medication interferes with life support gear or flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Aspirin",
+    "trade": "Bayer Aspirin",
+    "indication": "Cardiovascular prophylaxis",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "Single ground trial is required for members who have never previously taken aspirin - 81 mg or 325 mg once daily for prophylactic therapy as clinically indicated. Underlying disqualifying condition (when present) continue to require waiver.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Atenolol",
+    "trade": "",
+    "indication": "nd Hypertension (2",
+    "statuses": [],
+    "notes": "Minimum 7-dayDOWN observation period at initial treatment and subsequent dose",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Atorvastatin",
+    "trade": "Lipitor",
+    "indication": "Hyperlipidemia",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "Waiver not required if on single approved statin medication for hyperlipidemia.. Approved medications include simvastatin, pravastatin, and lovastatin up to 40mg/day and atorvastatin up to 80 mg/day. Higher doses or combination of medication requires waiver. Requires at least 5 day ground trail when starting medication or for any adjustments to dosage to rule out idiosyncratic reactions. Follow up of lipids and LFTs should conform with accepted practice standards.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Atovaquone/ Proguanil (combination)",
+    "trade": "Malarone",
+    "indication": "Malaria prophylaxis",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "Single dose ground trial required, Malarone (250 mg atovaquone/100 mg proguanil) daily beginning 12 days prior to travel, ending 7 days after exposure -(Reminder:",
+    "delegation": ""
+   },
+   {
+    "category": "ENT",
+    "generic": "Azelastine",
+    "trade": "Astelin",
+    "indication": "Vasomotor rhinitis",
+    "statuses": [
+     "ground_trial",
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Minimum 72 hours ground trial at initiation of therapy and adequate control of rhinitis is required.",
+    "delegation": ""
+   },
+   {
+    "category": "Antibiotic",
+    "generic": "Azithromycin",
+    "trade": "Zithromax",
+    "indication": "Acute infection",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out and acute infectious process is asymptomatic.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Benazepril",
+    "trade": "Lotensin",
+    "indication": "Hypertension",
+    "statuses": [],
+    "notes": "Waiver not required for monotherapy.Minimum 7-day DOWNobservation period",
+    "delegation": ""
+   },
+   {
+    "category": "Ophth",
+    "generic": "Betaxolol (ophth drops)",
+    "trade": "Betoptic",
+    "indication": "Glaucoma",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out. Underlying condition may require waiver in which case, DOWNuntil waiver approved.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Botulinum Toxin A",
+    "trade": "BoTox",
+    "indication": "Hyperhidrosis, Cosmetic purposes",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Only approved for use in axillary hyperhidrosis, cosmetic purposes. DOWN for 7 days monitoring time period. if the member tolerates the UP medication and symptom improvement noted (for hyperhidrosis). Use for palmar hyperhidrosis and other noncosmetic purposes requires AFMRA - review.",
+    "delegation": ""
+   },
+   {
+    "category": "Psych",
+    "generic": "Bupropion",
+    "trade": "Wellbutrin SRor XL",
+    "indication": "Waiverable Mental Health Diagnoses",
+    "statuses": [
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Max dose 450 mg/day. *Not waiverable for FCI. Waiver will not be considered until member is asymptomatic and shows clinical stability. All FCII (except flight surgeons) require ACS evaluation andcategorical consideration. All otherflying classes, ACS review is encouraged and MAJCOM dispositions waiver",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Calcipotriene 0.005% Ointment (topical)",
+    "trade": "Dovonex",
+    "indication": "Psoriasis",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiverafter potential for idiosyncratic reaction has been ruled out and control is maintained. Doses limited to 100 gm of ointment per week. Calcipotriene Background Paper",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Celecoxib",
+    "trade": "Celebrex",
+    "indication": "Pain (chronic use)",
+    "statuses": [
+     "ground_trial",
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Approved for pain and inflammation with no waiver required as long as underlying condition does not require waiver. Member will be DOWN until pain/inflammation control is achieved AND for seven days following the final dosage adjustment. Celebrex Background Paper",
+    "delegation": ""
+   },
+   {
+    "category": "Antibiotic",
+    "generic": "Cephalexin",
+    "trade": "Keflex",
+    "indication": "Acute infection",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out and acute infectious process is asymptomatic.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Chloroquine",
+    "trade": "Aralen",
+    "indication": "Malaria prophylaxis",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "Single dose ground trial required. 500 mg tablet (300 mg base) once weekly beginning 12 weeks prior to travel, ending 4 weeks after exposure. -(Reminder:",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Chlorthalidone",
+    "trade": "Thalitone",
+    "indication": "Hypertension",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Waiver not required for monotherapy or combination therapy with triamterene. Minimum 7-day DOWN observation period at initial treatment and subsequent dose",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Chlorothiazide",
+    "trade": "Diuril",
+    "indication": "Hypertension",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "For hypertension: either alone or in combination with triamterene does not require",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Cholestyramine",
+    "trade": "Questran",
+    "indication": "Hyperlipidemia",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Ciclopirox (topical)",
+    "trade": "Loprox",
+    "indication": "Seborrheic dermatitis",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWNnot required unless condition or medication interferes with life support gear or flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "GI",
+    "generic": "Cimetidine Esomeprazole Famotidine Lansoprazole Omeprazole Pantoprazole Rabeprazole Nizatidine",
+    "trade": "Tagament Nexium Pepcid Prevacid Prilosec Protonix Aciphex Axid",
+    "indication": "GERD",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWN status is not required for occasional OTC use to provide relief from minor self-limiting heartburn (no more than 2 dosages per week and/or symptoms lasting beyond 48 hours).Usage beyond this level requires flight surgeon visit.",
+    "delegation": ""
+   },
+   {
+    "category": "Antibiotic",
+    "generic": "Ciprofloxacin",
+    "trade": "Cipro",
+    "indication": "BW prophylaxis only",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "Neurotoxicity risk precludes usage in non-BW environment. Ciprofloxacin may be used operationally after monitored ground trial (500 mg every 12 hours for 2 doses with 48 hours DOWN documented in medical records) in event of BW incident for post-exposure treatment and prophylaxis for inhalational anthrax only. Cipro Policy Letter.",
+    "delegation": ""
+   },
+   {
+    "category": "Psych",
+    "generic": "Citalopram",
+    "trade": "Celexa",
+    "indication": "Waiverable Mental Health Diagnoses",
+    "statuses": [
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Max dose40 mg/day. *Not waiverable for FCI. Waiver will not be considered until member is asymptomatic and shows clinical stability. All FCII (except flight surgeons) require ACS evaluation and categorical consideration. other flying All",
+    "delegation": ""
+   },
+   {
+    "category": "Antibiotic",
+    "generic": "Clarithromycin",
+    "trade": "Biaxin",
+    "indication": "Acute Infection",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out and acute infectious process is asymptomatic.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Clindamycin (topical)",
+    "trade": "Cleocin T",
+    "indication": "Acne",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWNnot required unless condition or medication interferes with life support gear or flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Clomiphene",
+    "trade": "Clomid",
+    "indication": "Infertility",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Colestipol",
+    "trade": "Colestid",
+    "indication": "Hyperlipidemia",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Contraceptives (oral)",
+    "trade": "",
+    "indication": "Contraception",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Contraceptives (transdermal)",
+    "trade": "",
+    "indication": "Contraception",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Contraceptives (subdermal)",
+    "trade": "Implanon",
+    "indication": "Contraception",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "ENT",
+    "generic": "Cromolyn (nasal)",
+    "trade": "Crolom",
+    "indication": "Mild allergic, non-allergic, or vasomotor rhinitis",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Length of DOWNdictated by time required for adequate control of underlying symptoms.",
+    "delegation": ""
+   },
+   {
+    "category": "Ophth",
+    "generic": "Cyclosporine",
+    "trade": "Restasis",
+    "indication": "Dry eye",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Medication no longer requires waiver.",
+    "delegation": ""
+   },
+   {
+    "category": "Ops",
+    "generic": "Dextroamphetamine",
+    "trade": "Dexedrine",
+    "indication": "Fatigue management (go pill)",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "OPERATIONAL USE ONLY: NOTE: Only Immediate Release is approved for operational use. (See AFMAN48-149 Section, AF6MAN 11-202V3, and MAJCOM Guidance.) Check with MAJCOM/SGP prior to prescribing. Ground trial (10 mg every 4 hours for 2 doses, documented in the medical record) with mandatory DOWN required prior to operational use. The normal dose for operational use is 10 mg PO q 4 hours PRN, not to exceed 20 mg in 24 hours. Exception: Total dose not to exceed 40mg in 24 hours for sorties exceeding 24 hours of flight time. Women who are pregnant, or might become pregnant, are at increased risk of having adverse side effects from the medication so non-pharmacologic options should be considered first prior to its use. Dextroamphetamine is not authorized forroutine clinical use in flyers/special duty personnel.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Dextroamphetamine/ Scopolamine",
+    "trade": "Dex/Scop",
+    "indication": "Airsickness",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "Alone or in combination with dextroamphetamine for airsickness in formal training programs only. *Not authorized for solo flight (see AETCI 48-102).",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Diclofenac Topical",
+    "trade": "Voltaren",
+    "indication": "Arthritis",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "Topical use approved for short term usage (less than 30 days) without a DOWN/waiver. Long term use would, or underlying condition might, require a waiver.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Dietary/ Herbal/ Nutritional Supplements",
+    "trade": "",
+    "indication": "Wellness",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "Dietary, herbal, and nutritional supplements can only be used with the approval of a flight surgeon.The flight surgeon should consider aeromedical implications of the supplement. In general, the use of nutritional supplements is not recommended. Nutritional Supplement Policy Letter, Ephedra Policy Letter, SF",
+    "delegation": ""
+   },
+   {
+    "category": "Antibiotic",
+    "generic": "Dicloxacillin",
+    "trade": "Dynapen",
+    "indication": "Acute infection",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out and acute infectious process is asymptomatic.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Doxycycline",
+    "trade": "Vibramycin",
+    "indication": "Acne",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "",
+    "delegation": ""
+   },
+   {
+    "category": "Preventive",
+    "generic": "Emtricitabine/Tenofovir Disoproxil Fumarate",
+    "trade": "Truvada",
+    "indication": "HIV Pre- exposure prophylaxis (PrEP)",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out (minimum 14 days).",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Drospirenone/ ethinyl estradiol",
+    "trade": "Yasmin",
+    "indication": "Acne (Female only)",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out",
+    "delegation": ""
+   },
+   {
+    "category": "Preventive",
+    "generic": "Emtricitabine/Tenofovir Alafenamide",
+    "trade": "Descovy",
+    "indication": "HIV Pre- exposure prophylaxis (PrEP)",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out (minimum 14 days).",
+    "delegation": ""
+   },
+   {
+    "category": "Endo",
+    "generic": "Eplerenone",
+    "trade": "Inspra",
+    "indication": "Hyper- aldosteronism",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained. Eplerenone and Spironolactone Background Paper.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Erythromycin",
+    "trade": "E-mycin",
+    "indication": "Acne",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Erythromycin (topical)",
+    "trade": "T-Stat",
+    "indication": "Acne",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWNnot required unless condition or medication interferes with life support gear or flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "Psych",
+    "generic": "Escitalopram",
+    "trade": "Lexapro",
+    "indication": "Waiverable Mental Health Diagnoses",
+    "statuses": [
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Max dose 20 mg/day. *Not waiverable for FCI. Waiver will not be considered until member is asymptomatic and showsclinical stability. All FCII (except flight surgeons) require ACS evaluation and categorical consideration. All other flying classes, ACS review is encouraged and MAJCOM dispositions waiver",
+    "delegation": ""
+   },
+   {
+    "category": "GI",
+    "generic": "Esomeprazole",
+    "trade": "Nexium",
+    "indication": "Peptic ulcer disease",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained. Authorized under a single waiver with the other approved proton pump inhibitors (PPIs) esomeprazole, omeprazole, rabeprazole, lansoprazole and pantoprazole. Medication change between the approved PPIs at the base level, while still requiring a mandatory day ground observation period, does not 3- necessitate notification of the waiver authority. These changes should be documented in AIMWTS at the time of waiver renewal.",
+    "delegation": ""
+   },
+   {
+    "category": "Endo",
+    "generic": "Estrogen (aloneor with progestinor testosterone)",
+    "trade": "",
+    "indication": "Contraception, Hormone Replacement Therapy",
+    "statuses": [
+     "ground_trial",
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "Endo",
+    "generic": "Estrogen (aloneor with progestin) (topical)",
+    "trade": "",
+    "indication": "Contraception, Hormone Replacement Therapy",
+    "statuses": [
+     "ground_trial",
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Etanercept",
+    "trade": "Enbrel",
+    "indication": "Reactive arthritis, rheumatoid arthritis, psoriasis and psoriatic arthritis,",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Requires refrigeration at 36-46 degrees F. Submit for waiverafter potential for idiosyncratic reaction has been ruled out and control is maintained. Waiver review requires categorical consideration. RestrictedDeployability, see Waiver Guide.",
+    "delegation": ""
+   },
+   {
+    "category": "Endo",
+    "generic": "Etonogestrel/Ethinyl Estradiol (vaginal ring)",
+    "trade": "NuvaRing",
+    "indication": "Contraception",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Ezetimibe",
+    "trade": "Zetia",
+    "indication": "Hyperlipidemia nd (2line)",
+    "statuses": [
+     "ground_trial",
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "DOWN until after potential for idiosyncratic reaction has been ruled out (minimum 3 days) and control is maintained.Ezetimibe Background Paper.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Ezetimbe/Simva-statin",
+    "trade": "Vytorin",
+    "indication": "Hyperlipidemia",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out (minimum 5 days) and control is maintained.Ezetimibe Background Paper.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Fenofibrate",
+    "trade": "Tricor",
+    "indication": "Hyperlipidemia",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "See Fenofibrate Background paper.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Ferrous Sulfate",
+    "trade": "",
+    "indication": "Iron deficiency anemia",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "ENT",
+    "generic": "Fexofenadine",
+    "trade": "Allegra",
+    "indication": "Mild allergic rhinitis",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Minimum 72 hours ground trial at initiation of therapy and adequate control of rhinitis is required.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Finasteride",
+    "trade": "Proscar",
+    "indication": "Benign Prostatic Hyperplasia",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out (minimum 3 days) and conditiondoes not interfere with flying duties. DoW policy prohibits purchase of this drug for treatment hair loss using Dofunds (see W Finasteride Background Paper). If used in combination with silodosin, follow",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Finasteride (1 mg)",
+    "trade": "Propecia",
+    "indication": "Hair loss",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out (minimum 3 days). DoW policy prohibits purchase of this drug for hair loss treatment using DoW funds.",
+    "delegation": ""
+   },
+   {
+    "category": "Ophth",
+    "generic": "Fluoromethalone (and prednisolone, difluprednate, loteprednol etabonate)",
+    "trade": "",
+    "indication": "Anti- Inflammatory",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "All steroid drops used to treat inflammation after approved CRS are not DOWNing in and of themselves. Underlying condition requiring use of steroid drops, including CRS, may require DOWN. See CRS Waiver Guide for information about DOWN time period after CRS.",
+    "delegation": ""
+   },
+   {
+    "category": "Psych",
+    "generic": "Fluoxetine",
+    "trade": "Prozac",
+    "indication": "Waiverable Mental Health Diagnoses",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Max dose 80 mg/day. *Not waiverable for FCI. Waiver will not be considered until member is asymptomatic and shows clinical stability. All FCII (except flight surgeons) require ACS evaluation and categorical consideration. Allother flying classes, ACS review is encouraged and MAJCOM dispositions waiver",
+    "delegation": ""
+   },
+   {
+    "category": "GI",
+    "generic": "Folate",
+    "trade": "",
+    "indication": "Sprue",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Fosfomycin",
+    "trade": "Monurol",
+    "indication": "Acute infection",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out and acute infectious process is asymptomatic.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Gemfibrozil",
+    "trade": "Lopid",
+    "indication": "Hyperlipidemia",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "GI",
+    "generic": "Hemorrhoidal suppository",
+    "trade": "",
+    "indication": "Hemorrhoids",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNis not required once symptoms relieved.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Hyaluronate derivatives",
+    "trade": "Synvisc, Synvisc-One, Euflexxa, Hyalgan, Orthovisc",
+    "indication": "Osteoarthritis pain",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "For intra-articular injection only. 48 hour post-injection DOWNrequired. Use of this medication does not require waiver. However, depending on severity, underlying condition MAY require waiver.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Hydrochlorothiazide",
+    "trade": "Hydrodiuril",
+    "indication": "Hypertension",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "For hypertension: either alone or in combination with triamterene does not require",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Hydroxychloroquine",
+    "trade": "Plaquenil",
+    "indication": "Arthritis",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Ibuprofen",
+    "trade": "Motrin",
+    "indication": "Pain (chronic use)",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Imiquimod (topical)",
+    "trade": "Aldara, Zyclara",
+    "indication": "Warts, actinic keratosis, basal cell cancer",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNnotrequired unless condition or medication interferes with life support gear or flying duties. Localized inflammatory reactions at the site of application are common, and should be considered prior to initiation of therapy.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Infliximab",
+    "trade": "Remicade",
+    "indication": "Ankylosing spondylitis, psoriatic arthritis, psoriasis#, ulcerative",
+    "statuses": [],
+    "notes": "*No initial flying class waivers. Requires 6 months symptom control prior to waiver submission. #Psoriasis when other medications have failed. Consult Waiver Guide for use in IBD patients. Restricted deployability, see Waiver Guide. See Infliximab (Remicade) background",
+    "delegation": ""
+   },
+   {
+    "category": "Immuno",
+    "generic": "Immunization",
+    "trade": "",
+    "indication": "Wellness",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Adverse reactions are rare. Access to medical care on the ground is recommended for a period of 4 hours for all personnel, unless operational needs dictate otherwise. Recommend timing live immunizations such that side effects, if present, will have minimal operational impact. This guidance also applies to JEV (IXIARO).",
+    "delegation": ""
+   },
+   {
+    "category": "Immuno",
+    "generic": "Immunotherapy",
+    "trade": "",
+    "indication": "Allergy",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "UP after potential for idiosyncratic reaction has been ruled out 4-hour verbal DOWN is required for aircrew/after each injectionSWA . DOWN notrequired for ground operators. Aircrew/SWA will not deploy on immunotherapy.",
+    "delegation": ""
+   },
+   {
+    "category": "ENT",
+    "generic": "Ipratropium (nasal)",
+    "trade": "Atrovent nasal",
+    "indication": "Mild allergic, non-allergic, or vasomotor rhinitis",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Minimum 3 week ground trial to evaluate for vision and CNS changes.",
+    "delegation": ""
+   },
+   {
+    "category": "Pulm",
+    "generic": "Isoniazid (INH)",
+    "trade": "Nydrazid",
+    "indication": "TB prophylaxis",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "For tuberculin converters who do not have active TB, minimum 72 hours ground trial.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Isotretinoin",
+    "trade": "Acutane",
+    "indication": "Severe Acne",
+    "statuses": [
+     "waiver_required_flying_1_2"
+    ],
+    "notes": "See Acne Waiver Guide for full details. *Minimum 2 week ground trial.Electroretinogram not required.",
+    "delegation": ""
+   },
+   {
+    "category": "Antibiotic",
+    "generic": "INH-Rifapentine",
+    "trade": "Priftin",
+    "indication": "Latent TB",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Directly Observed Therapy regimens only, IAW CDC/IDSA recommendations. Prior to deployment ensure PH clearance for completion of DOT.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Ketamine",
+    "trade": "Ketalar",
+    "indication": "Anesthesia",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Minimum 48 hour DOWNrequired after administration for surgery.",
+    "delegation": ""
+   },
+   {
+    "category": "GI",
+    "generic": "Lansoprazole",
+    "trade": "Prevacid",
+    "indication": "Peptic Ulcer Disease",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out (minimum 3 days and symptom control is maintained. Authorized under a single waiver along with the other approved proton pump inhibitors (PPIs) esomeprazole, omeprazole, rabeprazole, lansoprazole and pantoprazole. Medication change between approved PPIs at the base level, while still requiring a mandatory 3 day ground observation period, does not necessitate notification of the waiver authority. These changes should be documented in AIMWTS at the time of waiver renewal.",
+    "delegation": ""
+   },
+   {
+    "category": "Ophth",
+    "generic": "Latanoprost (ophth drops)",
+    "trade": "Xalatan",
+    "indication": "Glaucoma",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out. Underlying condition may require waiver in which case, DOWNuntil waiver approved.",
+    "delegation": ""
+   },
+   {
+    "category": "Ophth",
+    "generic": "Levobunolol (ophth drops)",
+    "trade": "Betagan",
+    "indication": "Glaucoma",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out. Underlying condition may require waiver in which case, DOWNuntil waiver approved.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Levothyroxine",
+    "trade": "Synthroid",
+    "indication": "Hypothyroidism or thyroid suppression",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Lisinopril",
+    "trade": "Zestril",
+    "indication": "Hypertension",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Waiver not required for monotherapy. Minimum 7-day DOWNobservation period at initial treatment and subsequent dose adjustments. Symptom control = BP <140/90. See HTN Waiver Guide for treatment parameters.",
+    "delegation": ""
+   },
+   {
+    "category": "GI",
+    "generic": "Loperamide",
+    "trade": "Imodium",
+    "indication": "Bowel Movement Prevention",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "OPERATIONAL USE ONLY: For prophylactic use in sorties longer than 4 hours, no more than 2 doses in 24 hours. Should be used in conjunction with operational diet modification. If used to treat acute diarrhea, requires DOWN status for underlying condition.",
+    "delegation": ""
+   },
+   {
+    "category": "ENT",
+    "generic": "Loratadine",
+    "trade": "Claritin",
+    "indication": "Allergy",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Minimum 72 hours ground trial at initiation of therapy and adequate control of rhinitis is required. Maximum dosage is limited to 10 mg per day.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Azilsartan",
+    "trade": "Edarbi",
+    "indication": "Hypertension",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Waiver not required for monotherapy.Minimum 7-day DOWNobservation period",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Lovastatin",
+    "trade": "Mevacor",
+    "indication": "Hyperlipidemia",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "Waiver not required if on single approved statin medication for hyperlipidemia. Approved medications include simvastatin, pravastatin, lovastatin and rosuvastatin up to 40 mg/day and atorvastatin up to 80 mg/day. Higher doses or combination of medication requires waiver. Requires at least 5 dayground trail when starting medication or for any adjustments to dosage to rule out idiosyncratic reactions. Follow up of lipids and LFTs should conform to accepted practice standards.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Melatonin",
+    "trade": "Melatonin",
+    "indication": "Ciracadian",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "Approved for use in all classes to be used for Circadian Rhythm Disorders (e.g.shift",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Meloxicam",
+    "trade": "Mobic",
+    "indication": "Pain, inflammation (chronic use)",
+    "statuses": [
+     "ground_trial",
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Approved for use in chronic pain and inflammation up to a dose of 15 mg per day, no waiver required. Member will be DOWN until pain/inflammation control is achieved AND for seven days following the final dosage adjustment. Mobic",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Mesalamine (complexed with methyl/methacrylic",
+    "trade": "Asacol, Delizicol",
+    "indication": "Inflammatory Bowel Disorder",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiverafter potential for idiosyncratic reaction has been ruled out and control is maintained. See Waiver Guide.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Mesalamine (delayed releasevia polymer)",
+    "trade": "Lialda",
+    "indication": "Inflammatory Bowel Disorder",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained. See Waiver Guide.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Mesalamine (complexed with ethyl",
+    "trade": "Pentasa",
+    "indication": "Inflammatory Bowel Disorder",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained. See Waiver Guide.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Mesalamine (enema/suppositories)",
+    "trade": "Rowasa",
+    "indication": "Inflammatory Bowel Disorder",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained. See Waiver Guide.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Metformin",
+    "trade": "Glucophage",
+    "indication": "Diabetes mellitus, pre- diabetes (includes",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after patient has been on medication for at least 30 days and the requirements for waiver submission (as defined by theDiabetes Waiver Guide) have",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Metoprolol",
+    "trade": "Toprol,",
+    "indication": "Hypertension",
+    "statuses": [],
+    "notes": "Minimum 7-day DOWNobservation period at initial treatment and subsequent dose",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Metronidazole (topical)",
+    "trade": "Flagyl",
+    "indication": "Rosacea",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWNnot required unless condition or medication interferes with life support gear or flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "Dental Procedure",
+    "generic": "Minocycline (microspheres)",
+    "trade": "Arestin",
+    "indication": "Adjunct to dental scaling/root planing",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "Used alone as one dose for dental procedure only does not require DOWN. DOWN is indicated for use of associated anesthetics or any adverse effects of the procedure.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Minoxidil 2-5% (topical)",
+    "trade": "Rogaine",
+    "indication": "Hair loss",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out (minimum 7 days). Orthostatics required for high-performance aviators pre/post ground trial. DoW policy prohibits purchase of this drug for hair loss treatment using DoW funds.",
+    "delegation": ""
+   },
+   {
+    "category": "Ops",
+    "generic": "Modafinil",
+    "trade": "Provigil",
+    "indication": "Fatigue management (go pill)",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "OPERATIONAL USE ONLY: See AFMAN48-149 Section 6, AFMAN11- 202V3, and MAJCOM Guidance. Check with MAJCOM/SGP prior to prescribing. Ground trial (200 mg every 8 hours for 2 doses) required. Women who are pregnant, or might become pregnant, are at increased risk of having adverse complications (increased risk of teratogenic effects of medication) so nonpharmacologic options should be considered first prior to its use.- See Modafinil Policy Letter.",
+    "delegation": ""
+   },
+   {
+    "category": "ENT Derm Pulm",
+    "generic": "Montelukast",
+    "trade": "Singulair",
+    "indication": "Allergic rhinitis, urticaria asthma",
+    "statuses": [],
+    "notes": "*While the medication itself does not require a waiver, the condition might. If waiver is required, submit for waiver when symptom control is achieved. Montelukast Background Paper.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Nicotinamide (niacinamide)",
+    "trade": "",
+    "indication": "Skin cancer prevention",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN not required unless condition or medication interferes with duties. Nicotinamide may only be from USP verified formulation.This is NOT",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Naproxen",
+    "trade": "Naprosyn",
+    "indication": "Pain (acute use)",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNuntil underlying condition will not interfere with flying duties and there are no adverse side effects. Usage is for acute conditions, less than 4 weeks, and condition does not require waiver.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Nifedipine Coat Core",
+    "trade": "Adalat CC",
+    "indication": "",
+    "statuses": [],
+    "notes": "Submitfor waiver after potential for idiosyncratic reaction has been ruled out and",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Nicotine Inhaler",
+    "trade": "Nicotrol",
+    "indication": "Tobacco addiction",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "Not for use while in flight.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Nitrofurantoin",
+    "trade": "Macrodantin",
+    "indication": "Acute infection",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out and acute infectious process is asymptomatic. Pulmonary Note.",
+    "delegation": ""
+   },
+   {
+    "category": "Ophth",
+    "generic": "Olopatadine",
+    "trade": "Patanol",
+    "indication": "Allergic conjunctivitis",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Do not prescribe if member uses contact lenses. DOWNuntil potential for idiosyncratic reaction has been ruled out (minimum 3 days) and symptom control is maintained.",
+    "delegation": ""
+   },
+   {
+    "category": "Anti- emetic",
+    "generic": "Ondansetron 8mg",
+    "trade": "Zofran",
+    "indication": "Motion sickness",
+    "statuses": [],
+    "notes": "*Only as approved by MAJCOM protocol. Specifically for prevention and treatment for motion sickness on sea operations for pararescue, combat rescue officers, special tactics officers and combat controllers. Must ground test for one dose prior to operations. Contraindicated in patients with a history of congenital QT prolongation and caution must be exercised in patients with other underlying cardiac disease.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Oseltamivir",
+    "trade": "Tamiflu",
+    "indication": "Influenza prophylaxis",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "For unvaccinated personnel during community outbreaks or mission essential operations IAW MAJCOM policy. Requires 1-day ground trial. Oseltamivir",
+    "delegation": ""
+   },
+   {
+    "category": "Antibiotic",
+    "generic": "Oxacillin",
+    "trade": "Bactocill",
+    "indication": "Acute infection",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out and acute infectious process is asymptomatic.",
+    "delegation": ""
+   },
+   {
+    "category": "ENT",
+    "generic": "Oxymetazoline (nasal)",
+    "trade": "Afrin",
+    "indication": "Eustachian tube dysfunction, sinus block",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "May be used as a get me down for unexpected ear/sinus blocks during flight or while in a critical phase of decompressive dive duties. Not for treatment of symptoms existing prior to flight.",
+    "delegation": ""
+   },
+   {
+    "category": "GI",
+    "generic": "Pantoprazole",
+    "trade": "Protonix",
+    "indication": "Peptic Ulcer",
+    "statuses": [],
+    "notes": "See AMWGfor treatment parameters.",
+    "delegation": ""
+   },
+   {
+    "category": "Antibiotic",
+    "generic": "Penicillin",
+    "trade": "Pen-Vee-K",
+    "indication": "Acute infection",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out and acute infectious process is asymptomatic.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Phenazopyridine",
+    "trade": "Pyridium",
+    "indication": "Pain (acute use)",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWN until underlying condition will not interfere with flying duties and there are no adverse side effects. Usage is for acute conditions, less than 4 weeks, and condition does not require waiver.",
+    "delegation": ""
+   },
+   {
+    "category": "ENT",
+    "generic": "Phenylephrine (nasal)",
+    "trade": "",
+    "indication": "Eustachian tube dysfunction, sinus block",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "May be used as a get me down for unexpected ear/sinus blocks during flight or while in a critical phase of decompressive dive duties. Not for treatment of symptoms existing prior to flight.",
+    "delegation": ""
+   },
+   {
+    "category": "Ophth",
+    "generic": "Phenylephrine, all strengths/dosing (opto)",
+    "trade": "",
+    "indication": "Eye dilation",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Verbal DOWNfor 8 hours, documented in the medical record is appropriate. No 2992 DOWN or Face to Face visit for UP is required for uncomplicated situations.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Pimecrolimus 1% Cream (topical)",
+    "trade": "Elidel",
+    "indication": "Rash or skin disease (acute usage)",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out and condition does not interfere with flying duties. Usage is for acute conditions, less than 4 weeks, and condition does not require waiver.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Pimecrolimus",
+    "trade": "Elidel",
+    "indication": "Rash or skin disease",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained. SeeWaiver Guide for additional details.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Podofilox (topical)",
+    "trade": "Condylox",
+    "indication": "Warts",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNnot required unless condition or medication interferes with life support gear or flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Potassium Citrate",
+    "trade": "Urocit-K",
+    "indication": "Urolithiasis",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Pravastatin",
+    "trade": "Pravacor",
+    "indication": "Hyperlipidemia",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "Waiver not required if on single approved statin medication for hyperlipidemia. Approved medications include simvastatin, pravastatin, lovastatin and rosuvastatin up to 40 mg/day and atorvastatin up to 80 mg/day. Higher doses or combination of medication requires waiver. Requires at least 5 day ground trail when starting medication or for any adjustments to dosage to rule out idiosyncratic reactions. Follow up of lipids and LFTs should conform to accepted practice standards.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Primaquine",
+    "trade": "Primaquine",
+    "indication": "Malaria prophylaxis (terminal phase)",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "Single dose ground trial required. 30 mg (base) daily (recommendation for increase from 15 mg to 30 mg by CDC) for terminal 14 days of post-exposure prophylaxis. Contraindication: G-6-PD deficiency, pregnancy, and possibly lactation (if",
+    "delegation": ""
+   },
+   {
+    "category": "MS",
+    "generic": "Probenecid",
+    "trade": "Benemid",
+    "indication": "Gout",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Potassium Iodide",
+    "trade": "Thyroshield, ThyroSafe, Iostat",
+    "indication": "Radiation prophylaxis",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "8 hour ground trial prior to first expected use (as operations allow). Do not prescribe for members with known iodine sensitivity, thyroiditis, goiter, hyperkalemia, or pregnancy. Do not ground test unless use is anticipated/directed by MAJCOM or COCOM. Document ground test in PIMR.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Progestin (injectable)",
+    "trade": "Depo-Provera",
+    "indication": "Contraception",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Progestin (implantable timed released)",
+    "trade": "Mirena",
+    "indication": "Contraception",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "Neuro",
+    "generic": "Pyridostigmine",
+    "trade": "Mestinon",
+    "indication": "CW prophylaxis",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "DOWNuntil potential idiosyncratic reactions has been ruled out. Use IAW with operational guidance, single dose ground trial advised.",
+    "delegation": ""
+   },
+   {
+    "category": "GI",
+    "generic": "Rabeprazole",
+    "trade": "Aciphex",
+    "indication": "Peptic Ulcer Disesae",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out (minimum 3 days) and symptom control is maintained. Authorized under a single waiver along with the other approved proton pump inhibitors (PPIs) esomeprazole, omeprazole, rabeprazole, lansoprazole and pantoprazole. Medication change between the approved PPIs at the base level, while still requiring a mandaday ground tory 3- observation period, does not necessitate notification of the waiver authority. These changes should be documented in AIMWTS at the time of waiver renewal.",
+    "delegation": ""
+   },
+   {
+    "category": "Onc",
+    "generic": "Raloxifene",
+    "trade": "Evista",
+    "indication": "Breast cancer prophylaxis",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Use for breast cancer chemoprophylaxis in coordination with a specialist experienced in breast cancer chemoprophylaxis only. All other uses require review on caseby--case basis. Submit for waiver after at least 1 month and stable on therapy. See Raloxifene Paper.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Ramipril",
+    "trade": "Altace",
+    "indication": "Hypertension nd (2 line)",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Waiver not required for monotherapy. Minimum 7-day DOWNobservation period at initial treatment and subsequent dose adjustments. Symptom control = BP <140/90. See HTN Waiver Guide for treatment parameters. Dosage restriction: 5",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Resin Binding Agent",
+    "trade": "",
+    "indication": "Hyperlipidemia",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "Pulm",
+    "generic": "Rifampin",
+    "trade": "",
+    "indication": "TB prophylaxis",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "For tuberculin converters who do not have active TB, minimum 72 hours ground trial.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Rosuvastatin",
+    "trade": "Crestor",
+    "indication": "Hyperlipidemia",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "Waiver not required if on single approved statin medication for hyperlipidemia. Approved medications include simvastatin, pravastatin, lovastatin and rosuvastatin up to 40 mg/day and atorvastatin up to 80 mg/day. Higher doses or combination of medication requires waiver. Requires at least 5 day ground trail when starting medication or for any adjustments to dosage to rule out idiosyncratic reactions. Follow up of lipids and LFTs should conform to accepted practice standards.",
+    "delegation": ""
+   },
+   {
+    "category": "Psych",
+    "generic": "Sertraline",
+    "trade": "Zoloft",
+    "indication": "Waiverable Mental Health Diagnoses",
+    "statuses": [
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Max dose 200 mg/day. *Not waiverable for FCI. Waiver will not be considered until member is asymptomatic and shows clinical stability. All FCII (except flight surgeons) require ACS evaluationand consideration of categorical waiver. All other flying classes, ACS review is encouraged and MAJCOM dispositions waiver",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Sildenafil",
+    "trade": "Viagra",
+    "indication": "Erectile dysfunction",
+    "statuses": [],
+    "notes": "*24 hours DOWNrequired after each dosage, verbal DOWNacceptable. *Not authorized for daily use.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Silodosin",
+    "trade": "Rapaflo",
+    "indication": "BPH",
+    "statuses": [
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Maximum dose 8 mg daily. *Not waiverable for FCI. Limited to FCIIA (restricted to nonhigh performance aircraft), FCIII and -. Silodosin may be used with ATC finasteride with appropriate waiver authority noted for silodosin. See Silodosin",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Simvastatin",
+    "trade": "Zocor",
+    "indication": "Hyperlipidemia",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "Waiver not required if on single approved statin medication for hyperlipidemia. Approved medications include simvastatin, pravastatin, lovastatin and rosuvastatin up to 40 mg/day and atorvastatin up to 80 mg/day. Higher doses or combination of medication requires waiver. Requires at least 5 day ground trail when starting medication or for any adjustments to dosage to rule out idiosyncratic reactions. Follow up of lipids and LFTs should conform to accepted practice standards.",
+    "delegation": ""
+   },
+   {
+    "category": "Endo",
+    "generic": "Sitagliptin",
+    "trade": "Januvia",
+    "indication": "Diabetes with normal renal",
+    "statuses": [
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after patient has been on medication for at least 30 days and the requirements for waiver submission (as defined by the Diabetes Waiver Guide) have",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Spironolactone",
+    "trade": "Aldactone",
+    "indication": "Hirsutism, hyper- aldosteronism",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.Eplerenone and Spironolactone Background Paper.",
+    "delegation": ""
+   },
+   {
+    "category": "ENT",
+    "generic": "Steroids (nasal)",
+    "trade": "",
+    "indication": "Mild allergic, non-allergic, or vasomotor rhinitis",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Length of DOWNdictated by time required for adequate control of underlying symptoms.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Steroids (topical)",
+    "trade": "",
+    "indication": "Rash or skin disease (acute usage)",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out and condition does not interfere with flying duties. Usage is for acute conditions, less than 4 weeks, and condition does not require waiver.",
+    "delegation": ""
+   },
+   {
+    "category": "Pulm",
+    "generic": "Steroids (inhaled orally)",
+    "trade": "",
+    "indication": "Asthma",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "All inhaled corticosteroids approved for use in asthma by the FDA as of 13 May 2012 may be used. Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
+    "delegation": ""
+   },
+   {
+    "category": "Pulm",
+    "generic": "Long acting beta agonist + steroids combination inhaler",
+    "trade": "",
+    "indication": "Asthma",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "All long acting beta agonist + steroid combination inhalers approved for use in asthma by the FDA may be used. Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained. Requires IRILO/MEB submission prior to waiver.",
+    "delegation": ""
+   },
+   {
+    "category": "GI",
+    "generic": "Steroids (metered-dose inhaler)",
+    "trade": "",
+    "indication": "Eosinophilic Esophagitis",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Topical corticosteroid therapy, administered via metered-dose inhaler (swallowed), is approved for treatment of eosinophilic esophagitis. Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained  seeEoE Waiver Guide.",
+    "delegation": ""
+   },
+   {
+    "category": "GI",
+    "generic": "Sucralfate",
+    "trade": "Carafate",
+    "indication": "Prevention of recurrent, uncomplicated duodenal ulcer",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "1 gram once daily. Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
+    "delegation": ""
+   },
+   {
+    "category": "Rheum",
+    "generic": "Sulfasalazine",
+    "trade": "Azulfidine",
+    "indication": "Reactive arthritis, rheumatoid arthritis",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained. Only authorized for RA cases that show no progression of disease (only 10% of cases). Mesalamine is better choice for inflammatory bowel disease control.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Tacrolimus 0.1% (topical)",
+    "trade": "Protopic",
+    "indication": "Rash or skin disease (acute usage)",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out and condition does not interfere with flying duties. Usage is for acute conditions, less than 4 weeks, and condition does not require waiver.",
+    "delegation": ""
+   },
+   {
+    "category": "Onc",
+    "generic": "Tamoxifen",
+    "trade": "Soltamox, Nolvadex",
+    "indication": "Breast cancer prophylaxis",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Use for breast cancer chemoprophylaxis in coordination with a specialist experienced in breast cancer chemoprophylaxis only. All other uses require review on caseby--case basis. Submit for waiver after at least 1 month and stable on therapy. See Tamoxifen Paper.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Tamsulosin",
+    "trade": "Flomax",
+    "indication": "BPH",
+    "statuses": [
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Max dose 0.4 mg daily, take 30 minutes after same meal daily. *Not waiverable for FCI. Limited to FCIIA (restriction from high performance aircraft and fly with another qualified pilot during critical phases of flight), FCIII and . Tamsulosin ATC may be used with finasteride with appropriate waiver authority noted for tamsulosin. See Tamulosin Paper.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Tazarotene 0.1% Gel (topical)",
+    "trade": "Tazorac",
+    "indication": "Acne vulgaris",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWNnot required unless condition or medication interferes with life support gear or flying duties. Tazarotene Background Paper",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Tazarotene 0.05%and 0.1% Gel (topical)",
+    "trade": "Tazorac",
+    "indication": "Psoriasis",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.Tazarotene Background Paper",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Telmisartan",
+    "trade": "Micardis",
+    "indication": "Hypertension",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Waiver not required for monotherapy. Minimum 7-day DOWNobservation period at initial treatment and subsequent dose adjustments. Symptom control = BP <140/90. See HTN Waiver Guidefor treatment parameters.",
+    "delegation": ""
+   },
+   {
+    "category": "Ops",
+    "generic": "Temazepam",
+    "trade": "Restoril",
+    "indication": "No-go pill",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "OPERATIONAL USE: For the safe performance of missionIAW AF and MAJCOM policy.Requires ground trial (DOWN for 12 hours after a single dose up to 30 mg) documented in medical records prior to operational use. Furthermore, verbal DOWN for 12 hours before resumption of duties is required after each dosage. Max 7 consecutive days, not to exceed 20 days/60 day period. No-Go Pill",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Terbinafine",
+    "trade": "Lamisil",
+    "indication": "Fungal infection, onychomycosis",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "For treatment of fungal culture or formal histopathologically confirmed fungal infections only (positive KOH is not acceptable).DOWN for 72 hours ground trial and obtain baseline LFTs. For pedal onychomycosis: 250 mg daily for 12 weeks. Terbinafine Background Paper.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Testosteroneand Estrogen (combination)",
+    "trade": "Estratest",
+    "indication": "Hormone Replacement Therapy (menopause)",
+    "statuses": [
+     "ground_trial",
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Minimum of 7-days ground trial is required. Changes of dosage or preparation requires an additional 7-day observation period.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Testosterone (injectable)",
+    "trade": "",
+    "indication": "Hormone Replacement Therapy",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Appropriate urological work-up is required prior to starting medication. Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained(minimum 7-day observation after last dose adjustment). A change of dosage or preparation requires an additional 7-day observation period. (Note: Testosterone has been classified as a Schedule 3 Controlled Drug).",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Testosterone (transdermal)",
+    "trade": "",
+    "indication": "Hormone Replacement Therapy",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Appropriate urological work-up is required prior to starting medication. Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained (minimum 7-day observation after last dose adjustment). A change of dosage or preparation requires an additional 7-day observation period. (Note: Testosterone has been classified as a Schedule 3 Controlled Drug).",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Tetracycline",
+    "trade": "Sumycin",
+    "indication": "Acne",
+    "statuses": [
+     "waiver_required_flying_1_2",
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.",
+    "delegation": ""
+   },
+   {
+    "category": "Ophth",
+    "generic": "Timolol (ophth drops)",
+    "trade": "Timoptic",
+    "indication": "Glaucoma",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out. Underlying condition may require waiver in which case, DOWNuntil waiver approved.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Tretinoin (topical)",
+    "trade": "Retin-A",
+    "indication": "Acne",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWNnot required unless condition or medication interferes with life support gear or flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Triamterene",
+    "trade": "Dyrenium",
+    "indication": "Hypertension",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Monotherapy, or in combination with thiazide diuretic no longer requires waiver. Minimum 7day DOWN observation period at initial treatment and subsequent dose",
+    "delegation": ""
+   },
+   {
+    "category": "Antibiotic",
+    "generic": "Trimethoprim- Sulfamethoxazole",
+    "trade": "Bactrim",
+    "indication": "Acute infection",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out and acute infectious process is asymptomatic.",
+    "delegation": ""
+   },
+   {
+    "category": "Neuro",
+    "generic": "Triptan classof medications",
+    "trade": "Imitrex Zomig Maxalt Relpax",
+    "indication": "Migraine headaches",
+    "statuses": [
+     "waiver_required_flying_3_atc"
+    ],
+    "notes": "*Not considered for IFCI/IA, FCII requires a categorical waiver. Non-injection formulations only. Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained.Requires ACS Neurology review on an individual basis. Efficacy and tolerance of triptan on at least 2 migraine episodes must be documented. 24 hour period after each use.DOWN SeeHeadache Waiver Guidefor additional details.",
+    "delegation": ""
+   },
+   {
+    "category": "Ophth",
+    "generic": "Tropicamide, all strengths/dosing (opto)",
+    "trade": "",
+    "indication": "Eye dilation",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Verbal DOWNfor 8 hours, documented in the medical record is appropriate.No 2992 DOWN or Face to Face visit for is required for uncomplicated situations.UP",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Vaginal Preparation (creamsand suppositories)",
+    "trade": "",
+    "indication": "Vaginitis",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "DOWNis not required for occasional OTC use to provide relief from minor self- limiting conditions unless underlying condition is symptomatic.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Valacyclovir",
+    "trade": "Valtrex",
+    "indication": "HSV (suppression)",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "DOWNuntil the underlying condition will not interfere with flying duties and there are no adverse side effects (minimum 72 hours). For suppression of HSV recurrence following regimens recommended: 1. For <10 recurrent episodes per year  valacylcovir 500 mg q.d. 2.00290052005500030095001400130003005500480046005800550055004800510057000300480053004C0056005200470048005600030053004800550003005C004800440055000300590044004F0046005C0046004F00520059004C00550003 250 mg bid.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Vardenafil",
+    "trade": "Levitra",
+    "indication": "Erectile Dysfunction",
+    "statuses": [],
+    "notes": "*24 hour DOWNafter each dosage (verbal DOWNacceptable). *Not authorized for daily use.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Varenicline",
+    "trade": "Chantix",
+    "indication": "Tobacco Cessation",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "Two week ground trial to evaluate for irritability/aggression, attention deficit, SI/HI, seizure, sleep and any cardiac side effects. Encourage alcohol abstinence to prevent seizures and completion of 90 minute tobacco cessation (online or in person) program to maximize efficacy.",
+    "delegation": ""
+   },
+   {
+    "category": "Ops",
+    "generic": "Zaleplon",
+    "trade": "Sonata",
+    "indication": "No-go pill",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "OPERATIONAL USE: For the safe performance of missionIAW AF and MAJCOM policy. Requires ground trial (DOWN for 4 hours after a single dose up to 10 mg) documented in medical records prior to operational use. Furthermore, verbal DOWN for 4 hours before resumption of duties is required after each dosage. Max 10 consecutive days, not to exceed 28 days/60 day period. No-Go Pill Policy",
+    "delegation": ""
+   },
+   {
+    "category": "Ops",
+    "generic": "Zolpidem",
+    "trade": "Ambien",
+    "indication": "No-go pill",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "OPERATIONAL USE: For the safe performance of missionIAW MAJCOM and AF policy. Requires ground trial (DOWN for 6 hours after a single dose up to 10 mg for males, 5 mg for females) documented in medical records prior to operational use. If female aviator ground tested the 10 mg dose prior to 15 May 2013, aviator may continue with verification of ground testing in medical record. Furthermore, verbal DOWN for 6 hours before resumption of duties is required after each dosage. Max 7 consecutive days, not to exceed 20 days/60 day period. Not authorized for use during routine training missions. No-Go Pill Policy Letter.",
+    "delegation": ""
+   },
+   {
+    "category": "MEDICATION FOR USE BY AIRCREW ONLY WHILE UNDER DIRECT SUPERVISION. THESE MEDS WILL NOT BE USED FOR TRAINED PERSONNEL.",
+    "generic": "DAF Approved Air Sickness Management Program Medications Overthe Counter (OTC) Medications NOT Allowed Without Flight Surgeon Approval /SWA IN STUDENT STATUS ONLY, FOR THE TREATMENT OF AIRSICKNESS, AND",
+    "trade": "",
+    "indication": "",
+    "statuses": [],
+    "notes": "",
+    "delegation": ""
+   },
+   {
+    "category": "Anti- emetic/ Stimulant",
+    "generic": "Scopolamine",
+    "trade": "Scopolamine",
+    "indication": "Airsickness",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "May be used in conjunctionwith non-pharmacologicinterventionsfor airsickness in formal training programs. *Not authorized for solo flight (see AETCI 48-",
+    "delegation": ""
+   },
+   {
+    "category": "Anti- emetic/ Stimulant",
+    "generic": "Scopolamine/ Dextroamphetamine",
+    "trade": "Transderm- Scop, Scopace,",
+    "indication": "Airsickness",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "Alone or in combination with dextroamphetamine or in conjunctionwith non- pharmacologic interventions for airsickness in formal training programs.*Not authorized for solo flight (see AETCI 48-102). DOWN is not required for dual",
+    "delegation": ""
+   },
+   {
+    "category": "Anti- emetic/ Stimulant",
+    "generic": "Promethazine 25mg/ dextroamphetamine 5mg",
+    "trade": "Phenergan, Dexedrine, ProCentra",
+    "indication": "Airsickness",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "Specifically for airsickness in formal AETC aircrew training programs. DOWNis not required for dual pilot training sorties. May not be used within 5 sorties of solo flight. May be used in conjunction with non-pharmacologic interventions. *Not authorized for solo flight (see AETCI 48-102).",
+    "delegation": ""
+   },
+   {
+    "category": "Anti- emetic/ Stimulant",
+    "generic": "Promethazine 25 mg/ Ephedrine 25mg",
+    "trade": "Phenergan, Ephedra, Herb má huáng",
+    "indication": "Airsickness",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "Specifically for airsickness in formal AETC aircrew training programs. DOWNis not required for dual pilot training sorties. May not be used within 5 sorties of solo flight. May be used in conjunction with non-pharmacologic interventions. *Not authorized for solo flight (see AETCI 48-102).",
+    "delegation": ""
+   },
+   {
+    "category": "Antibiotic",
+    "generic": "003A436970726F666C6F786163696E",
+    "trade": "003A436970726F",
+    "indication": "Other than BW prophylaxis",
+    "statuses": [],
+    "notes": "Unacceptable CNS excitability.DOWNduring treatment. BW prophylaxis against inhalational anthrax authorized only (risk/benefit compared with CNS excitability must be considered at the operational level).Cipro Policy Letter",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "003A4465706F2D4D6564726F6C20",
+    "trade": "003A20",
+    "indication": "416C6C6572677920",
+    "statuses": [],
+    "notes": "436F6E646974696F6E20726571756972696E6720696E6A65637461626C6520737465726F696420697320726561736F6E7320666F722067726F756E64696E672E20",
+    "delegation": ""
+   },
+   {
+    "category": "4465726D20",
+    "generic": "003A49747261636F6E617A6F6C6520",
+    "trade": "003A53706F72616E6F7820",
+    "indication": "46756E67616C20696E66656374696F6E20",
+    "statuses": [],
+    "notes": "4E6567617469766520696F6E6F74726F70696320656666656374732E202041766961746F7273207573696E6720746869732066756E6769737461746963206D656469636174696F6E206D75737420626520 67726F756E64656420666F7220746865206475726174696F6E206F66207468657261707920706C75732031207765656B20666F72207468652077617368206F757420706572696F642064756520746F2069747320",
+    "delegation": ""
+   },
+   {
+    "category": "47656E20",
+    "generic": "003A4D65666C6F7175696E65",
+    "trade": "003A4C617269616D",
+    "indication": "Malaria prophylaxis",
+    "statuses": [],
+    "notes": "Adverse effects include but not limited to: optic neuritis, cataracts, decreased night vision, blurred vision and photosensitivity, seudotumor cerebri, depression, psychosis, and suicide.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "003A4D696E6F6379636C696E6520",
+    "trade": "003A4D696E6F63696E",
+    "indication": "Acne",
+    "statuses": [],
+    "notes": "Unacceptable (up to 70%) incidence of vestibular side-effects.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "003A4E696163696E",
+    "trade": "003A",
+    "indication": "Hyperlipidemia",
+    "statuses": [],
+    "notes": "Dizziness, headache, shortness of breath.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "003A537465726F6964202873797374656D696329",
+    "trade": "003A",
+    "indication": "Inflammatory diseases",
+    "statuses": [],
+    "notes": "DOWNfor duration of therapy any regimen in excess of three weeks requires documentation of intact adrenal axis. See waiver guidefor additional details.",
+    "delegation": ""
+   }
+  ]
+ },
+ "gbo": {
+  "label": "Ground Based Operator (GBO)",
+  "effective": "29 Sep 2026 (supersedes 16 Dec 2024)",
+  "medications": [
+   {
+    "category": "Gen",
+    "generic": "Adalimumab",
+    "trade": "Humira",
+    "indication": "Reactive Arthritis/ Rheumatoid Arthritis/ Psoriasis and Psoriatic Arthritis/ Ankylosing Spondylitis/",
+    "statuses": [],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained. Restricted Deployability, see Waiver Guide. Adalimumab Background",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Alfuzosin",
+    "trade": "Uroxatral",
+    "indication": "BPH",
+    "statuses": [
+     "waiver_required"
+    ],
+    "notes": "Max dose 10 mg daily. Rapaflow is first line agent and does not require waiver. See Alfuzosin Paper.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Aluminum Chloride Hexahydrate",
+    "trade": "Drysol",
+    "indication": "Hyperhidrosis",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "For hyperhidrosis. DOWN until the underlying symptoms will not interfere with flying duties and there are no adverse side effects.",
+    "delegation": ""
+   },
+   {
+    "category": "Infections",
+    "generic": "Antibiotics (All oral, topical, oticand ophthalmic except Minocycline)",
+    "trade": "X Acuteor chronic infection",
+    "indication": "",
+    "statuses": [],
+    "notes": "DOWN until the potential for idiosyncratic reaction has been ruled out and underlying condition does not interfere with duties. Chronic underlying condition my require waiver.",
+    "delegation": ""
+   },
+   {
+    "category": "ENT",
+    "generic": "Azelastine",
+    "trade": "Astelin Optivar",
+    "indication": "Vasomotor Rhinitis Allergic- Conjunctivitis",
+    "statuses": [
+     "symptoms_controlled_no_side_effects"
+    ],
+    "notes": "Third line agent, trial of nasal steroid and Claritin/Allegra first. Minimum 72 hours ground trial at initiation of therapy and adequate control of rhinitis is required.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Benzyl Peroxide (Topical)",
+    "trade": "Acne X",
+    "indication": "",
+    "statuses": [],
+    "notes": "DOWNnot required unless condition or medication interferes with duties.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Botulinum Toxin A",
+    "trade": "BoTox",
+    "indication": "Hyperhidrosis,",
+    "statuses": [],
+    "notes": "Only approved for use in axillaryhyperhidrosis, cosmetic",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Calciprotriene Ointment",
+    "trade": "DovonexPsoriasis X",
+    "indication": "",
+    "statuses": [],
+    "notes": "DOWNuntil potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "Dental",
+    "generic": "Chlorhexadine Gluconate",
+    "trade": "Peridex Gingivitis X",
+    "indication": "",
+    "statuses": [],
+    "notes": "DOWN not required unless condition interferes with duties.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Contraceptives (Implantable)",
+    "trade": "Norplant, Implanon, Mirena",
+    "indication": "Contraception X",
+    "statuses": [],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Contraceptives (Injectable)",
+    "trade": "DepoProvera Contraception X",
+    "indication": "",
+    "statuses": [],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Contraceptives (Insertable)",
+    "trade": "Nuvaring Contraception X",
+    "indication": "",
+    "statuses": [],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Contraceptives (Transdermal/ subdermal)",
+    "trade": "DOWN until potentialfor idiosyncratic reactionhas been Contraception X ruled out.",
+    "indication": "",
+    "statuses": [],
+    "notes": "",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Dextroamphetamine/ Scopolamine",
+    "trade": "Dex/Scop Airsickness X",
+    "indication": "",
+    "statuses": [],
+    "notes": "For airsickness during transport to launch facility.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Diclofenac Topical",
+    "trade": "Voltaren",
+    "indication": "Arthritis",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "Topical use approved for short term usage (less than 30 days) without a DOWN/waiver. Long term use would, or underlying condition might, require a waiver.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Doxycycline",
+    "trade": "Vibramycin",
+    "indication": "Acne",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out and control is maintained.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Drospirenone/ ethinyl estradiol",
+    "trade": "Yasmin",
+    "indication": "Acne (Female only)",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out",
+    "delegation": ""
+   },
+   {
+    "category": "Preventive",
+    "generic": "Emtricitabine/Tenofovir Disoproxil Fumarate",
+    "trade": "Truvada",
+    "indication": "HIV Pre-exposure prophylaxis (PrEP)",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out (minimum 14 days).",
+    "delegation": ""
+   },
+   {
+    "category": "Preventive",
+    "generic": "Emtricitabine/Tenofovir Alafenamide",
+    "trade": "Descovy",
+    "indication": "HIV Pre-exposure prophylaxis (PrEP)",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out (minimum 14 days).",
+    "delegation": ""
+   },
+   {
+    "category": "Endo Eplerenon InspraHyperaldosteronism",
+    "generic": "Submitfor waiver after potentialfor idiosyncratic reactionhas been ruledoutand controlis X maintained.",
+    "trade": "",
+    "indication": "",
+    "statuses": [],
+    "notes": "Eplerenone and Spironolactone Background",
+    "delegation": ""
+   },
+   {
+    "category": "Psych",
+    "generic": "Escitalopram",
+    "trade": "Lexapro",
+    "indication": "Waiverable Mental Health Diagnoses",
+    "statuses": [
+     "waiver_required"
+    ],
+    "notes": "Max dose 20 mg/day.Waiver will not be considered until member is asymptomatic and shows clinical stability. ACS review is encouraged and MAJCOM dispositions waiver.",
+    "delegation": ""
+   },
+   {
+    "category": "Endo",
+    "generic": "Etonogestrel/Ethinyl Estradiol (vaginal ring)",
+    "trade": "NuvaRing Contraception X",
+    "indication": "",
+    "statuses": [],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Fluconazole",
+    "trade": "Diflucan",
+    "indication": "Fungal infection",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "",
+    "delegation": ""
+   },
+   {
+    "category": "Ophth",
+    "generic": "Fluoromethalone (and prednisolone, difluprednate, loteprednol etabonate)",
+    "trade": "",
+    "indication": "Anti-Inflammatory",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "All steroid drops used to treat inflammation after approved CRS are not DOWNing in and of themselves. Underlying condition requiring use of steroid drops, including CRS, may require DOWN. See CRS Waiver Guide for information about DOWN time period after CRS.",
+    "delegation": ""
+   },
+   {
+    "category": "GI",
+    "generic": "Hemorrhoidal suppository",
+    "trade": "",
+    "indication": "Hemorrhoids",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN is not required once symptoms relieved.",
+    "delegation": ""
+   },
+   {
+    "category": "Pulm",
+    "generic": "Ipratropium",
+    "trade": "Atrovent",
+    "indication": "Asthma",
+    "statuses": [
+     "waiver_required"
+    ],
+    "notes": "Requires IRILO/MEB submission prior to waiver.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Isotretinoin",
+    "trade": "Acutane",
+    "indication": "Severe Acne",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "Minimum 2 week ground trial to ensure tolerance of the medication. See Acne Waiver Guide for full details.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Melatonin",
+    "trade": "Melatonin",
+    "indication": "Circadian Rhythm",
+    "statuses": [],
+    "notes": "Approved for use in all classes to be used for Circadian",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Mesalamine (complexed with ethyl",
+    "trade": "X Inflammatory Bowel DisorderPentasa",
+    "indication": "",
+    "statuses": [],
+    "notes": "DOWN until symptoms are controlled and minimum observation period is met for level of disease (seeAMCB",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Metronidazole (Topical)",
+    "trade": "Flagyl Rosacea X",
+    "indication": "",
+    "statuses": [],
+    "notes": "DOWN not required unless condition or medication interferes with duties.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Minoxidil (Topical)",
+    "trade": "Rogaine",
+    "indication": "Hair loss",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "Topical use only.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Nicotine Patch",
+    "trade": "NicoDerm",
+    "indication": "Tobacco Addiction",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Phenazopyridine",
+    "trade": "Pyridium",
+    "indication": "UTI",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Pimecrolimus 1% Cream",
+    "trade": "Elidel Atopic DermatitisX",
+    "indication": "",
+    "statuses": [],
+    "notes": "DOWN not required unless condition or medication interferes with duties Pimecrolimus Background",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Podofilox (Topical)",
+    "trade": "CondyloxWarts X",
+    "indication": "",
+    "statuses": [],
+    "notes": "DOWN not required unless condition or medication interferes with duties.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Progestin (Implantable Timed Released)",
+    "trade": "MirenaContraception X",
+    "indication": "",
+    "statuses": [],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "Onc",
+    "generic": "Raloxifene",
+    "trade": "Evista",
+    "indication": "Breast Cancer prophylaxis",
+    "statuses": [
+     "waiver_required"
+    ],
+    "notes": "Use for breast cancer chemoprophylaxis in coordination with a specialist experienced in breast cancer chemoprophylaxis only. All other uses require review on case-by-case basis. Submit for waiver after at least 1 month and stable on therapy. See Raloxifene Paper.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Resin Binding Agent",
+    "trade": "",
+    "indication": "Hyperlipidemia",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "DOWN until potential for idiosyncratic reaction has been ruled out.",
+    "delegation": ""
+   },
+   {
+    "category": "Pulm",
+    "generic": "Rifampin",
+    "trade": "",
+    "indication": "TB Prophylaxis",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "For tuberculin converters who do not have active TB, minimum 72 hours ground trial.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Scopolamine/ Dextroamphetamine",
+    "trade": "Scop/Dex Airsickness X",
+    "indication": "",
+    "statuses": [],
+    "notes": "Alone or in combination with dextroamphetamine for airsickness during transport to launch facility.",
+    "delegation": ""
+   },
+   {
+    "category": "Endo",
+    "generic": "Sitagliptin",
+    "trade": "Januvia",
+    "indication": "Diabetes with normal renal function",
+    "statuses": [
+     "waiver_required"
+    ],
+    "notes": "Submit for waiver after patient has been on medication for at least 30 days and the requirements for waiver submission (as defined by the Diabetes Waiver Guide) have been met. See",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Statin Derivatives",
+    "trade": "Simvastatin, Pravastatin, Lovastatin, Rosuvastatin, Atorvastatin",
+    "indication": "Hyperlipidemia",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "Waiver not required if on single approved statin medication for hyperlipidemia. Approved medications include simvastatin, pravastatin, lovastatin and rosuvastatin up to 40 mg/day and atorvastatin up to 80 mg/day. Higher doses or combination of medicationrequires waiver. Requires at least 5 day ground trail when starting medication or for any adjustments to dosage to rule out idiosyncratic reactions. Follow up of lipids and LFTs should conform to accepted practice standards.",
+    "delegation": ""
+   },
+   {
+    "category": "Pulm",
+    "generic": "Long acting beta agonist + inhaled corticosteroid combination",
+    "trade": "Asthma X Advair Dulera",
+    "indication": "",
+    "statuses": [],
+    "notes": "Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained. IRILO/MEB submission prior to waiver. Requires",
+    "delegation": ""
+   },
+   {
+    "category": "GI",
+    "generic": "Steroids (metered-dose inhaler)",
+    "trade": "",
+    "indication": "Eosinophilic Esophagitis",
+    "statuses": [
+     "waiver_required"
+    ],
+    "notes": "Topical corticosteroid therapy, administered via metered- dose inhaler (swallowed), is approved for treatment of eosinophilic esophagitis. Submit for waiver after potential for idiosyncratic reaction has been ruled out and control is maintained see EoE Waiver Guide.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Tacrolimus 0.1% Cream (Topical)",
+    "trade": "Protopic Atopic DermatitisX",
+    "indication": "",
+    "statuses": [],
+    "notes": "DOWN not required unless condition or medication interferes with duties.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Tamsulosin",
+    "trade": "Flomax",
+    "indication": "BPH",
+    "statuses": [
+     "waiver_required"
+    ],
+    "notes": "Minimum 7-day ground trial. A dose adjustment also requires a 7 day observation period. Repaflo is first line agent not requiring waiver.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Tazarotene 0.1% Gel",
+    "trade": "Tazorac Acne VulgarisX",
+    "indication": "",
+    "statuses": [],
+    "notes": "Tazarotene Background Paper",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Tazarotene 0.05%and",
+    "trade": "Tazorac Psoriasis X",
+    "indication": "",
+    "statuses": [],
+    "notes": "Tazarotene Background Paper",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Varenicline",
+    "trade": "Chantix",
+    "indication": "Tobacco Cessation",
+    "statuses": [
+     "ground_trial"
+    ],
+    "notes": "Two week ground trial to evaluate for irritability/aggression, attention deficit, SI/HI, seizure, sleep and any cardiac side effects. Encourage alcohol abstinence to prevent seizures and completion of 90 minute tobacco cessation (online or in person) program to maximize efficacy.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Depo-Medrol",
+    "trade": "",
+    "indication": "Allergy",
+    "statuses": [],
+    "notes": "",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Mefloquine",
+    "trade": "Lariam",
+    "indication": "Malaria Prophylaxis",
+    "statuses": [],
+    "notes": "",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Minocycline",
+    "trade": "Minocin",
+    "indication": "Acne",
+    "statuses": [],
+    "notes": "",
+    "delegation": ""
+   }
+  ]
+ },
+ "otc": {
+  "label": "Over-the-counter (aircrew, without flight surgeon approval)",
+  "effective": "18 Dec 2025 (supersedes 21 Sep 2022)",
+  "medications": [
+   {
+    "category": "Gen",
+    "generic": "Analgesics (topical) (methyl salicylate, menthol, camphor)",
+    "trade": "Bengay Icyhot Aspercreme Capzasin",
+    "indication": "Acute Pain",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusnot required unless condition or medication interferes with life support gear or flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Aspirin",
+    "trade": "Ecotrin Bayer",
+    "indication": "Acute Pain",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusis not required for occasional OTC use to provide relief from minor self-limiting conditions.",
+    "delegation": ""
+   },
+   {
+    "category": "Dental",
+    "generic": "Benzocaine 10%- 20% (oral topical), gelor liquid form only",
+    "trade": "Anbesol",
+    "indication": "Minor mouth and gum irritation",
+    "statuses": [],
+    "notes": "DOWN statusis not required for temporary relief ofminor mouth and gum irritation (apthous ulcers). Not for chronic use",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Benzoyl Peroxide (topical)",
+    "trade": "Clearasil",
+    "indication": "Acne",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusnot required unless condition or medication interferes with life support gear or flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "GI",
+    "generic": "Bismuth Subsalicylate",
+    "trade": "Pepto-Bismol",
+    "indication": "Mild Isolated Episodes of Indigestionand Mild Afebrile Diarrhea",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusis not required for occasional OTC use to provide relief from minor self-limiting conditions.",
+    "delegation": ""
+   },
+   {
+    "category": "ENT",
+    "generic": "Carbamide Peroxide Otic",
+    "trade": "Debrox",
+    "indication": "Ear wax removal",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusnot required for occasional use. Do not use if ear drainage or discharge, ear pain, irritation, or rash in ear. Should not be used for longer than 4 days.",
+    "delegation": ""
+   },
+   {
+    "category": "Dental",
+    "generic": "Chlorhexidine gluconate",
+    "trade": "Peridex",
+    "indication": "Gingivitis",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusnot required unless condition or medication interferes with life support gear or flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "GI",
+    "generic": "Docusate",
+    "trade": "Colace",
+    "indication": "Constipation",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "For mild, occasional constipation alone.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Fiber (psyllium husk, calcium polycarbophil, methylcellulose)",
+    "trade": "Metamucil Citrucel Fibercon",
+    "indication": "Constipation",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusnot required unless condition or medication interferes with life support gear or flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "GI",
+    "generic": "Hemorrhoidal Suppositories/ Medications (Witch Hazel, phenylephrine HCl)",
+    "trade": "Preparation H Tucks Nupercainal",
+    "indication": "Hemorrhoids",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusis not required for occasional OTC use to provide relief from minor self-limiting conditions.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Ibuprofen",
+    "trade": "Motrin Advil",
+    "indication": "Acute Pain",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusis not required for occasional OTC use to provide relief from minor self-limiting conditions.",
+    "delegation": ""
+   },
+   {
+    "category": "Immuno",
+    "generic": "Immunization (injectable) Exception: JE",
+    "trade": "",
+    "indication": "Wellness",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "Adverse reactions are rare. Access to medical care on the ground is recommended for a period of 4 hours for all personnel, unless operational",
+    "delegation": ""
+   },
+   {
+    "category": "GI",
+    "generic": "Loperamide",
+    "trade": "Imodium",
+    "indication": "Bowel Movement",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "For prophylactic use in operational sorties longer",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Levonorgestrel",
+    "trade": "Plan B",
+    "indication": "Emergency Contraception",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN status not required unless condition or medication interferes with life support gear or flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Multivitamin",
+    "trade": "One-A-Day Centrum",
+    "indication": "Wellness",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "Limited to one tablet per day.NOTE: Dietary, herbal, and nutritional supplements (other than a daily multivitamin) can only be used with the approval of a flight surgeon.The flight surgeon should consider aeromedical implications of the supplement as well as the probability the supplement would actually enhance performance. Nutritional Supplement",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Naproxen",
+    "trade": "Naprosyn Aleve",
+    "indication": "Acute Pain",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusis not required for occasional OTC use to provide relief from minor self-limiting conditions.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Nicotinamide (niacinamide)",
+    "trade": "",
+    "indication": "Skin cancer prevention",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN not required unless condition or medication interferes with duties. Nicotinamide may only be from USP verified formulation.This",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Nicotine Gum",
+    "trade": "Nicorette",
+    "indication": "Tobacco Addiction",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "Recommend attending smoking cessation classes to increase likelihood of successful abstinence.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Nicotine Lozenges",
+    "trade": "Committ, Nicorette",
+    "indication": "Tobacco Addiction",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "Recommend attending smoking cessation classes to increase likelihood of successful abstinence.",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Nicotine Patch",
+    "trade": "NicoDerm",
+    "indication": "Tobacco Addiction",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "Recommend attending smoking cessation classes to increase likelihood of successful abstinence",
+    "delegation": ""
+   },
+   {
+    "category": "GI",
+    "generic": "Cimetidine Esomeprazole Lansoprazole Nizatidine Omeprazole Pantoproazole Rabeprazole Famotidine",
+    "trade": "Tagamet Nexium Prevacid Axid Prilosec Protonix Aciphex Pepcid",
+    "indication": "Heartburn, Gastroesophageal Reflux (GERD)",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "Down status is not required for occasional OTC use to provide relief from minor self-limiting heartburn (no more than 2 dosages per week and/or symptoms lasting beyond 48hrs). Usage beyond this level requires flight surgeon visit..",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Salicylic Acid (topical)",
+    "trade": "Duofilm",
+    "indication": "Warts",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusnot required unless condition or medication interferes with life support gear or flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "ENT",
+    "generic": "Saline, nasal",
+    "trade": "Ocean",
+    "indication": "Nasal mucosa dryness",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusis not required for occasional OTC use to provide relief from nasal mucosa dryness due to self-limiting conditions. Not for chronic use without approval of the Flight Surgeon.",
+    "delegation": ""
+   },
+   {
+    "category": "GI",
+    "generic": "Simethicone",
+    "trade": "Gas-X",
+    "indication": "Bloating, Excess Gas",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusis not required for occasional OTC use to provide relief from minor self-limiting conditions (no more than 2 dosages per week and/or symptoms lasting beyond 48 hrs). Usage beyond this level requires discussion with flight surgeon.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "1% Hydrocortisone (topical)",
+    "trade": "Cortaid Cortizone-10",
+    "indication": "Rash (Occasional Usage)",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusnot required unless condition or medication interferes with life support gear or flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "GU",
+    "generic": "Vaginal Preparations (creamand suppositories)",
+    "trade": "Monistat 7 Vagisil",
+    "indication": "Vaginitis/Yeast Infection",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusnot required for use to provide relief form minor selflimiting conditions unless - underlying condition is symptomatic, interferes with life support gear or flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "The following is a list of medications that may be used by aircrew for minor conditions that do not interfere with flight duties medication list, is defined as a maximum of 72 hours of continuous useunless specifically stated otherwise on the package. No other medications may be taken without consultation with a flight surgeon. duty personnel must be FDA approved.",
+    "generic": "Overthe ounter (OTC) CMedications Aircrew Are Allowedtoake TWithout Flight Surgeon Approval. .Occasional OTC use, as referencedin this . All medication mustbe takenin accordance withthe directions All medicationsand immunizations usedby flyingand special operational",
+    "trade": "Official Air Force Aerospace Medicine Approved Medications Note: This list supersedesthe medication list dated 21 Sep 2022. 1. Loperamide removed",
+    "indication": "",
+    "statuses": [],
+    "notes": "",
+    "delegation": ""
+   },
+   {
+    "category": "Gen",
+    "generic": "Acetaminophen",
+    "trade": "Tylenol",
+    "indication": "Acute Pain",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusis not required for occasional OTC use to provide relief from minor self-limiting conditions.",
+    "delegation": ""
+   },
+   {
+    "category": "Ophtho",
+    "generic": "Artificial tears",
+    "trade": "Hypotears, Murine Tears",
+    "indication": "Mild cases of dry eyes not associated with infection or post- op corneal refractive surgery",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusnot required when used for OTC use for mild conditions. Stop use and contact flight surgeon if changes in vision, eye pain, continued redness or irritation occur, or if the condition worsens or persists for more than 72 hours. To avoid contamination, do not touch tip of container to any surface. Replace cap after using.",
+    "delegation": ""
+   },
+   {
+    "category": "GI",
+    "generic": "Antacids (calcium carbonate, magnesiumand aluminum hydroxides, sodium bicarbonate)",
+    "trade": "Mylanta Maalox Tums Rolaids",
+    "indication": "Mild Isolated Episodes of Indigestion",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusis not required for occasional OTC use to provide relief from minor self-limiting conditions.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Antifungals (topical) (terbinafine hydrochloride 1%, clotrimazole 1%)",
+    "trade": "Tinactin Cruex Lamisil Lotrimin",
+    "indication": "Athletes Foot Jock Itch",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusnot required unless condition or medication interferes with life support gear or flying duties.",
+    "delegation": ""
+   },
+   {
+    "category": "Derm",
+    "generic": "Antiinfectives (topical) (polymyxin, bacitracin, neomycin, povidone-iodine)",
+    "trade": "Neosporin Polysporin Betadine",
+    "indication": "Burns, Abrasions",
+    "statuses": [
+     "no_down_status_required"
+    ],
+    "notes": "DOWN statusnot required unless condition or medication interferes with life support gear or flying duties.",
+    "delegation": ""
+   }
+  ]
+ }
+}
