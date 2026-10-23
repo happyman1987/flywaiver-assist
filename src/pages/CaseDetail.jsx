@@ -11,6 +11,7 @@ import { jsPDF } from "jspdf";
 import { useToast } from "@/components/ui/use-toast";
 import { logAuditEvent } from "@/lib/auditLog";
 import LogoutButton from "@/components/LogoutButton";
+import MedicationReview from "@/components/cases/MedicationReview";
 
 export default function CaseDetail() {
   const { id } = useParams();
@@ -176,6 +177,8 @@ export default function CaseDetail() {
             </div>
           </CardContent>
         </Card>
+
+        <MedicationReview text={c.medications} />
 
         <Card>
           <CardHeader className="flex-row justify-between items-center">

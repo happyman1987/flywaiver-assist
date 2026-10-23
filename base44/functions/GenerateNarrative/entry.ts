@@ -13,6 +13,18 @@ const renewalInstruction = (data) => data.waiver_type === 'renewal'
   ? `\nThis case is a RENEWAL of a previously granted aeromedical waiver. In the opening paragraph, state that the member's existing waiver is submitted for renewal${data.prior_waiver_authority ? ` (granted by ${data.prior_waiver_authority})` : ''}${data.prior_waiver_expiration ? `, expiring ${data.prior_waiver_expiration}` : ''}. Note the stability of each condition since that waiver was granted. In the RECOMMENDATION / WAIVER DISPOSITION section, explicitly reference the previously granted waiver (its granting authority and expiration date) and recommend that the waiver be renewed, or modified where the facts support it. Where the case data documents it, carry the history from the previous waiver into the PAST MEDICAL HISTORY / RELEVANT HISTORY section. Do not state that a waiver has previously been granted unless the case data documents it.\n`
   : '';
 
+// The approved-medication-list dispositions travel with the case data; the AMS cites them and flags
+// every medication that is not on an approved list.
+const medicationReview = (data) => {
+  const review = typeof data.medication_review === 'string' ? data.medication_review.trim() : '';
+  if (!review) return '';
+  return `\nAPPROVED MEDICATION LIST REVIEW (supplied with the case — treat as authoritative for which approved medication list each medication appears on and for its disposition):\n${review}\n`;
+};
+
+const medicationInstruction = (data) => (typeof data.medication_review === 'string' && data.medication_review.trim())
+  ? `\nIn TREATMENT COURSE & CURRENT MEDICATIONS, state each current medication together with the approved medication list it appears on and its disposition (no DOWN status required, ground trial, waiver required, or not waiverable) exactly as the APPROVED MEDICATION LIST REVIEW gives it. In AEROMEDICAL CONSIDERATIONS, analyze the aeromedical impact of each medication that carries a waiver requirement, and for every medication the review reports as NOT FOUND on the approved lists, or as not waiverable, state that it requires review by AF/SG3P (rated officers) and MAJCOM/SG (non-rated personnel) before use. Never describe a medication as approved when the review does not list it, and do not reclassify a medication the review places on a list.\n`
+  : '';
+
 const AMS_PROMPT = (data) => `You are an experienced United States Air Force flight surgeon preparing an Aeromedical Summary (AMS) for a military medical waiver submission. The AMS is a concise (one to two page) summary and recommendation encompassing all factors significant to the service member from the aeromedical risk perspective. It must address not only the clinical issues but also the impact on aviation safety if the member continues flying/special duty.
 
 Reference the current USAF Aerospace Medicine Waiver Guide Compendium (published by AFRL/USAFSAM) for the waiver criteria, dispositions, and follow-up requirements specific to this diagnosis. Apply the relevant waiver guide section (e.g., waiver consideration, information required for waiver, waiver recommendations, follow-up) to the facts of this case.
@@ -44,7 +56,7 @@ Write the AMS in a formal clinical-aeromedical voice using the following section
    - Professional aeromedical opinion and recommendation: favorable for waiver / waiver with restrictions / further evaluation required, with rationale and suggested follow-up.
 
 Do not invent clinical facts not provided. If a field is empty, state "Not provided" rather than fabricating. Keep the tone objective and concise. Use plain section headings in uppercase as shown above.
-${renewalInstruction(data)}
+${renewalInstruction(data)}${medicationInstruction(data)}
 CASE DATA:
 - Member: ${data.member_name}, ${data.rank || "rank not specified"}, ${data.unit || "unit not specified"}
 ${waiverContext(data)}
@@ -61,7 +73,7 @@ CLINICAL INFORMATION:
 - Treatment course: ${data.treatment_course || "Not provided"}
 - Current clinical status: ${data.current_status || "Not provided"}
 - Aeromedical concerns / notes from provider: ${data.aeromedical_concerns || "Not provided"}
-${(data.missing_justifications && data.missing_justifications.length) ? `\nDOCUMENTED JUSTIFICATIONS FOR MISSING INFORMATION (acknowledge these in the AMS where relevant, noting the item is not yet available and the stated reason):\n${data.missing_justifications.map((j) => `- ${j.item}: ${j.justification || "No justification provided"}`).join("\n")}` : ""}
+${medicationReview(data)}${(data.missing_justifications && data.missing_justifications.length) ? `\nDOCUMENTED JUSTIFICATIONS FOR MISSING INFORMATION (acknowledge these in the AMS where relevant, noting the item is not yet available and the stated reason):\n${data.missing_justifications.map((j) => `- ${j.item}: ${j.justification || "No justification provided"}`).join("\n")}` : ""}
 
 Now write the complete Aeromedical Summary.`;
 

@@ -12,7 +12,9 @@ import { useToast } from "@/components/ui/use-toast";
 import { logAuditEvent } from "@/lib/auditLog";
 import LogoutButton from "@/components/LogoutButton";
 import PriorWaiverSection from "@/components/cases/PriorWaiverSection";
+import MedicationReview from "@/components/cases/MedicationReview";
 import { extractedConditions, mergeExtraction } from "@/lib/extraction";
+import { medicationReviewSummary, reviewMedications } from "@/lib/medicationReview";
 
 const FLYING_CLASSES = ["FC-I", "FC-II", "FC-III", "ATC", "GBO", "OSF", "SWA", "Other"];
 const CATEGORIES = ["Cardiology","Dermatology","Gastroenterology","Hematology","Internal Medicine","Malignancies / Cancers","Neurology","Obstetrics and Gynecology","Ophthalmology","Orthopaedics","Otolaryngology (ENT)","Psychiatry / Neuropsychiatry","Pulmonology","Urology","Other"];
@@ -139,7 +141,7 @@ export default function CaseForm() {
     if (removed.length && form.narrative) {
       setGenerating(true);
       try {
-        const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: currentDiagnoses[0] || "", category: form.conditions[0]?.category || "" };
+        const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: currentDiagnoses[0] || "", category: form.conditions[0]?.category || "", medication_review: medicationReviewSummary(reviewMedications(form.medications)) };
         const res = await base44.functions.invoke("GenerateNarrative", payload);
         const narrative = res.data?.narrative;
         if (!narrative) throw new Error("No narrative returned");
@@ -164,7 +166,7 @@ export default function CaseForm() {
     const caseId = rec.id;
     setGenerating(true);
     try {
-      const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: form.conditions[0]?.diagnosis || "", category: form.conditions[0]?.category || "" };
+      const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: form.conditions[0]?.diagnosis || "", category: form.conditions[0]?.category || "", medication_review: medicationReviewSummary(reviewMedications(form.medications)) };
       const checkRes = await base44.functions.invoke("CheckMissingInfo", payload);
       const missing = checkRes.data?.items || [];
       if (missing.length > 0) {
@@ -325,6 +327,7 @@ export default function CaseForm() {
             <div className="space-y-1.5">
               <Label>Current Medications</Label>
               <Textarea rows={2} value={form.medications} onChange={(e) => set("medications", e.target.value)} />
+              <MedicationReview text={form.medications} />
             </div>
             <div className="space-y-1.5">
               <Label>Treatment Course</Label>
