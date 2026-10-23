@@ -6,15 +6,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowLeft, Loader2, Upload, Sparkles, FileUp, Plus, X } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { logAuditEvent } from "@/lib/auditLog";
 import LogoutButton from "@/components/LogoutButton";
 import PriorWaiverSection from "@/components/cases/PriorWaiverSection";
-import MedicationReview from "@/components/cases/MedicationReview";
 import { extractedConditions, mergeExtraction } from "@/lib/extraction";
-import { medicationReviewSummary, reviewMedications } from "@/lib/medicationReview";
+import { medicationReviewSummary, reviewMedications, splitMedications } from "@/lib/medicationReview";
 
 const FLYING_CLASSES = ["FC-I", "FC-II", "FC-III", "ATC", "GBO", "OSF", "SWA", "Other"];
 const CATEGORIES = ["Cardiology","Dermatology","Gastroenterology","Hematology","Internal Medicine","Malignancies / Cancers","Neurology","Obstetrics and Gynecology","Ophthalmology","Orthopaedics","Otolaryngology (ENT)","Psychiatry / Neuropsychiatry","Pulmonology","Urology","Other"];
@@ -143,7 +143,7 @@ export default function CaseForm() {
     if (removed.length && form.narrative) {
       setGenerating(true);
       try {
-        const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: currentDiagnoses[0] || "", category: form.conditions[0]?.category || "", medication_review: medicationReviewSummary(reviewMedications(form.medications, form.flying_class), medicationAnnotations, form.flying_class) };
+        const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: currentDiagnoses[0] || "", category: form.conditions[0]?.category || "", medication_review: medicationReviewSummary(reviewMedications(form.medications, form.flying_class), medicationAnnotations, form.flying_class, form.removed_medications || []) };
         const res = await base44.functions.invoke("GenerateNarrative", payload);
         const narrative = res.data?.narrative;
         if (!narrative) throw new Error("No narrative returned");
@@ -168,21 +168,11 @@ export default function CaseForm() {
     const caseId = rec.id;
     setGenerating(true);
     try {
-      const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: form.conditions[0]?.diagnosis || "", category: form.conditions[0]?.category || "", medication_review: medicationReviewSummary(reviewMedications(form.medications, form.flying_class), medicationAnnotations, form.flying_class) };
+      const payload = { ...form, age: form.age ? Number(form.age) : null, diagnosis: form.conditions[0]?.diagnosis || "", category: form.conditions[0]?.category || "", medication_review: medicationReviewSummary(reviewMedications(form.medications, form.flying_class), medicationAnnotations, form.flying_class, form.removed_medications || []) };
       const checkRes = await base44.functions.invoke("CheckMissingInfo", payload);
       const missing = checkRes.data?.items || [];
-      if (missing.length > 0) {
-        await base44.entities.WaiverCase.update(caseId, { missing_info: missing, missing_justifications: [] });
-        navigate(`/cases/${caseId}/missing-info`);
-        return;
-      }
-      const res = await base44.functions.invoke("GenerateNarrative", payload);
-      const narrative = res.data?.narrative;
-      if (!narrative) throw new Error("No narrative returned");
-      await base44.entities.WaiverCase.update(caseId, { narrative, status: "generated" });
-      logAuditEvent("narrative_generated", caseId, rec.member_name);
-      toast({ title: "Aeromedical Summary generated" });
-      navigate(`/cases/${caseId}`);
+      await base44.entities.WaiverCase.update(caseId, { missing_info: missing, missing_justifications: [] });
+      navigate(`/cases/${caseId}/missing-info`);
     } catch (err) {
       toast({ title: "Generation failed", description: err.message, variant: "destructive" });
     } finally {
@@ -328,13 +318,15 @@ export default function CaseForm() {
             </div>
             <div className="space-y-1.5">
               <Label>Current Medications</Label>
-              <Textarea rows={2} value={form.medications} onChange={(e) => set("medications", e.target.value)} />
-              <MedicationReview
-                text={form.medications}
-                flyingClass={form.flying_class}
-                annotations={medicationAnnotations}
-                onAnnotate={(medication, annotation) => setMedicationAnnotations((p) => ({ ...p, [medication]: annotation }))}
-              />
+              <Textarea rows={2} value={form.medications} onChange={(e) => set("medications", e.target.value)} placeholder="One per line, as written in the record" />
+              {splitMedications(form.medications).length > 0 && (
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {splitMedications(form.medications).map((m) => (
+                    <Badge key={m} variant="outline" className="text-xs font-normal">{m}</Badge>
+                  ))}
+                </div>
+              )}
+              <p className="text-xs text-muted-foreground">Medications are reviewed and reconciled, and anything the member is no longer taking is removed, on the pre-generation review step before the summary is generated.</p>
             </div>
             <div className="space-y-1.5">
               <Label>Treatment Course</Label>
@@ -358,7 +350,7 @@ export default function CaseForm() {
           </Button>
           <Button onClick={handleGenerate} disabled={saving || generating}>
             {generating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Sparkles className="w-4 h-4 mr-2" />}
-            {generating ? "Generating Summary…" : "Generate Aeromedical Summary"}
+            {generating ? "Opening Review…" : "Review Medications & Generate"}
           </Button>
         </div>
       </main>

@@ -153,10 +153,15 @@ export function reviewMedications(text, flyingClass) {
 
 // Compact review the narrative is asked to cite. Medications that are not on any list carry the
 // flight surgeon's own annotation, when one has been written for them.
-export function medicationReviewSummary(items, annotations = {}, flyingClass) {
-  if (!items.length) return "";
+export function medicationReviewSummary(items, annotations = {}, flyingClass, removed = []) {
+  const removedNames = new Set((removed || []).map((r) => r.medication));
+  const current = items.filter((it) => !removedNames.has(it.medication));
+  const excluded = (removed || []).map(
+    (r) => `- ${r.medication}: documented in the record but reconciled out of the member's current regimen${r.reason ? ` — ${r.reason}` : ""}.`
+  );
+  if (!current.length && !excluded.length) return "";
   const appliedLists = listKeysForClass(flyingClass).map((k) => LIST_LABELS[k]).join(" / ");
-  return items
+  const lines = current
     .map((it) => {
       const annotation = String(annotations[it.medication] || "").trim();
       if (!it.matches.length) {
@@ -165,6 +170,10 @@ export function medicationReviewSummary(items, annotations = {}, flyingClass) {
       return `- ${it.medication}: ${it.matches.map((m) => `${m.list_label} — ${m.status_text}`).join("; ")}`;
     })
     .join("\n");
+  const excludedBlock = excluded.length
+    ? `EXCLUDED AT MEDICATION RECONCILIATION (documented in the record, but NOT part of the member's current regimen — do not report these as current medications and do not cite an approved-list disposition or a waiver requirement for them; state that they were reconciled out, with the reason given):\n${excluded.join("\n")}`
+    : "";
+  return [lines, excludedBlock].filter(Boolean).join("\n");
 }
 
 export function flaggedMedications(items) {

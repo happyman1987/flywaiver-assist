@@ -121,6 +121,21 @@
         }
       }
     },
+    "removed_medications": {
+      "type": "array",
+      "title": "Medications Reconciled Out",
+      "items": {
+        "type": "object",
+        "properties": {
+          "medication": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "treatment_course": {
       "type": "string",
       "title": "Treatment Course"
