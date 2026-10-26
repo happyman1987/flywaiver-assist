@@ -1,0 +1,272 @@
+{
+  "name": "WaiverCase",
+  "type": "object",
+  "properties": {
+    "member_name": {
+      "type": "string",
+      "title": "Member Name"
+    },
+    "rank": {
+      "type": "string",
+      "title": "Rank"
+    },
+    "unit": {
+      "type": "string",
+      "title": "Unit / Squadron"
+    },
+    "flying_class": {
+      "type": "string",
+      "title": "Flying Class / Duty",
+      "enum": [
+        "FC-I",
+        "FC-II",
+        "FC-III",
+        "ATC",
+        "GBO",
+        "OSF",
+        "SWA",
+        "Other"
+      ]
+    },
+    "age": {
+      "type": "number",
+      "title": "Age"
+    },
+    "sex": {
+      "type": "string",
+      "title": "Sex",
+      "enum": [
+        "Male",
+        "Female"
+      ]
+    },
+    "dod_id": {
+      "type": "string",
+      "title": "DoD ID"
+    },
+    "waiver_type": {
+      "type": "string",
+      "title": "Waiver Type",
+      "enum": [
+        "initial",
+        "renewal"
+      ],
+      "default": "initial"
+    },
+    "prior_waiver_authority": {
+      "type": "string",
+      "title": "Prior Waiver Authority"
+    },
+    "prior_waiver_expiration": {
+      "type": "string",
+      "title": "Prior Waiver Expiration",
+      "format": "date"
+    },
+    "prior_waiver_docs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Prior Waiver Document URIs"
+    },
+    "conditions": {
+      "type": "array",
+      "title": "Conditions",
+      "items": {
+        "type": "object",
+        "properties": {
+          "diagnosis": {
+            "type": "string",
+            "title": "Diagnosis / Condition"
+          },
+          "category": {
+            "type": "string",
+            "title": "Waiver Guide Section"
+          }
+        }
+      }
+    },
+    "diagnosis": {
+      "type": "string",
+      "title": "Primary Diagnosis (synced)"
+    },
+    "category": {
+      "type": "string",
+      "title": "Primary Waiver Guide Section (synced)"
+    },
+    "history": {
+      "type": "string",
+      "title": "History of Present Illness / PMH"
+    },
+    "diagnostics": {
+      "type": "string",
+      "title": "Studies / Testing Performed"
+    },
+    "medications": {
+      "type": "string",
+      "title": "Current Medications"
+    },
+    "medication_annotations": {
+      "type": "array",
+      "title": "Medication Review Annotations",
+      "items": {
+        "type": "object",
+        "properties": {
+          "medication": {
+            "type": "string"
+          },
+          "annotation": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "medication_waiver_justifications": {
+      "type": "array",
+      "title": "Medication Waiver Documentation",
+      "items": {
+        "type": "object",
+        "properties": {
+          "medication": {
+            "type": "string"
+          },
+          "justification": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "removed_medications": {
+      "type": "array",
+      "title": "Medications Reconciled Out",
+      "items": {
+        "type": "object",
+        "properties": {
+          "medication": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "treatment_course": {
+      "type": "string",
+      "title": "Treatment Course"
+    },
+    "current_status": {
+      "type": "string",
+      "title": "Current Clinical Status"
+    },
+    "aeromedical_concerns": {
+      "type": "string",
+      "title": "Aeromedical Concerns / Notes"
+    },
+    "uploaded_docs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Uploaded Document URIs"
+    },
+    "missing_info": {
+      "type": "array",
+      "title": "Missing Information Items",
+      "items": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "string"
+          },
+          "requirement": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "required",
+              "recommended"
+            ]
+          }
+        }
+      }
+    },
+    "missing_justifications": {
+      "type": "array",
+      "title": "Missing Info Justifications",
+      "items": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "string"
+          },
+          "justification": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "narrative": {
+      "type": "string",
+      "title": "Generated Aeromedical Summary"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "enum": [
+        "draft",
+        "generated",
+        "submitted"
+      ],
+      "default": "draft"
+    },
+    "archived": {
+      "type": "boolean",
+      "title": "Archived",
+      "default": false
+    }
+  },
+  "required": [
+    "member_name",
+    "diagnosis"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

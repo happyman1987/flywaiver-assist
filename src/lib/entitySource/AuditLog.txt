@@ -1,0 +1,48 @@
+{
+  "name": "AuditLog",
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "type": "string",
+      "title": "Event Type",
+      "enum": [
+        "case_viewed",
+        "case_created",
+        "case_updated",
+        "narrative_generated",
+        "narrative_saved",
+        "document_extracted"
+      ]
+    },
+    "case_id": {
+      "type": "string",
+      "title": "Case ID"
+    },
+    "case_member_name": {
+      "type": "string",
+      "title": "Case Member Name"
+    },
+    "details": {
+      "type": "string",
+      "title": "Details"
+    }
+  },
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
