@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowLeft, Loader2, Upload, Sparkles, FileUp, Plus, X } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { logAuditEvent } from "@/lib/auditLog";
@@ -17,6 +17,33 @@ import { extractedConditions, mergeExtraction } from "@/lib/extraction";
 import { medicationReviewSummary, reviewMedications, splitMedications } from "@/lib/medicationReview";
 
 const FLYING_CLASSES = ["FC-I", "FC-II", "FC-III", "ATC", "GBO", "OSF", "SWA", "Other"];
+const ENLISTED_RANKS = [
+  { grade: "E-9", rank: "Chief Master Sergeant" },
+  { grade: "E-8", rank: "Senior Master Sergeant" },
+  { grade: "E-7", rank: "Master Sergeant" },
+  { grade: "E-6", rank: "Technical Sergeant" },
+  { grade: "E-5", rank: "Staff Sergeant" },
+  { grade: "E-4", rank: "Senior Airman" },
+  { grade: "E-4", rank: "Corporal (USSF)" },
+  { grade: "E-3", rank: "Airman First Class" },
+  { grade: "E-2", rank: "Airman" },
+  { grade: "E-2", rank: "Private First Class (USSF)" },
+  { grade: "E-1", rank: "Airman Basic" },
+  { grade: "E-1", rank: "Private (USSF)" }
+];
+const OFFICER_RANKS = [
+  { grade: "O-10", rank: "General" },
+  { grade: "O-9", rank: "Lieutenant General" },
+  { grade: "O-8", rank: "Major General" },
+  { grade: "O-7", rank: "Brigadier General" },
+  { grade: "O-6", rank: "Colonel" },
+  { grade: "O-5", rank: "Lieutenant Colonel" },
+  { grade: "O-4", rank: "Major" },
+  { grade: "O-3", rank: "Captain" },
+  { grade: "O-2", rank: "First Lieutenant" },
+  { grade: "O-1", rank: "Second Lieutenant" }
+];
+const ALL_RANKS = [...ENLISTED_RANKS, ...OFFICER_RANKS];
 const CATEGORIES = ["Cardiology","Dermatology","Gastroenterology","Hematology","Internal Medicine","Malignancies / Cancers","Neurology","Obstetrics and Gynecology","Ophthalmology","Orthopaedics","Otolaryngology (ENT)","Psychiatry / Neuropsychiatry","Pulmonology","Urology","Other"];
 
 const EMPTY = {
@@ -226,7 +253,26 @@ export default function CaseForm() {
             </div>
             <div className="space-y-1.5">
               <Label>Rank</Label>
-              <Input value={form.rank} onChange={(e) => set("rank", e.target.value)} placeholder="e.g. Capt" />
+              <Select value={form.rank} onValueChange={(v) => set("rank", v)}>
+                <SelectTrigger><SelectValue placeholder="Select rank" /></SelectTrigger>
+                <SelectContent>
+                  {form.rank && !ALL_RANKS.some((r) => r.rank === form.rank) && (
+                    <SelectItem value={form.rank}>{form.rank}</SelectItem>
+                  )}
+                  <SelectGroup>
+                    <SelectLabel>Enlisted</SelectLabel>
+                    {ENLISTED_RANKS.map((r) => (
+                      <SelectItem key={r.rank} value={r.rank}>{r.grade} · {r.rank}</SelectItem>
+                    ))}
+                  </SelectGroup>
+                  <SelectGroup>
+                    <SelectLabel>Officer</SelectLabel>
+                    {OFFICER_RANKS.map((r) => (
+                      <SelectItem key={r.rank} value={r.rank}>{r.grade} · {r.rank}</SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </div>
             <div className="space-y-1.5">
               <Label>Unit / Squadron</Label>
