@@ -88,13 +88,15 @@ export default function CaseForm() {
   const removeCondition = (i) => setForm((f) => ({ ...f, conditions: f.conditions.filter((_, idx) => idx !== i) }));
 
   const handleUpload = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
     setUploading(true);
     try {
-      const { file_uri } = await base44.integrations.Core.UploadPrivateFile({ file });
-      setForm((f) => ({ ...f, uploaded_docs: [...(f.uploaded_docs || []), file_uri] }));
-      toast({ title: "Document uploaded (stored privately)", description: file.name });
+      for (const file of files) {
+        const { file_uri } = await base44.integrations.Core.UploadPrivateFile({ file });
+        setForm((f) => ({ ...f, uploaded_docs: [...(f.uploaded_docs || []), file_uri] }));
+      }
+      toast({ title: `${files.length} document(s) uploaded (stored privately)`, description: files.map((f) => f.name).join(", ") });
     } catch (err) {
       toast({ title: "Upload failed", description: err.message, variant: "destructive" });
     } finally {
@@ -110,8 +112,9 @@ export default function CaseForm() {
     }
     setExtracting(true);
     try {
+      // Every document attached to the case is read, not only the most recent upload.
       const res = await base44.functions.invoke("ExtractMedicalInfo", {
-        file_uri: form.uploaded_docs[form.uploaded_docs.length - 1],
+        documents: form.uploaded_docs.map((file_uri) => ({ file_uri, document_kind: "medical_record" })),
         conditions: form.conditions.filter((c) => c.diagnosis),
         member_name: form.member_name,
         flying_class: form.flying_class
@@ -310,18 +313,18 @@ export default function CaseForm() {
         <Card>
           <CardHeader><CardTitle className="text-base">Medical Documents</CardTitle></CardHeader>
           <CardContent className="space-y-3">
-            <p className="text-sm text-muted-foreground">Upload a medical record, consult note, or lab report to auto-extract details. Only information required for the listed waiver condition(s) is added — unrelated results in the same document are left out. Files are stored privately.</p>
+            <p className="text-sm text-muted-foreground">Upload one or more medical records, consult notes, or lab reports — every attached document is read together to auto-extract details. Only information required for the listed waiver condition(s) is added — unrelated results in the same document are left out. Files are stored privately.</p>
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" asChild>
                 <label className="cursor-pointer">
                   <Upload className="w-4 h-4 mr-2 inline" />
-                  {uploading ? "Uploading…" : "Upload Document"}
-                  <input type="file" className="hidden" accept=".pdf,.png,.jpg,.jpeg,.csv,.xlsx,.json" onChange={handleUpload} disabled={uploading} />
+                  {uploading ? "Uploading…" : "Upload Documents"}
+                  <input type="file" multiple className="hidden" accept=".pdf,.png,.jpg,.jpeg,.csv,.xlsx,.json" onChange={handleUpload} disabled={uploading} />
                 </label>
               </Button>
               <Button variant="outline" onClick={handleExtract} disabled={extracting || !form.uploaded_docs?.length}>
                 {extracting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileUp className="w-4 h-4 mr-2" />}
-                Extract Info from Document
+                Extract Info from All Documents
               </Button>
             </div>
             {form.uploaded_docs?.length > 0 && (

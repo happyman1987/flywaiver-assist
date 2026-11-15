@@ -36,10 +36,12 @@ export function mergeExtraction(form, ext = {}) {
     conditions,
     diagnosis: conditions[0]?.diagnosis || form.diagnosis || "",
     category: conditions[0]?.category || form.category || "",
-    history: form.history || ext.history || "",
-    diagnostics: form.diagnostics || ext.diagnostics || "",
-    medications: form.medications || ext.medications || "",
-    treatment_course: form.treatment_course || ext.treatment_course || "",
-    current_status: form.current_status || ext.current_status || ""
+    // What a further document adds is kept alongside what the case already documents, so every
+    // document uploaded for the package reaches the summary.
+    history: appendHistory(form.history, ext.history),
+    diagnostics: appendHistory(form.diagnostics, ext.diagnostics),
+    medications: appendHistory(form.medications, ext.medications),
+    treatment_course: appendHistory(form.treatment_course, ext.treatment_course),
+    current_status: appendHistory(form.current_status, ext.current_status)
   };
 }

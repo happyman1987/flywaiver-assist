@@ -256,6 +256,21 @@ const combine = (parts) => {
     for (const list of lists) for (const o of list) if (text(o[field])) return o[field];
     return '';
   };
+  // Every document read for the package contributes: the fields are joined across all of them
+  // (identical text from a repeated document is kept once) instead of stopping at the first document.
+  const joinUnique = (field, lists, separator = '\n\n') => {
+    const seen = new Set();
+    const values = [];
+    for (const list of lists) for (const o of list) {
+      const value = text(o[field]);
+      if (!value) continue;
+      const key = normalized(value);
+      if (seen.has(key)) continue;
+      seen.add(key);
+      values.push(value);
+    }
+    return values.join(separator);
+  };
 
   const seen = new Set();
   const conditions = [];
@@ -268,8 +283,8 @@ const combine = (parts) => {
     }
   }
 
-  const currentHistory = text(pick('history', [current]));
-  const priorHistory = text(pick('history', [prior]));
+  const currentHistory = joinUnique('history', [current]);
+  const priorHistory = joinUnique('history', [prior]);
 
   return {
     prior_waiver_authority: pick('prior_waiver_authority', [prior]),
@@ -279,10 +294,10 @@ const combine = (parts) => {
       ? currentHistory
       : [currentHistory, priorHistory].filter(Boolean).join('\n\n'),
     prior_waiver_history: priorHistory,
-    diagnostics: pick('diagnostics', [current, prior]),
-    medications: pick('medications', [current, prior]),
-    treatment_course: pick('treatment_course', [current, prior]),
-    current_status: pick('current_status', [current, prior])
+    diagnostics: joinUnique('diagnostics', [current, prior]),
+    medications: joinUnique('medications', [current, prior], '; '),
+    treatment_course: joinUnique('treatment_course', [current, prior]),
+    current_status: joinUnique('current_status', [current, prior])
   };
 };
 

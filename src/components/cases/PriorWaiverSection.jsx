@@ -15,13 +15,15 @@ export default function PriorWaiverSection({ form, setForm }) {
   const docs = form.prior_waiver_docs || [];
 
   const handleUpload = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
     setUploading(true);
     try {
-      const { file_uri } = await base44.integrations.Core.UploadPrivateFile({ file });
-      setForm((f) => ({ ...f, prior_waiver_docs: [...(f.prior_waiver_docs || []), file_uri] }));
-      toast({ title: "Previous waiver uploaded (stored privately)", description: file.name });
+      for (const file of files) {
+        const { file_uri } = await base44.integrations.Core.UploadPrivateFile({ file });
+        setForm((f) => ({ ...f, prior_waiver_docs: [...(f.prior_waiver_docs || []), file_uri] }));
+      }
+      toast({ title: `${files.length} previous waiver document(s) uploaded (stored privately)`, description: files.map((f) => f.name).join(", ") });
     } catch (err) {
       toast({ title: "Upload failed", description: err.message, variant: "destructive" });
     } finally {
@@ -36,11 +38,10 @@ export default function PriorWaiverSection({ form, setForm }) {
     try {
       // A renewal is read from both documents: the medical record uploaded for this package and the
       // waiver being renewed.
-      const uploaded = form.uploaded_docs || [];
-      const currentUri = uploaded[uploaded.length - 1];
+      // Every document attached to the package is read: all current records and all previous waivers.
       const documents = [
-        ...(currentUri ? [{ file_uri: currentUri, document_kind: "medical_record" }] : []),
-        { file_uri: docs[docs.length - 1], document_kind: "prior_waiver" }
+        ...(form.uploaded_docs || []).map((file_uri) => ({ file_uri, document_kind: "medical_record" })),
+        ...docs.map((file_uri) => ({ file_uri, document_kind: "prior_waiver" }))
       ];
       const res = await base44.functions.invoke("ExtractMedicalInfo", {
         documents,
@@ -114,6 +115,7 @@ export default function PriorWaiverSection({ form, setForm }) {
               {uploading ? "Uploading…" : "Upload Previous Waiver"}
               <input
                 type="file"
+                multiple
                 className="hidden"
                 accept=".pdf,.png,.jpg,.jpeg,.csv,.xlsx,.json"
                 onChange={handleUpload}
