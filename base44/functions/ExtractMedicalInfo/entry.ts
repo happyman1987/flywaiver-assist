@@ -135,10 +135,9 @@ const TEXT_FILE = /\.(csv|tsv|json|txt|html?|md)$/i;
 
 const PRIOR_WAIVER_NOTE = `This document is the member's PREVIOUSLY GRANTED aeromedical waiver, or the aeromedical summary written for it. Extract the previously waived condition(s), the granting authority, the waiver expiration date, and the clinical information the document records. The previously waived diagnosis(ies) belong in the conditions array: they are the condition(s) being renewed, so the renewal has to carry the exact diagnosis the previous waiver granted.`;
 
-const EXTRACT_PROMPT = (conditions, documentText, kind) => `The full text of an uploaded medical document (a chart note, consult, lab or imaging report, or a table of results) appears below. Extract the information needed for a USAF aeromedical waiver package${conditions.length ? ` for ${conditions.join('; ')}` : ''}.
+const EXTRACT_PROMPT = (conditions, documentText, kind) => `An uploaded medical document (a chart note, consult, lab or imaging report, a table of results, or a photographed/scanned record) is ${documentText ? 'reproduced as text below' : 'attached to this request as a file — read it directly'}. Extract the information needed for a USAF aeromedical waiver package${conditions.length ? ` for ${conditions.join('; ')}` : ''}.
 ${kind === PRIOR_WAIVER ? `\n${PRIOR_WAIVER_NOTE}\n` : ''}
-DOCUMENT TEXT:
-${documentText}
+${documentText ? `DOCUMENT TEXT:\n${documentText}\n` : ''}
 
 Return JSON matching the schema: every documented diagnosis (each with the USAF waiver guide section it maps to), plus the documented history, studies and testing with key results, medications, treatment course, and current clinical status.${kind === PRIOR_WAIVER ? ' The previously waived diagnosis(ies) are the condition(s) being renewed: always list them in conditions.' : ''}
 
@@ -222,10 +221,11 @@ const extractDocument = async (base44, doc, body) => {
   });
 
   let output = extraction?.output;
+  const unread = () => extraction?.status !== 'success' || !output;
 
   // Text records (csv/json/txt/html) cannot be validated row-by-row against this schema,
   // so read the text itself rather than losing the document — and never guess at it.
-  if ((extraction?.status !== 'success' || !output) && TEXT_FILE.test(doc.file_uri)) {
+  if (unread() && TEXT_FILE.test(doc.file_uri)) {
     try {
       const docResponse = await fetch(signed_url);
       const documentText = docResponse.ok ? (await docResponse.text()).slice(0, 20000) : '';
@@ -234,6 +234,32 @@ const extractDocument = async (base44, doc, body) => {
           prompt: EXTRACT_PROMPT(conditions, documentText, kind),
           response_json_schema: extractionSchema(conditions, kind)
         });
+        extraction = { status: 'success', details: null, output };
+      }
+    } catch (e) {
+      output = null;
+    }
+  }
+
+  // A scanned or photographed record, or a document the table reader cannot map to the schema, is read
+  // by the vision model straight from the file. Without this the whole document — its diagnoses and the
+  // member's identifying details — was silently lost.
+  let readByVision = false;
+  const readFromFile = async () => {
+    const read = await base44.asServiceRole.integrations.Core.InvokeLLM({
+      prompt: EXTRACT_PROMPT(conditions, '', kind),
+      file_urls: [signed_url],
+      response_json_schema: extractionSchema(conditions, kind)
+    });
+    readByVision = true;
+    return read && typeof read === 'object' ? read : null;
+  };
+
+  if (unread()) {
+    try {
+      const read = await readFromFile();
+      if (read) {
+        output = read;
         extraction = { status: 'success', details: null, output };
       }
     } catch (e) {
@@ -268,6 +294,24 @@ const extractDocument = async (base44, doc, body) => {
       }
     } catch (e) {
       // keep the unscreened extraction rather than losing the document data
+    }
+  }
+
+  // A document the table reader only partly mapped can come back with clinical text but no diagnosis.
+  // It is then re-read from the file, so a diagnosis the record states is never missed.
+  const noDiagnosis = !(Array.isArray(output?.conditions) && output.conditions.length);
+  if (extraction?.status === 'success' && output && noDiagnosis && !readByVision) {
+    try {
+      const read = await readFromFile();
+      if (Array.isArray(read?.conditions) && read.conditions.length) {
+        output = {
+          ...output,
+          conditions: read.conditions,
+          demographics: mergeDemographics(output.demographics, read.demographics)
+        };
+      }
+    } catch (e) {
+      // keep what the first read produced
     }
   }
 
@@ -354,14 +398,21 @@ export default async function(req) {
       : (body.file_uri ? [{ file_uri: body.file_uri, document_kind: body.document_kind }] : []);
     if (!requested.length) return Response.json({ error: 'file_uri or documents is required' }, { status: 400 });
 
+    // Documents are read concurrently in small batches: reading a multi-document package one file at a
+    // time ran past the request limit and lost the whole extraction.
+    const documents = requested.slice(0, 12);
+    if (requested.length > documents.length) {
+      return Response.json({ error: 'Too many documents in one request (maximum 12)' }, { status: 400 });
+    }
     const parts = [];
     const failures = [];
-    for (const doc of requested) {
-      try {
-        parts.push(await extractDocument(base44, doc, body));
-      } catch (error) {
-        failures.push(error.message);
-      }
+    for (let i = 0; i < documents.length; i += 4) {
+      const batch = documents.slice(i, i + 4);
+      const settled = await Promise.allSettled(batch.map((doc) => extractDocument(base44, doc, body)));
+      settled.forEach((outcome) => {
+        if (outcome.status === 'fulfilled') parts.push(outcome.value);
+        else failures.push(outcome.reason?.message || 'Document could not be read');
+      });
     }
 
     const read = parts.filter((p) => p.status === 'success' && p.output);

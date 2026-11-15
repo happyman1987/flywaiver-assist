@@ -42,10 +42,21 @@ const RANK_ALIASES = {
   pvt: "Private (USSF)"
 };
 
+// Records also state a grade instead of a rank name ("O-4", "E-6"); the case stores the rank name.
+const RANK_GRADES = {
+  o1: "Second Lieutenant", o2: "First Lieutenant", o3: "Captain", o4: "Major",
+  o5: "Lieutenant Colonel", o6: "Colonel", o7: "Brigadier General", o8: "Major General",
+  o9: "Lieutenant General", o10: "General",
+  e1: "Airman Basic", e2: "Airman", e3: "Airman First Class", e4: "Senior Airman",
+  e5: "Staff Sergeant", e6: "Technical Sergeant", e7: "Master Sergeant",
+  e8: "Senior Master Sergeant", e9: "Chief Master Sergeant"
+};
+
 const normalizeRank = (value) => {
   const raw = String(value || "").trim().replace(/\./g, "").replace(/\s+/g, " ");
   if (!raw) return "";
-  return RANK_ALIASES[raw.toLowerCase()] || raw;
+  const grade = raw.toLowerCase().replace(/[\s-]+/g, "");
+  return RANK_ALIASES[raw.toLowerCase()] || RANK_GRADES[grade] || raw;
 };
 
 const sameValue = (a, b) => String(a ?? "").trim().toLowerCase() === String(b ?? "").trim().toLowerCase();

@@ -107,15 +107,21 @@ export default function CaseForm() {
       const extraction = res.data?.extraction || {};
       const ext = extraction.output || {};
       const extConditions = extractedConditions(ext);
+      const detectedCount = Object.values(ext.demographics || {}).filter((v) => String(v ?? "").trim()).length;
       setForm((f) => ({ ...f, ...mergeExtraction(f, ext) }));
       setDetected(ext.demographics || null);
+      const detailsNote = detectedCount
+        ? `${detectedCount} member detail(s) were found too — apply them at the top under Member Information.`
+        : null;
       if (extraction.status === "error") {
         toast({ title: "Could not read this document", description: extraction.details || "Try a PDF or photo of the record.", variant: "destructive" });
       } else if (extConditions.length) {
         toast({
           title: `${extConditions.length} diagnosis(es) added with waiver guide sections`,
-          description: "Only information required for the listed waiver condition(s) was added."
+          description: detailsNote || "Only information required for the listed waiver condition(s) was added."
         });
+      } else if (detailsNote) {
+        toast({ title: `${detectedCount} member detail(s) found in the documents`, description: detailsNote });
       } else {
         toast({ title: "No new waiver-relevant information found", description: "This document contained nothing to add to the case." });
       }

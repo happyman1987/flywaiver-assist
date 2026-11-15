@@ -25,8 +25,22 @@ export default function DocumentUpload({ docs = [], onChange, accept = ACCEPT, n
   const inputRef = useRef(null);
 
   const uploadFiles = async (files) => {
-    const list = Array.from(files || []);
-    if (!list.length) return;
+    const all = Array.from(files || []);
+    if (!all.length) return;
+    // A file type the reader cannot open would upload and then extract nothing at all.
+    const allowed = accept.split(",").map((ext) => ext.trim().toLowerCase()).filter(Boolean);
+    const list = all.filter((file) => allowed.some((ext) => String(file.name || "").toLowerCase().endsWith(ext)));
+    if (list.length < all.length) {
+      toast({
+        title: "Unsupported file type skipped",
+        description: `Only ${allowed.join(", ")} can be read. Save the document as a PDF and upload it again.`,
+        variant: "destructive"
+      });
+    }
+    if (!list.length) {
+      if (inputRef.current) inputRef.current.value = "";
+      return;
+    }
     setUploading(true);
     try {
       const uris = [];
