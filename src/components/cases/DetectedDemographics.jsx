@@ -50,10 +50,22 @@ const normalizeRank = (value) => {
 
 const sameValue = (a, b) => String(a ?? "").trim().toLowerCase() === String(b ?? "").trim().toLowerCase();
 
+// The Age field is a number input, so a documented "28 years old" is reduced to its age in years —
+// anything that is not an age (such as a date of birth) is left as documented.
+const ageValue = (value) => {
+  const raw = String(value ?? "").trim();
+  const match = raw.match(/^\s*(\d{1,3})(?![0-9])/);
+  return match && Number(match[1]) < 121 ? match[1] : raw;
+};
+
 // Member details the documents state, each applied to the case only when the clinician clicks it.
 export default function DetectedDemographics({ detected, current, onApply, onApplyAll }) {
   const rows = FIELDS.map((field) => {
-    const value = field.key === "rank" ? normalizeRank(detected?.[field.key]) : String(detected?.[field.key] ?? "").trim();
+    const value = field.key === "rank"
+      ? normalizeRank(detected?.[field.key])
+      : field.key === "age"
+        ? ageValue(detected?.[field.key])
+        : String(detected?.[field.key] ?? "").trim();
     const currentValue = field.key === "rank" ? normalizeRank(current?.[field.key]) : current?.[field.key];
     return { ...field, value, applied: Boolean(value) && sameValue(currentValue, value) };
   }).filter((row) => row.value);
