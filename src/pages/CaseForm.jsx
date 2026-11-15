@@ -8,11 +8,12 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, Loader2, Upload, Sparkles, FileUp, Plus, X } from "lucide-react";
+import { ArrowLeft, Loader2, Sparkles, FileUp, Plus, X } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { logAuditEvent } from "@/lib/auditLog";
 import LogoutButton from "@/components/LogoutButton";
 import PriorWaiverSection from "@/components/cases/PriorWaiverSection";
+import DocumentUpload from "@/components/cases/DocumentUpload";
 import { extractedConditions, mergeExtraction } from "@/lib/extraction";
 import { medicationReviewSummary, reviewMedications, splitMedications } from "@/lib/medicationReview";
 
@@ -62,7 +63,6 @@ export default function CaseForm() {
   const [saving, setSaving] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [extracting, setExtracting] = useState(false);
-  const [uploading, setUploading] = useState(false);
   const [originalDiagnoses, setOriginalDiagnoses] = useState([]);
   const [medicationAnnotations, setMedicationAnnotations] = useState({});
 
@@ -86,24 +86,6 @@ export default function CaseForm() {
   const updateCondition = (i, k, v) => setForm((f) => ({ ...f, conditions: f.conditions.map((c, idx) => idx === i ? { ...c, [k]: v } : c) }));
   const addCondition = () => setForm((f) => ({ ...f, conditions: [...f.conditions, { diagnosis: "", category: "" }] }));
   const removeCondition = (i) => setForm((f) => ({ ...f, conditions: f.conditions.filter((_, idx) => idx !== i) }));
-
-  const handleUpload = async (e) => {
-    const files = Array.from(e.target.files || []);
-    if (!files.length) return;
-    setUploading(true);
-    try {
-      for (const file of files) {
-        const { file_uri } = await base44.integrations.Core.UploadPrivateFile({ file });
-        setForm((f) => ({ ...f, uploaded_docs: [...(f.uploaded_docs || []), file_uri] }));
-      }
-      toast({ title: `${files.length} document(s) uploaded (stored privately)`, description: files.map((f) => f.name).join(", ") });
-    } catch (err) {
-      toast({ title: "Upload failed", description: err.message, variant: "destructive" });
-    } finally {
-      setUploading(false);
-      e.target.value = "";
-    }
-  };
 
   const handleExtract = async () => {
     if (!form.uploaded_docs?.length) {
@@ -314,22 +296,15 @@ export default function CaseForm() {
           <CardHeader><CardTitle className="text-base">Medical Documents</CardTitle></CardHeader>
           <CardContent className="space-y-3">
             <p className="text-sm text-muted-foreground">Upload one or more medical records, consult notes, or lab reports — every attached document is read together to auto-extract details. Only information required for the listed waiver condition(s) is added — unrelated results in the same document are left out. Files are stored privately.</p>
-            <div className="flex flex-wrap gap-2">
-              <Button variant="outline" asChild>
-                <label className="cursor-pointer">
-                  <Upload className="w-4 h-4 mr-2 inline" />
-                  {uploading ? "Uploading…" : "Upload Documents"}
-                  <input type="file" multiple className="hidden" accept=".pdf,.png,.jpg,.jpeg,.csv,.xlsx,.json" onChange={handleUpload} disabled={uploading} />
-                </label>
-              </Button>
-              <Button variant="outline" onClick={handleExtract} disabled={extracting || !form.uploaded_docs?.length}>
-                {extracting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileUp className="w-4 h-4 mr-2" />}
-                Extract Info from All Documents
-              </Button>
-            </div>
-            {form.uploaded_docs?.length > 0 && (
-              <p className="text-xs text-muted-foreground">{form.uploaded_docs.length} document(s) attached</p>
-            )}
+            <DocumentUpload
+              docs={form.uploaded_docs || []}
+              onChange={(uploaded_docs) => set("uploaded_docs", uploaded_docs)}
+              dropLabel="Drag medical records here, or click to browse"
+            />
+            <Button variant="outline" onClick={handleExtract} disabled={extracting || !form.uploaded_docs?.length}>
+              {extracting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileUp className="w-4 h-4 mr-2" />}
+              Extract Info from All Documents
+            </Button>
           </CardContent>
         </Card>
 

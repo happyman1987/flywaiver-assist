@@ -4,33 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FileUp, Loader2, Upload } from "lucide-react";
+import { FileUp, Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { appendHistory, extractedConditions, mergeExtraction } from "@/lib/extraction";
+import DocumentUpload from "@/components/cases/DocumentUpload";
 
 export default function PriorWaiverSection({ form, setForm }) {
   const { toast } = useToast();
-  const [uploading, setUploading] = useState(false);
   const [extracting, setExtracting] = useState(false);
   const docs = form.prior_waiver_docs || [];
-
-  const handleUpload = async (e) => {
-    const files = Array.from(e.target.files || []);
-    if (!files.length) return;
-    setUploading(true);
-    try {
-      for (const file of files) {
-        const { file_uri } = await base44.integrations.Core.UploadPrivateFile({ file });
-        setForm((f) => ({ ...f, prior_waiver_docs: [...(f.prior_waiver_docs || []), file_uri] }));
-      }
-      toast({ title: `${files.length} previous waiver document(s) uploaded (stored privately)`, description: files.map((f) => f.name).join(", ") });
-    } catch (err) {
-      toast({ title: "Upload failed", description: err.message, variant: "destructive" });
-    } finally {
-      setUploading(false);
-      e.target.value = "";
-    }
-  };
 
   const handleExtract = async () => {
     if (!docs.length) return;
@@ -108,29 +90,16 @@ export default function PriorWaiverSection({ form, setForm }) {
             />
           </div>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="outline" asChild>
-            <label className="cursor-pointer">
-              <Upload className="w-4 h-4 mr-2 inline" />
-              {uploading ? "Uploading…" : "Upload Previous Waiver"}
-              <input
-                type="file"
-                multiple
-                className="hidden"
-                accept=".pdf,.png,.jpg,.jpeg,.csv,.xlsx,.json"
-                onChange={handleUpload}
-                disabled={uploading}
-              />
-            </label>
-          </Button>
-          <Button variant="outline" onClick={handleExtract} disabled={extracting || !docs.length}>
-            {extracting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileUp className="w-4 h-4 mr-2" />}
-            Extract from Both Documents
-          </Button>
-        </div>
-        {docs.length > 0 && (
-          <p className="text-xs text-muted-foreground">{docs.length} previous waiver document(s) attached</p>
-        )}
+        <DocumentUpload
+          docs={docs}
+          onChange={(prior_waiver_docs) => setForm((f) => ({ ...f, prior_waiver_docs }))}
+          noun="previous waiver document"
+          dropLabel="Drag previous waiver documents here, or click to browse"
+        />
+        <Button variant="outline" onClick={handleExtract} disabled={extracting || !docs.length}>
+          {extracting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileUp className="w-4 h-4 mr-2" />}
+          Extract from All Documents
+        </Button>
       </CardContent>
     </Card>
   );
