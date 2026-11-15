@@ -14,6 +14,7 @@ import { logAuditEvent } from "@/lib/auditLog";
 import LogoutButton from "@/components/LogoutButton";
 import PriorWaiverSection from "@/components/cases/PriorWaiverSection";
 import DocumentUpload from "@/components/cases/DocumentUpload";
+import DetectedDemographics from "@/components/cases/DetectedDemographics";
 import { extractedConditions, mergeExtraction } from "@/lib/extraction";
 import { medicationReviewSummary, reviewMedications, splitMedications } from "@/lib/medicationReview";
 
@@ -63,6 +64,8 @@ export default function CaseForm() {
   const [saving, setSaving] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [extracting, setExtracting] = useState(false);
+  // Member details the documents state, offered for the clinician to apply rather than applied silently.
+  const [detected, setDetected] = useState(null);
   const [originalDiagnoses, setOriginalDiagnoses] = useState([]);
   const [medicationAnnotations, setMedicationAnnotations] = useState({});
 
@@ -105,6 +108,7 @@ export default function CaseForm() {
       const ext = extraction.output || {};
       const extConditions = extractedConditions(ext);
       setForm((f) => ({ ...f, ...mergeExtraction(f, ext) }));
+      setDetected(ext.demographics || null);
       if (extraction.status === "error") {
         toast({ title: "Could not read this document", description: extraction.details || "Try a PDF or photo of the record.", variant: "destructive" });
       } else if (extConditions.length) {
@@ -222,6 +226,16 @@ export default function CaseForm() {
         <Card>
           <CardHeader><CardTitle className="text-base">Member Information</CardTitle></CardHeader>
           <CardContent className="grid grid-cols-2 gap-4">
+            {detected && (
+              <div className="col-span-2">
+                <DetectedDemographics
+                  detected={detected}
+                  current={form}
+                  onApply={(key, value) => set(key, value)}
+                  onApplyAll={(updates) => setForm((f) => ({ ...f, ...updates }))}
+                />
+              </div>
+            )}
             <div className="col-span-2 space-y-1.5">
               <Label>Waiver Type *</Label>
               <Select value={form.waiver_type || "initial"} onValueChange={(v) => set("waiver_type", v)}>

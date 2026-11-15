@@ -8,10 +8,12 @@ import { FileUp, Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { appendHistory, extractedConditions, mergeExtraction } from "@/lib/extraction";
 import DocumentUpload from "@/components/cases/DocumentUpload";
+import DetectedDemographics from "@/components/cases/DetectedDemographics";
 
 export default function PriorWaiverSection({ form, setForm }) {
   const { toast } = useToast();
   const [extracting, setExtracting] = useState(false);
+  const [detected, setDetected] = useState(null);
   const docs = form.prior_waiver_docs || [];
 
   const handleExtract = async () => {
@@ -46,6 +48,7 @@ export default function PriorWaiverSection({ form, setForm }) {
           prior_waiver_expiration: ext.prior_waiver_expiration || f.prior_waiver_expiration
         };
       });
+      setDetected(ext.demographics || null);
       if (extraction.status === "error") {
         toast({ title: "Could not read the documents", description: extraction.details || "Try a PDF or photo of the waiver document.", variant: "destructive" });
       } else {
@@ -72,6 +75,14 @@ export default function PriorWaiverSection({ form, setForm }) {
           privately), then extract: the medical document uploaded above and the previous waiver are read
           together, and the previous waiver's history is added to the History of Present Illness / PMH field.
         </p>
+        {detected && (
+          <DetectedDemographics
+            detected={detected}
+            current={form}
+            onApply={(key, value) => setForm((f) => ({ ...f, [key]: value }))}
+            onApplyAll={(updates) => setForm((f) => ({ ...f, ...updates }))}
+          />
+        )}
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1.5">
             <Label>Waiver Authority</Label>

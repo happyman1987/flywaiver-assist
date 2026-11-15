@@ -15,6 +15,23 @@ const priorWaiverFields = {
   prior_waiver_expiration: { type: 'string', description: 'Expiration date of the previous waiver, in YYYY-MM-DD format' }
 };
 
+// Member identifying details a record or a previous waiver states. They are returned so the clinician
+// can apply them to the case; the extraction never writes them into the case itself.
+const DEMOGRAPHIC_FIELDS = ['member_name', 'rank', 'unit', 'dod_id', 'age', 'sex'];
+
+const demographicsSchema = {
+  type: 'object',
+  description: 'The member identifying details this document states. Leave a field empty when the document does not state it — never infer one.',
+  properties: {
+    member_name: { type: 'string', description: 'Member full name as the document records it, written "Last, First MI"' },
+    rank: { type: 'string', description: 'Military rank or grade exactly as written, for example "Major", "Maj", "MSgt", "Capt"' },
+    unit: { type: 'string', description: 'Unit, squadron, wing, or organization the member is assigned to' },
+    dod_id: { type: 'string', description: 'DoD identification number (EDIPI) if the document states it' },
+    age: { type: 'string', description: 'Age in years if the document states it' },
+    sex: { type: 'string', description: 'Male or Female, as documented' }
+  }
+};
+
 // The waiver package only needs what the waiver guide requires for the listed condition(s):
 // incidental findings in the same document (e.g. an HIV test run alongside a required CBC) are left out.
 const conditionScope = (data) => {
@@ -63,6 +80,7 @@ const extractionSchema = (conditions, kind) => ({
   type: 'object',
   properties: {
     ...(kind === PRIOR_WAIVER ? priorWaiverFields : {}),
+    demographics: demographicsSchema,
     conditions: {
       type: 'array',
       description: kind === PRIOR_WAIVER
@@ -91,6 +109,7 @@ const CURATION_SCHEMA = {
   type: 'object',
   properties: {
     ...priorWaiverFields,
+    demographics: demographicsSchema,
     conditions: {
       type: 'array',
       items: {
@@ -108,7 +127,7 @@ const CURATION_SCHEMA = {
     treatment_course: { type: 'string' },
     current_status: { type: 'string' }
   },
-  required: ['conditions', 'history', 'diagnostics', 'medications', 'treatment_course', 'current_status']
+  required: ['demographics', 'conditions', 'history', 'diagnostics', 'medications', 'treatment_course', 'current_status']
 };
 
 // Text-based records (csv/json/txt/html) are read straight from the document, so nothing is guessed.
@@ -122,6 +141,8 @@ DOCUMENT TEXT:
 ${documentText}
 
 Return JSON matching the schema: every documented diagnosis (each with the USAF waiver guide section it maps to), plus the documented history, studies and testing with key results, medications, treatment course, and current clinical status.${kind === PRIOR_WAIVER ? ' The previously waived diagnosis(ies) are the condition(s) being renewed: always list them in conditions.' : ''}
+
+Also return the member's identifying details in demographics (name written "Last, First MI", rank or grade, unit, DoD ID, age, and sex) exactly as this document states them. Leave any field the document does not state empty.
 
 ${abbreviationRule}
 
@@ -165,6 +186,7 @@ Return the same structure, keeping what this waiver package requires:
 ${conditionsRule}
 ${detailRule}
 ${priorRule}
+- demographics: keep the member's identifying details (name, rank, unit, DoD ID, age, sex) exactly as the raw extraction gives them. Never invent, correct, or derive one; leave a field empty when the document does not state it.
 ${abbreviationRule}
 
 ${EYE_ELEMENTS}
@@ -177,6 +199,11 @@ Return the result as JSON matching the provided schema.`;
 const text = (value) => (typeof value === 'string' ? value.trim() : '');
 const normalized = (value) => text(value).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 const documentKind = (kind) => (kind === PRIOR_WAIVER ? PRIOR_WAIVER : 'medical_record');
+
+// The screening pass can drop a demographic the document itself stated, so the raw value is kept.
+const mergeDemographics = (raw, curated) => Object.fromEntries(
+  DEMOGRAPHIC_FIELDS.map((field) => [field, text(curated?.[field]) || text(raw?.[field])])
+);
 
 // Reads one document — text records are read directly instead of being guessed at — then screens the
 // result down to what this waiver requires.
@@ -232,11 +259,12 @@ const extractDocument = async (base44, doc, body) => {
         output = kind === PRIOR_WAIVER
           ? {
               ...curated,
+              demographics: mergeDemographics(output.demographics, curated.demographics),
               conditions: waivedConditions,
               prior_waiver_authority: curated.prior_waiver_authority || output.prior_waiver_authority || '',
               prior_waiver_expiration: curated.prior_waiver_expiration || output.prior_waiver_expiration || ''
             }
-          : curated;
+          : { ...curated, demographics: mergeDemographics(output.demographics, curated.demographics) };
       }
     } catch (e) {
       // keep the unscreened extraction rather than losing the document data
@@ -286,7 +314,17 @@ const combine = (parts) => {
   const currentHistory = joinUnique('history', [current]);
   const priorHistory = joinUnique('history', [prior]);
 
+  // The current records identify the member; the previous waiver fills in anything they leave out.
+  const pickDemographic = (field, lists) => {
+    for (const list of lists) for (const o of list) if (text(o.demographics?.[field])) return text(o.demographics[field]);
+    return '';
+  };
+  const demographics = Object.fromEntries(
+    DEMOGRAPHIC_FIELDS.map((field) => [field, pickDemographic(field, [current, prior])])
+  );
+
   return {
+    demographics,
     prior_waiver_authority: pick('prior_waiver_authority', [prior]),
     prior_waiver_expiration: pick('prior_waiver_expiration', [prior]),
     conditions,
