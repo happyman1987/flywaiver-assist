@@ -38,8 +38,23 @@ const DOSE_WORDS = new RegExp(
   "^(mg|mcg|gm?|ml|cc|iu|units?|tabs?|caps?|puffs?|drops?|sprays?|po|iv|im|prn|qd|qhs|bid|tid|qid|q\\d+h|" +
   "daily|nightly|morning|evening|weekly|monthly|once|twice|thrice|three|four|times|every|hours?|days?|weeks?|months?|" +
   "as|when|if|needed|necessary|required|take|takes|taken|taking|use|uses|using|used|currently|current|started|stopped|" +
-  "and|or|with|the|of|for|a|an|to|per|by|mouth|topical|oral|inhaled|nasal|ophthalmic|otic|dermal)$"
+  "then|in|and|or|with|the|of|for|a|an|to|per|by|mouth|topical|oral|inhaled|nasal|ophthalmic|otic|dermal)$"
 );
+
+// A fragment opens a medication entry only if it starts with a name or a dose. Directions that merely
+// continue the entry above them — "then 50 mg PO daily in month 2", "increased to 100 mg",
+// "discontinued in month 4" — and narrative sentences are not medications of their own.
+const FIRST_WORD_SKIP = new Set([
+  "he", "she", "they", "we", "his", "her", "their", "the", "patient", "member", "reported", "reports",
+  "report", "denies", "denied", "describes", "states", "notes", "noted", "continued", "continues",
+  "discontinued", "initiated", "started", "stopped", "held", "increased", "decreased", "titrated",
+  "adjusted", "reduced", "maintained", "switched", "changed", "added", "renewed", "transferred", "then",
+  "and", "also", "after", "afterwards", "thereafter", "subsequently", "followed", "next", "for", "at",
+  "by", "with", "without", "per", "due", "as", "when", "if", "prn", "no", "not", "never", "max",
+  "maximum", "minimum", "dose", "dosing", "dosage", "therapy", "up", "down",
+]);
+
+const DOSE_UNIT = /(?:^|\s)\d+(?:[.,]\d+)?\s*(?:mg|mcg|gm?|ml|cc|iu|units?|tabs?|tablets?|caps?|capsules?|puffs?|drops?|sprays?|patch(?:es)?|suppositor(?:y|ies))\b/i;
 
 const NOISE_ALIASES = new Set([
   "topical", "oral", "ophthalmic", "otic", "nasal", "dermal", "injectable", "inhaled", "inhaler",
@@ -58,14 +73,22 @@ export const normalizeMedication = (name) =>
     .join(" ")
     .trim();
 
-// Medication names a provider may write, one per line / after a comma or semicolon.
+// Medication names a provider may write, one per line / after a comma or semicolon. Only fragments
+// that open a medication survive, so dose instructions such as "then 50 mg PO daily in month 2" stay
+// part of the medication they belong to instead of being reviewed as one of their own.
 export function splitMedications(text) {
   return String(text || "")
-    .split(/[\n\r;,]+/)
+    .split(/[\n\r;,]+|\.\s+(?=[A-Z])/)
     .map((s) => s.trim())
-    .filter((s) => {
-      const n = normalizeMedication(s);
-      return n.length >= 4 && /[a-z]{3}/.test(n);
+    .filter(Boolean)
+    .filter((fragment) => {
+      const norm = normalizeMedication(fragment);
+      if (norm.length < 4 || !/[a-z]{3}/.test(norm)) return false;
+      const words = norm.split(" ").filter(Boolean);
+      if (FIRST_WORD_SKIP.has(words[0])) return false;
+      // Named on the approved lists, or written with its dose up front.
+      if (words.some((w) => w.length >= 5 && NAME_WORDS.has(w))) return true;
+      return DOSE_UNIT.test(fragment.split(/\s+/).slice(0, 6).join(" "));
     });
 }
 
@@ -98,6 +121,13 @@ const INDEX = LIST_KEYS.map((key) => ({
   label: LIST_LABELS[key],
   entries: MEDICATION_LISTS[key].medications.map((entry) => ({ entry, aliases: aliasesFor(entry) })),
 }));
+
+// Every name the approved lists know, used to recognise a documented medication even when its dose
+// is not written on the same line.
+const NAME_WORDS = new Set(
+  INDEX.flatMap((list) => list.entries.flatMap(({ aliases }) => aliases.flatMap((a) => a.split(" "))))
+    .filter((w) => w.length >= 5)
+);
 
 const matchesName = (norm, alias) => {
   if (!norm || !alias) return false;
