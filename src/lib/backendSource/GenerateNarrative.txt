@@ -71,6 +71,8 @@ Write the AMS in a formal clinical-aeromedical voice using the following section
    - This is the recommending provider's recommendation only — never present it as a disposition already made by waiver authority (do not write that the waiver was granted, denied, approved, disapproved, or returned). Do not add a disposition summary table or a closing disposition statement.
 
 Do not invent clinical facts not provided. If a field is empty, state "Not provided" rather than fabricating. Keep the tone objective and concise. Use plain section headings in uppercase as shown above.
+
+Do not include hyperlinks anywhere in the summary. Never write a URL, a markdown link, an HTML anchor, or a web citation marker. Refer to the USAF Waiver Guide section, an AFI, the Medical Standards Directory, or an approved medication list by its plain title only (for example "the USAF Waiver Guide section on Migraine"), exactly as a printed clinical document would.
 ${renewalInstruction(data)}${medicationInstruction(data)}
 CASE DATA:
 - Member: ${data.member_name}, ${data.rank || "rank not specified"}, ${data.unit || "unit not specified"}
@@ -92,6 +94,16 @@ ${medicationReview(data)}${(data.missing_justifications && data.missing_justific
 
 Now write the complete Aeromedical Summary.`;
 
+// The AMS is a clinical document: references are named by title, never carried as links.
+const stripLinks = (text) => String(text || '')
+  .replace(/\[([^\]]+)\]\(\s*[^)]*\)/g, '$1')
+  .replace(/<https?:\/\/[^>]+>/g, '')
+  .replace(/https?:\/\/[^\s)\]]+/g, '')
+  .split('\n')
+  .map((line) => line.replace(/[ \t]{2,}/g, ' ').replace(/\s+([.,;:])/g, '$1').replace(/[ \t]+$/, ''))
+  .join('\n')
+  .trim();
+
 export default async function(req) {
   try {
     const base44 = createClientFromRequest(req);
@@ -109,7 +121,7 @@ export default async function(req) {
       model: 'gemini_3_8_flash'
     });
 
-    const narrative = typeof result === 'string' ? result : (result?.content || JSON.stringify(result));
+    const narrative = stripLinks(typeof result === 'string' ? result : (result?.content || JSON.stringify(result)));
     return Response.json({ narrative });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
